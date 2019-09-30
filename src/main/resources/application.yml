@@ -9,3 +9,9 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
 pagehelper:
   helper-dialect: mysql
+logging:
+  level:
+    com:
+      j4h:
+        mall:
+          mapper: debug

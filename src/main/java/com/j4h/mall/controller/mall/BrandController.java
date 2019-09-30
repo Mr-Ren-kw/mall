@@ -1,19 +1,31 @@
 package com.j4h.mall.controller.mall;
 
+import com.j4h.mall.model.mall.Brand;
 import com.j4h.mall.service.mall.BrandService;
 import com.j4h.mall.vo.BaseRespVo;
+import com.j4h.mall.vo.mall.BrandCreateVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/admin/brand")
 public class BrandController {
 
     @Autowired
     BrandService brandService;
 
-    @GetMapping(value = "/admin/brand/list",params = {"page","limit","sort","order"})
-    public BaseRespVo brandList(int page,int limit,String sort,String order) {
-        return BaseRespVo.ok(brandService.brandList(page,limit,sort,order));
+    @GetMapping(value = "/list",params = {"page","limit","sort","order"})
+    public BaseRespVo brandList(int page,int limit,String sort,String order,Integer id,String name) {
+        return BaseRespVo.ok(brandService.brandList(page,limit,sort,order,id,name));
+    }
+
+    @PostMapping("/create")
+    public BaseRespVo brandCreate(@RequestBody BrandCreateVo brandCreateVo) {
+        return BaseRespVo.ok(brandService.brandCreate(brandCreateVo));
+    }
+
+    @PostMapping("/update")
+    public BaseRespVo brandUpdate(@RequestBody Brand brand) {
+        return BaseRespVo.ok(brandService.brandUpdate(brand));
     }
 }
