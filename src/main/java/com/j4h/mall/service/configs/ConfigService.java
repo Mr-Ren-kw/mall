@@ -1,6 +1,9 @@
 package com.j4h.mall.service.configs;
 
+import com.j4h.mall.model.configs.MallSystemExpressMsg;
 import com.j4h.mall.model.configs.MallSystemMsg;
+import com.j4h.mall.model.configs.MallSystemOrderMsg;
+import com.j4h.mall.model.configs.MallSystemWxMsg;
 
 public interface ConfigService {
 
@@ -8,15 +11,15 @@ public interface ConfigService {
 
     boolean updateMallSystemMsg(MallSystemMsg mallSystemMsg);
 
-    MallSystemMsg getMallSystemExpressMsg();
+    MallSystemExpressMsg getMallSystemExpressMsg();
 
-    boolean updateMallSystemExpressMsg(MallSystemMsg mallSystemMsg);
+    boolean updateMallSystemExpressMsg(MallSystemExpressMsg mallSystemExpressMsg);
 
-    MallSystemMsg getMallSystemOrderMsg();
+    MallSystemOrderMsg getMallSystemOrderMsg();
 
-    boolean updateMallSystemOrderMsg(MallSystemMsg mallSystemMsg);
+    boolean updateMallSystemOrderMsg(MallSystemOrderMsg mallSystemOrderMsg);
 
-    MallSystemMsg getMallSystemWxMsg();
+    MallSystemWxMsg getMallSystemWxMsg();
 
-    boolean updateMallSystemWxMsg(MallSystemMsg mallSystemMsg);
+    boolean updateMallSystemWxMsg(MallSystemWxMsg mallSystemWxMsg);
 }

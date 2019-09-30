@@ -94,55 +94,55 @@
 
 <!--更新运费满减最低消费金额-->
     <update id="updateMallSystemExpressFreightMin">
-        update cskaoyan_mall_system set key_value = #{mallSystemMsg.cskaoyan_mall_express_freight_min} where key_name like "%min"
+        update cskaoyan_mall_system set key_value = #{mallSystemExpressMsg.cskaoyan_mall_express_freight_min} where key_name like "%min"
     </update>
 
 <!--更新查询运费满减不足时运费金额-->
     <update id="updateMallSystemExpressFreightValue">
-        update cskaoyan_mall_system set key_value = #{mallSystemMsg.cskaoyan_mall_express_freight_value} where key_name like "%value"
+        update cskaoyan_mall_system set key_value = #{mallSystemExpressMsg.cskaoyan_mall_express_freight_value} where key_name like "%value"
     </update>
 
 <!--更新订单评论时间有效期-->
     <update id="updateMallSystemOrderComment">
-        update cskaoyan_mall_system set key_value = #{mallSystemMsg.cskaoyan_mall_order_comment} where key_name like "%comment"
+        update cskaoyan_mall_system set key_value = #{mallSystemOrderMsg.cskaoyan_mall_order_comment} where key_name like "%comment"
     </update>
 
 <!--更新订单确认收货时间有效期-->
     <update id="updateMallSystemOrderUnconfirm">
-        update cskaoyan_mall_system set key_value = #{mallSystemMsg.cskaoyan_mall_order_unconfirm} where key_name like "%unconfirm"
+        update cskaoyan_mall_system set key_value = #{mallSystemOrderMsg.cskaoyan_mall_order_unconfirm} where key_name like "%unconfirm"
     </update>
 
 <!--更新订单未付款有效期-->
     <update id="updateMallSystemOrderUnpaid">
-        update cskaoyan_mall_system set key_value = #{mallSystemMsg.cskaoyan_mall_order_unpaid} where key_name like "%unpaid"
+        update cskaoyan_mall_system set key_value = #{mallSystemOrderMsg.cskaoyan_mall_order_unpaid} where key_name like "%unpaid"
     </update>
 
     <update id="updateMallSystemWxCatlogGoods">
-        update cskaoyan_mall_system set key_value = #{mallSystemMsg.cskaoyan_mall_wx_catlog_goods} where key_name like "%goods"
+        update cskaoyan_mall_system set key_value = #{mallSystemWxMsg.cskaoyan_mall_wx_catlog_goods} where key_name like "%goods"
     </update>
 
     <update id="updateMallSystemWxCatlogList">
-        update cskaoyan_mall_system set key_value = #{mallSystemMsg.cskaoyan_mall_wx_catlog_list} where key_name like "%list"
+        update cskaoyan_mall_system set key_value = #{mallSystemWxMsg.cskaoyan_mall_wx_catlog_list} where key_name like "%list"
     </update>
 
     <update id="updateMallSystemWxIndexBrand">
-        update cskaoyan_mall_system set key_value = #{mallSystemMsg.cskaoyan_mall_wx_index_brand} where key_name like "%brand"
+        update cskaoyan_mall_system set key_value = #{mallSystemWxMsg.cskaoyan_mall_wx_index_brand} where key_name like "%brand"
     </update>
 
     <update id="updateMallSystemWxIndexHot">
-        update cskaoyan_mall_system set key_value = #{mallSystemMsg.cskaoyan_mall_wx_index_hot} where key_name like "%hot"
+        update cskaoyan_mall_system set key_value = #{mallSystemWxMsg.cskaoyan_mall_wx_index_hot} where key_name like "%hot"
     </update>
 
     <update id="updateMallSystemWxIndexNew">
-        update cskaoyan_mall_system set key_value = #{mallSystemMsg.cskaoyan_mall_wx_index_new} where key_name like "%new"
+        update cskaoyan_mall_system set key_value = #{mallSystemWxMsg.cskaoyan_mall_wx_index_new} where key_name like "%new"
     </update>
 
     <update id="updateMallSystemWxIndexTopic">
-        update cskaoyan_mall_system set key_value = #{mallSystemMsg.cskaoyan_mall_wx_index_topic} where key_name like "%topic"
+        update cskaoyan_mall_system set key_value = #{mallSystemWxMsg.cskaoyan_mall_wx_index_topic} where key_name like "%topic"
     </update>
 
     <update id="updateMallSystemWxShare">
-        update cskaoyan_mall_system set key_value = #{mallSystemMsg.cskaoyan_mall_wx_share} where key_name like "%share"
+        update cskaoyan_mall_system set key_value = #{mallSystemWxMsg.cskaoyan_mall_wx_share} where key_name like "%share"
     </update>
 
 

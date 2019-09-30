@@ -1,6 +1,9 @@
 package com.j4h.mall.controller.configs;
 
+import com.j4h.mall.model.configs.MallSystemExpressMsg;
 import com.j4h.mall.model.configs.MallSystemMsg;
+import com.j4h.mall.model.configs.MallSystemOrderMsg;
+import com.j4h.mall.model.configs.MallSystemWxMsg;
 import com.j4h.mall.service.configs.ConfigService;
 import com.j4h.mall.vo.BaseRespVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,39 +34,39 @@ public class ConfigController {
 
     @RequestMapping(value = "/express",method = RequestMethod.GET)
     public BaseRespVo getMethodExpress(){
-        MallSystemMsg mallSystemMsg = configService.getMallSystemExpressMsg();
-        return BaseRespVo.ok(mallSystemMsg);
+        MallSystemExpressMsg mallSystemExpressMsg = configService.getMallSystemExpressMsg();
+        return BaseRespVo.ok(mallSystemExpressMsg);
     }
 
     @RequestMapping(value = "/express",method = RequestMethod.POST)
-    public BaseRespVo postMethodExpress(@RequestBody MallSystemMsg mallSystemMsg){
-        boolean flag = configService.updateMallSystemExpressMsg(mallSystemMsg);
+    public BaseRespVo postMethodExpress(@RequestBody MallSystemExpressMsg mallSystemExpressMsg){
+        boolean flag = configService.updateMallSystemExpressMsg(mallSystemExpressMsg);
 
         return BaseRespVo.ok(null);
     }
 
     @RequestMapping(value = "/order",method = RequestMethod.GET)
     public BaseRespVo getMethodOrder(){
-        MallSystemMsg mallSystemMsg = configService.getMallSystemOrderMsg();
-        return BaseRespVo.ok(mallSystemMsg);
+        MallSystemOrderMsg mallSystemOrderMsg = configService.getMallSystemOrderMsg();
+        return BaseRespVo.ok(mallSystemOrderMsg);
     }
 
     @RequestMapping(value = "/order",method = RequestMethod.POST)
-    public BaseRespVo postMethodOrder(@RequestBody MallSystemMsg mallSystemMsg){
-        boolean flag = configService.updateMallSystemOrderMsg(mallSystemMsg);
+    public BaseRespVo postMethodOrder(@RequestBody MallSystemOrderMsg mallSystemOrderMsg){
+        boolean flag = configService.updateMallSystemOrderMsg(mallSystemOrderMsg);
 
         return BaseRespVo.ok(null);
     }
 
     @RequestMapping(value = "/wx",method = RequestMethod.GET)
     public BaseRespVo getMethodWx(){
-        MallSystemMsg mallSystemMsg = configService.getMallSystemWxMsg();
-        return BaseRespVo.ok(mallSystemMsg);
+        MallSystemWxMsg mallSystemWxMsg = configService.getMallSystemWxMsg();
+        return BaseRespVo.ok(mallSystemWxMsg);
     }
 
     @RequestMapping(value = "/wx",method = RequestMethod.POST)
-    public BaseRespVo postMethodWx(@RequestBody MallSystemMsg mallSystemMsg){
-        boolean flag = configService.updateMallSystemWxMsg(mallSystemMsg);
+    public BaseRespVo postMethodWx(@RequestBody MallSystemWxMsg mallSystemWxMsg){
+        boolean flag = configService.updateMallSystemWxMsg(mallSystemWxMsg);
 
         return BaseRespVo.ok(null);
     }

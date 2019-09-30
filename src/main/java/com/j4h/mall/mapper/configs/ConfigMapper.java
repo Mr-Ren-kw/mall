@@ -1,6 +1,9 @@
 package com.j4h.mall.mapper.configs;
 
+import com.j4h.mall.model.configs.MallSystemExpressMsg;
 import com.j4h.mall.model.configs.MallSystemMsg;
+import com.j4h.mall.model.configs.MallSystemOrderMsg;
+import com.j4h.mall.model.configs.MallSystemWxMsg;
 import org.apache.ibatis.annotations.Param;
 
 public interface ConfigMapper {
@@ -25,9 +28,9 @@ public interface ConfigMapper {
 
     String getMallSystemExpressFreightValue();
 
-    int updateMallSystemExpressFreightMin(@Param("mallSystemMsg") MallSystemMsg mallSystemMsg);
+    int updateMallSystemExpressFreightMin(@Param("mallSystemExpressMsg") MallSystemExpressMsg mallSystemExpressMsg);
 
-    int updateMallSystemExpressFreightValue(@Param("mallSystemMsg") MallSystemMsg mallSystemMsg);
+    int updateMallSystemExpressFreightValue(@Param("mallSystemExpressMsg") MallSystemExpressMsg mallSystemExpressMsg);
 
     String getMallSystemOrderComment();
 
@@ -35,11 +38,11 @@ public interface ConfigMapper {
 
     String getMallSystemOrderUnpaid();
 
-    int updateMallSystemOrderComment(@Param("mallSystemMsg") MallSystemMsg mallSystemMsg);
+    int updateMallSystemOrderComment(@Param("mallSystemOrderMsg") MallSystemOrderMsg mallSystemOrderMsg);
 
-    int updateMallSystemOrderUnconfirm(@Param("mallSystemMsg") MallSystemMsg mallSystemMsg);
+    int updateMallSystemOrderUnconfirm(@Param("mallSystemOrderMsg") MallSystemOrderMsg mallSystemOrderMsg);
 
-    int updateMallSystemOrderUnpaid(@Param("mallSystemMsg") MallSystemMsg mallSystemMsg);
+    int updateMallSystemOrderUnpaid(@Param("mallSystemOrderMsg") MallSystemOrderMsg mallSystemOrderMsg);
 
     String getMallSystemWxCatlogGoods();
 
@@ -55,17 +58,17 @@ public interface ConfigMapper {
 
     String getMallSystemWxShare();
 
-    int updateMallSystemWxCatlogGoods(@Param("mallSystemMsg") MallSystemMsg mallSystemMsg);
+    int updateMallSystemWxCatlogGoods(@Param("mallSystemWxMsg") MallSystemWxMsg mallSystemWxMsg);
 
-    int updateMallSystemWxCatlogList(@Param("mallSystemMsg") MallSystemMsg mallSystemMsg);
+    int updateMallSystemWxCatlogList(@Param("mallSystemWxMsg") MallSystemWxMsg mallSystemWxMsg);
 
-    int updateMallSystemWxIndexBrand(@Param("mallSystemMsg") MallSystemMsg mallSystemMsg);
+    int updateMallSystemWxIndexBrand(@Param("mallSystemWxMsg") MallSystemWxMsg mallSystemWxMsg);
 
-    int updateMallSystemWxIndexHot(@Param("mallSystemMsg") MallSystemMsg mallSystemMsg);
+    int updateMallSystemWxIndexHot(@Param("mallSystemWxMsg") MallSystemWxMsg mallSystemWxMsg);
 
-    int updateMallSystemWxIndexNew(@Param("mallSystemMsg") MallSystemMsg mallSystemMsg);
+    int updateMallSystemWxIndexNew(@Param("mallSystemWxMsg") MallSystemWxMsg mallSystemWxMsg);
 
-    int updateMallSystemWxIndexTopic(@Param("mallSystemMsg") MallSystemMsg mallSystemMsg);
+    int updateMallSystemWxIndexTopic(@Param("mallSystemWxMsg") MallSystemWxMsg mallSystemWxMsg);
 
-    int updateMallSystemWxShare(@Param("mallSystemMsg") MallSystemMsg mallSystemMsg);
+    int updateMallSystemWxShare(@Param("mallSystemWxMsg") MallSystemWxMsg mallSystemWxMsg);
 }

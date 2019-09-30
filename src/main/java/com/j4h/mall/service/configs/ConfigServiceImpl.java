@@ -1,7 +1,10 @@
 package com.j4h.mall.service.configs;
 
 import com.j4h.mall.mapper.configs.ConfigMapper;
+import com.j4h.mall.model.configs.MallSystemExpressMsg;
 import com.j4h.mall.model.configs.MallSystemMsg;
+import com.j4h.mall.model.configs.MallSystemOrderMsg;
+import com.j4h.mall.model.configs.MallSystemWxMsg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,45 +36,45 @@ public class ConfigServiceImpl implements ConfigService {
     }
 
     @Override
-    public MallSystemMsg getMallSystemExpressMsg() {
+    public MallSystemExpressMsg getMallSystemExpressMsg() {
         String min = configMapper.getMallSystemExpressFreightMin();
         String value = configMapper.getMallSystemExpressFreightValue();
-        MallSystemMsg mallSystemMsg = new MallSystemMsg();
-        mallSystemMsg.setCskaoyan_mall_express_freight_min(min);
-        mallSystemMsg.setCskaoyan_mall_express_freight_value(value);
-        return mallSystemMsg;
+        MallSystemExpressMsg mallSystemExpressMsg = new MallSystemExpressMsg();
+        mallSystemExpressMsg.setCskaoyan_mall_express_freight_min(min);
+        mallSystemExpressMsg.setCskaoyan_mall_express_freight_value(value);
+        return mallSystemExpressMsg;
     }
 
     @Override
-    public boolean updateMallSystemExpressMsg(MallSystemMsg mallSystemMsg) {
-        int update = configMapper.updateMallSystemExpressFreightMin(mallSystemMsg);
-        int update2 = configMapper.updateMallSystemExpressFreightValue(mallSystemMsg);
+    public boolean updateMallSystemExpressMsg(MallSystemExpressMsg mallSystemExpressMsg) {
+        int update = configMapper.updateMallSystemExpressFreightMin(mallSystemExpressMsg);
+        int update2 = configMapper.updateMallSystemExpressFreightValue(mallSystemExpressMsg);
         return update==update2;
     }
 
     @Override
-    public MallSystemMsg getMallSystemOrderMsg() {
+    public MallSystemOrderMsg getMallSystemOrderMsg() {
         String comment = configMapper.getMallSystemOrderComment();
         String unconfirm = configMapper.getMallSystemOrderUnconfirm();
         String unpaid = configMapper.getMallSystemOrderUnpaid();
-        MallSystemMsg mallSystemMsg = new MallSystemMsg();
-        mallSystemMsg.setCskaoyan_mall_order_comment(comment);
-        mallSystemMsg.setCskaoyan_mall_order_unconfirm(unconfirm);
-        mallSystemMsg.setCskaoyan_mall_order_unpaid(unpaid);
+        MallSystemOrderMsg mallSystemOrderMsg = new MallSystemOrderMsg();
+        mallSystemOrderMsg.setCskaoyan_mall_order_comment(comment);
+        mallSystemOrderMsg.setCskaoyan_mall_order_unconfirm(unconfirm);
+        mallSystemOrderMsg.setCskaoyan_mall_order_unpaid(unpaid);
 
-        return mallSystemMsg;
+        return mallSystemOrderMsg;
     }
 
     @Override
-    public boolean updateMallSystemOrderMsg(MallSystemMsg mallSystemMsg) {
-        int update = configMapper.updateMallSystemOrderComment(mallSystemMsg);
-        int update2 = configMapper.updateMallSystemOrderUnconfirm(mallSystemMsg);
-        int update3 = configMapper.updateMallSystemOrderUnpaid(mallSystemMsg);
+    public boolean updateMallSystemOrderMsg(MallSystemOrderMsg mallSystemOrderMsg) {
+        int update = configMapper.updateMallSystemOrderComment(mallSystemOrderMsg);
+        int update2 = configMapper.updateMallSystemOrderUnconfirm(mallSystemOrderMsg);
+        int update3 = configMapper.updateMallSystemOrderUnpaid(mallSystemOrderMsg);
         return update==update2 && update == update3;
     }
 
     @Override
-    public MallSystemMsg getMallSystemWxMsg() {
+    public MallSystemWxMsg getMallSystemWxMsg() {
         String goods = configMapper.getMallSystemWxCatlogGoods();
         String list  = configMapper.getMallSystemWxCatlogList();
         String brand = configMapper.getMallSystemWxIndexBrand();
@@ -79,27 +82,27 @@ public class ConfigServiceImpl implements ConfigService {
         String indexNew = configMapper.getMallSystemWxIndexNew();
         String topic = configMapper.getMallSystemWxIndexTopic();
         String share = configMapper.getMallSystemWxShare();
-        MallSystemMsg mallSystemMsg = new MallSystemMsg();
-        mallSystemMsg.setCskaoyan_mall_wx_catlog_goods(goods);
-        mallSystemMsg.setCskaoyan_mall_wx_catlog_list(list);
-        mallSystemMsg.setCskaoyan_mall_wx_index_brand(brand);
-        mallSystemMsg.setCskaoyan_mall_wx_index_hot(hot);
-        mallSystemMsg.setCskaoyan_mall_wx_index_new(indexNew);
-        mallSystemMsg.setCskaoyan_mall_wx_index_topic(topic);
-        mallSystemMsg.setCskaoyan_mall_wx_share(share);
+        MallSystemWxMsg mallSystemWxMsg = new MallSystemWxMsg();
+        mallSystemWxMsg.setCskaoyan_mall_wx_catlog_goods(goods);
+        mallSystemWxMsg.setCskaoyan_mall_wx_catlog_list(list);
+        mallSystemWxMsg.setCskaoyan_mall_wx_index_brand(brand);
+        mallSystemWxMsg.setCskaoyan_mall_wx_index_hot(hot);
+        mallSystemWxMsg.setCskaoyan_mall_wx_index_new(indexNew);
+        mallSystemWxMsg.setCskaoyan_mall_wx_index_topic(topic);
+        mallSystemWxMsg.setCskaoyan_mall_wx_share(share);
 
-        return mallSystemMsg;
+        return mallSystemWxMsg;
     }
 
     @Override
-    public boolean updateMallSystemWxMsg(MallSystemMsg mallSystemMsg) {
-        int update  = configMapper.updateMallSystemWxCatlogGoods(mallSystemMsg);
-        int update2 = configMapper.updateMallSystemWxCatlogList(mallSystemMsg);
-        int update3 = configMapper.updateMallSystemWxIndexBrand(mallSystemMsg);
-        int update4 = configMapper.updateMallSystemWxIndexHot(mallSystemMsg);
-        int update5 = configMapper.updateMallSystemWxIndexNew(mallSystemMsg);
-        int update6 = configMapper.updateMallSystemWxIndexTopic(mallSystemMsg);
-        int update7 = configMapper.updateMallSystemWxShare(mallSystemMsg);
+    public boolean updateMallSystemWxMsg(MallSystemWxMsg mallSystemWxMsg) {
+        int update  = configMapper.updateMallSystemWxCatlogGoods(mallSystemWxMsg);
+        int update2 = configMapper.updateMallSystemWxCatlogList(mallSystemWxMsg);
+        int update3 = configMapper.updateMallSystemWxIndexBrand(mallSystemWxMsg);
+        int update4 = configMapper.updateMallSystemWxIndexHot(mallSystemWxMsg);
+        int update5 = configMapper.updateMallSystemWxIndexNew(mallSystemWxMsg);
+        int update6 = configMapper.updateMallSystemWxIndexTopic(mallSystemWxMsg);
+        int update7 = configMapper.updateMallSystemWxShare(mallSystemWxMsg);
 
         return true;
     }
