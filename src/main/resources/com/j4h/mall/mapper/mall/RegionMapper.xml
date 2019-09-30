@@ -4,13 +4,27 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.j4h.mall.mapper.mall.RegionMapper">
   <!--取出省份信息-->
-  <select id="getRegionProvinceList" resultType="com.j4h.mall.model.mall.RegionProvince">
+  <select id="getRegionProvinceList" resultMap="regionProvinceMap">
     select id,`name`,type,code from cskaoyan_mall_region where pid = 0
   </select>
+  <resultMap id="regionProvinceMap" type="com.j4h.mall.model.mall.RegionProvince">
+    <result column="code" property="code"/>
+    <result column="id" property="id"/>
+    <result column="name" property="name"/>
+    <result column="type" property="type"/>
+    <collection property="children" column="id" select="com.j4h.mall.mapper.mall.RegionMapper.getRegionCityListByPid"/>
+  </resultMap>
   <!--取出对应省份的城市-->
-  <select id="getRegionCityListByPid" resultType="com.j4h.mall.model.mall.RegionCity">
+  <select id="getRegionCityListByPid" resultMap="regionCityMap">
     select id,`name`,type,code from cskaoyan_mall_region where pid = #{pid}
   </select>
+  <resultMap id="regionCityMap" type="com.j4h.mall.model.mall.RegionCity">
+    <result column="code" property="code"/>
+    <result column="id" property="id"/>
+    <result column="name" property="name"/>
+    <result column="type" property="type"/>
+    <collection property="children" column="id" select="com.j4h.mall.mapper.mall.RegionMapper.getRegionAreaListByCid"/>
+  </resultMap>
   <!--取出对应城市的区域-->
   <select id="getRegionAreaListByCid" resultType="com.j4h.mall.model.mall.RegionArea">
     select id,`name`,type,code from cskaoyan_mall_region where pid = #{cid}
