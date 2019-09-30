@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace要等于接口的全类名-->
+<mapper namespace="com.j4h.mall.mapper.systemManageMapper">
+
+    <select id="queryAllAdmin" resultType="com.j4h.mall.model.systemManageBean.AdminOfSystemManage">
+        select id,avatar,username,role_ids as roleIds from cskaoyan_mall_admin
+    </select>
+
+
+</mapper>

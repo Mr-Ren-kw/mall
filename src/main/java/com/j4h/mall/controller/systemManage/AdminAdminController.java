@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/admin/admin")
-public class SystemManagerController {
+public class AdminAdminController {
     /**
      * 分页显示管理员帐号
      * @param page 第几页
