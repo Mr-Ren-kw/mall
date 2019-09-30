@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace要等于接口的全类名-->
+<mapper namespace="com.j4h.mall.mapper.user.UserMapper">
+    <resultMap id="userMap" type="com.j4h.mall.model.user.User">
+        <result column="lastLoginIp" property="lastLoginIp"/>
+        <result column="lastLoginTime" property="lastLoginTime"/>
+        <result column="userLevel" property="userLevel"/>
+        <result column="weixinOpenid" property="weixinOpenid"/>
+        <result column="addTime" property="addTime"/>
+        <result column="updateTime" property="updateTime"/>
+    </resultMap>
+<select id="queryUsers" resultMap="userMap">
+   select id,username,password,gender,birthday,last_login_Ip as lastLoginIp,
+   last_login_time as lastLoginTime,user_level as userLevel,nickname as userLevel,mobile,avatar,
+    weixin_openid as weixinOpenid,status,add_time,update_time AS updateTime,deleted
+		from cskaoyan_mall_user
+		<where>
+		<trim prefixOverrides="and">
+            <if test="myPageHelper.username!=null">
+              and username like #{myPageHelper.username}
+            </if>
+              <if test="myPageHelper.mobile!=null">
+                and mobile like  #{myPageHelper.mobile}
+              </if>
+        </trim>
+        </where>
+</select>
+
+
+    <resultMap id="addressMapper" type="com.j4h.mall.model.user.Address">
+        <result column="proviceId" property="proviceId"/>
+        <result column="cityId" property="cityId"/>
+        <result column="isDefault" property="isDefault"/>
+        <result column="userId" property="userId"/>
+        <result column="areaId" property="areaId"/>
+    </resultMap>
+
+    <select id="queryAddressList" resultMap="addressMapper">
+        select `name`,id,province_id as provinceId,city_id as cityId,area_id as areaId,
+        address,mobile,is_default as isDefault,user_id as userId
+        from cskaoyan_mall_address
+        <where>
+            <trim prefixOverrides="and">
+                <if test="myPageHelper.name!=null and myPageHelper.name!='' ">
+                    and `name` like #{myPageHelper.name}
+                </if>
+                <if test="myPageHelper.userId!=0 and myPageHelper.userId !=null and myPageHelper.userId!=''">
+                    and user_id = #{myPageHelper.userId}
+                </if>
+
+
+            </trim>
+        </where>
+    </select>
+
+    <select id="queryRegionNameById" resultType="string">
+        select `name` from cskaoyan_mall_region where id = #{id}
+    </select>
+</mapper>

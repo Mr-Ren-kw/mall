@@ -7,3 +7,12 @@ spring:
     username: root
     password: 123456
     type: com.alibaba.druid.pool.DruidDataSource
+pagehelper:
+  auto-dialect: mysql
+logging:
+  level:
+    com:
+      j4h:
+        mall:
+          mapper: debug
+

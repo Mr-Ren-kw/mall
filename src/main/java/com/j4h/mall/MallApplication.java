@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@MapperScan(basePackages = "com.j4h.mall.mapper")
+@MapperScan(basePackages = "com.j4h.mall.mapper.user")
 public class MallApplication {
 
     public static void main(String[] args) {
