@@ -10,4 +10,6 @@ public interface BrandService {
     Brand brandCreate(BrandCreateVo brandCreateVo);
 
     Brand brandUpdate(Brand brand);
+
+    int brandDelete(Brand brand);
 }

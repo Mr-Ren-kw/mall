@@ -28,4 +28,18 @@ public class BrandController {
     public BaseRespVo brandUpdate(@RequestBody Brand brand) {
         return BaseRespVo.ok(brandService.brandUpdate(brand));
     }
+
+    @PostMapping("/delete")
+    public BaseRespVo brandDelete(@RequestBody Brand brand){
+        int result = brandService.brandDelete(brand);
+        if (result == 1) {
+            return BaseRespVo.ok(null);
+        } else {
+            BaseRespVo<Object> baseRespVo = new BaseRespVo<>();
+            baseRespVo.setErrno(100);
+            baseRespVo.setData(null);
+            baseRespVo.setErrmsg("删除失败，请确认该品牌商是否存在");
+            return baseRespVo;
+        }
+    }
 }
