@@ -7,5 +7,24 @@ spring:
     username: root
     password: 123456
     type: com.alibaba.druid.pool.DruidDataSource
+<<<<<<< HEAD
 pagehelper:
   helper-dialect: mysql
+=======
+<<<<<<< HEAD
+pagehelper:
+  helper-dialect: mysql
+logging:
+  level:
+    com:
+      j4h:
+        mall:
+          mapper: debug
+=======
+multipart:
+  maxFileSize: 5Mb
+  maxRequestSize: 5Mb
+web:
+  upload-path: E:/Develop/Files/Photos/
+>>>>>>> sld
+>>>>>>> 7c3234fc67b078acdb91a77d92987c0346a5f81b

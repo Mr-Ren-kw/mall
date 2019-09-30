@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.j4h.mall.mapper.mall.BrandMapper">
+  <select id="brandList" resultType="com.j4h.mall.model.mall.Brand">
+    select id,`name`,`desc`,pic_url as picUrl,sort_order as sortOrder,floor_price as floorPrice,add_time as addTime,update_time as updateTime,deleted from cskaoyan_mall_brand
+    <where>
+      deleted = 0
+      <if test="id != null">
+        and id = #{id}
+      </if>
+      <if test="name != null and name != ''">
+        and `name` like #{name}
+      </if>
+    </where>
+  </select>
+
+  <!--插入一条新的制造商并封装id-->
+  <insert id="brandCreate">
+    <selectKey resultType="_int" keyProperty="brand.id" keyColumn="id" order="AFTER">
+      select last_insert_id() as id
+    </selectKey>
+    insert into cskaoyan_mall_brand (name, `desc`, pic_url, floor_price, add_time, update_time)
+    values (#{brand.name},#{brand.desc},#{brand.picUrl},#{brand.floorPrice},now(),now())
+  </insert>
+  <!--通过id查询对应的品牌商-->
+  <select id="brandSearchById" resultType="com.j4h.mall.model.mall.Brand">
+    select id,`name`,`desc`,pic_url as picUrl,sort_order as sortOrder,floor_price as floorPrice,add_time as addTime,update_time as updateTime,deleted from cskaoyan_mall_brand
+    where id = #{id}
+  </select>
+  <!--更新品牌制造商-->
+  <update id="brandUpdate">
+    update cskaoyan_mall_brand set name = #{brand.name},`desc` = #{brand.desc},pic_url = #{brand.picUrl},floor_price = #{brand.floorPrice},update_time = now(),deleted = #{brand.deleted},sort_order = #{brand.sortOrder}
+    where id = #{brand.id}
+  </update>
+  <!--删除指定id的品牌商，但仅仅将deleted改为非0-->
+  <delete id="brandDelete">
+    update cskaoyan_mall_brand set deleted = 1 where id = #{id}
+  </delete>
+</mapper>
