@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace要等于接口的全类名-->
+<mapper namespace="com.j4h.mall.mapper.configs.ConfigMapper">
+    <!--查询商场配置名称-->
+    <select id="getMallSystemName" resultType="string">
+        select key_value from cskaoyan_mall_system where key_name like "%name"
+    </select>
+    <!--查询商场配置地址-->
+    <select id="getMallSystemAddress" resultType="string">
+        select key_value from cskaoyan_mall_system where key_name like "%address"
+    </select>
+    <!--查询联系电话-->
+    <select id="getMallSystemPhone" resultType="string">
+        select key_value from cskaoyan_mall_system where key_name like "%phone"
+    </select>
+    <!--查询联系QQ-->
+    <select id="getMallSystemQQ" resultType="string">
+        select key_value from cskaoyan_mall_system where key_name like "%qq"
+    </select>
+
+    <!--查询运费满减最低消费金额-->
+    <select id="getMallSystemExpressFreightMin" resultType="string">
+        select key_value from cskaoyan_mall_system where key_name like "%min"
+    </select>
+
+    <!--查询运费满减不足时运费金额-->
+    <select id="getMallSystemExpressFreightValue" resultType="string">
+        select key_value from cskaoyan_mall_system where key_name like "%value"
+    </select>
+
+    <!--查询订单评论时间有效期-->
+    <select id="getMallSystemOrderComment" resultType="string">
+        select key_value from cskaoyan_mall_system where key_name like "%comment"
+    </select>
+
+    <!--查询订单确认收货时间有效期-->
+    <select id="getMallSystemOrderUnconfirm" resultType="string">
+        select key_value from cskaoyan_mall_system where key_name like "%unconfirm"
+    </select>
+
+    <!--查询订单未付款有效期-->
+    <select id="getMallSystemOrderUnpaid" resultType="string">
+        select key_value from cskaoyan_mall_system where key_name like "%unpaid"
+    </select>
+
+    <select id="getMallSystemWxCatlogGoods" resultType="string">
+        select key_value from cskaoyan_mall_system where key_name like "%goods"
+    </select>
+
+    <select id="getMallSystemWxCatlogList" resultType="string">
+        select key_value from cskaoyan_mall_system where key_name like "%list"
+    </select>
+
+    <select id="getMallSystemWxIndexBrand" resultType="string">
+        select key_value from cskaoyan_mall_system where key_name like "%brand"
+    </select>
+
+    <select id="getMallSystemWxIndexHot" resultType="string">
+        select key_value from cskaoyan_mall_system where key_name like "%hot"
+    </select>
+
+    <select id="getMallSystemWxIndexNew" resultType="string">
+        select key_value from cskaoyan_mall_system where key_name like "%new"
+    </select>
+
+    <select id="getMallSystemWxIndexTopic" resultType="string">
+        select key_value from cskaoyan_mall_system where key_name like "%topic"
+    </select>
+
+    <select id="getMallSystemWxShare" resultType="string">
+        select key_value from cskaoyan_mall_system where key_name like "%share"
+    </select>
+
+
+    <!--更新商场配置名称-->
+    <update id="updateMallSystemName">
+        update cskaoyan_mall_system set key_value = #{mallSystemMsg.cskaoyan_mall_mall_name} where key_name like "%name"
+    </update>
+    <!--更新商场配置地址-->
+    <update id="updateMallSystemAddress">
+        update cskaoyan_mall_system set key_value = #{mallSystemMsg.cskaoyan_mall_mall_address} where key_name like "%address"
+    </update>
+    <!--更新商场联系电话-->
+    <update id="updateMallSystemPhone">
+        update cskaoyan_mall_system set key_value = #{mallSystemMsg.cskaoyan_mall_mall_phone} where key_name like "%phone"
+    </update>
+    <!--更新商场联系QQ-->
+    <update id="updateMallSystemQQ">
+        update cskaoyan_mall_system set key_value = #{mallSystemMsg.cskaoyan_mall_mall_qq} where key_name like "%qq"
+    </update>
+
+<!--更新运费满减最低消费金额-->
+    <update id="updateMallSystemExpressFreightMin">
+        update cskaoyan_mall_system set key_value = #{mallSystemMsg.cskaoyan_mall_express_freight_min} where key_name like "%min"
+    </update>
+
+<!--更新查询运费满减不足时运费金额-->
+    <update id="updateMallSystemExpressFreightValue">
+        update cskaoyan_mall_system set key_value = #{mallSystemMsg.cskaoyan_mall_express_freight_value} where key_name like "%value"
+    </update>
+
+<!--更新订单评论时间有效期-->
+    <update id="updateMallSystemOrderComment">
+        update cskaoyan_mall_system set key_value = #{mallSystemMsg.cskaoyan_mall_order_comment} where key_name like "%comment"
+    </update>
+
+<!--更新订单确认收货时间有效期-->
+    <update id="updateMallSystemOrderUnconfirm">
+        update cskaoyan_mall_system set key_value = #{mallSystemMsg.cskaoyan_mall_order_unconfirm} where key_name like "%unconfirm"
+    </update>
+
+<!--更新订单未付款有效期-->
+    <update id="updateMallSystemOrderUnpaid">
+        update cskaoyan_mall_system set key_value = #{mallSystemMsg.cskaoyan_mall_order_unpaid} where key_name like "%unpaid"
+    </update>
+
+    <update id="updateMallSystemWxCatlogGoods">
+        update cskaoyan_mall_system set key_value = #{mallSystemMsg.cskaoyan_mall_wx_catlog_goods} where key_name like "%goods"
+    </update>
+
+    <update id="updateMallSystemWxCatlogList">
+        update cskaoyan_mall_system set key_value = #{mallSystemMsg.cskaoyan_mall_wx_catlog_list} where key_name like "%list"
+    </update>
+
+    <update id="updateMallSystemWxIndexBrand">
+        update cskaoyan_mall_system set key_value = #{mallSystemMsg.cskaoyan_mall_wx_index_brand} where key_name like "%brand"
+    </update>
+
+    <update id="updateMallSystemWxIndexHot">
+        update cskaoyan_mall_system set key_value = #{mallSystemMsg.cskaoyan_mall_wx_index_hot} where key_name like "%hot"
+    </update>
+
+    <update id="updateMallSystemWxIndexNew">
+        update cskaoyan_mall_system set key_value = #{mallSystemMsg.cskaoyan_mall_wx_index_new} where key_name like "%new"
+    </update>
+
+    <update id="updateMallSystemWxIndexTopic">
+        update cskaoyan_mall_system set key_value = #{mallSystemMsg.cskaoyan_mall_wx_index_topic} where key_name like "%topic"
+    </update>
+
+    <update id="updateMallSystemWxShare">
+        update cskaoyan_mall_system set key_value = #{mallSystemMsg.cskaoyan_mall_wx_share} where key_name like "%share"
+    </update>
+
+
+</mapper>
