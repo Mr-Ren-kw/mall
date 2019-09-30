@@ -1,5 +1,5 @@
 server:
-  port: 80
+  port: 8085
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
@@ -7,3 +7,12 @@ spring:
     username: root
     password: 123456
     type: com.alibaba.druid.pool.DruidDataSource
+
+pagehelper:
+  auto-dialect: mysql
+logging:
+  level:
+    com:
+      j4h:
+        mall:
+          mapper: debug
