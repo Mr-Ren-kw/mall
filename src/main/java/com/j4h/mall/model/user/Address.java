@@ -4,9 +4,10 @@ public class Address {
 
 
     String area;
+    boolean isDefault;
     int areaId;
     String address;
-    String provice;
+    String province;
     String city;
     String name;
     String mobile;
@@ -14,7 +15,14 @@ public class Address {
     int cityId;
     int userId;
     int provinceId;
-    boolean isDefault;
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
 
     public String getArea() {
         return area;
@@ -40,13 +48,6 @@ public class Address {
         this.address = address;
     }
 
-    public String getProvice() {
-        return provice;
-    }
-
-    public void setProvice(String provice) {
-        this.provice = provice;
-    }
 
     public String getCity() {
         return city;

@@ -12,22 +12,22 @@
         <result column="addTime" property="addTime"/>
         <result column="updateTime" property="updateTime"/>
     </resultMap>
-<select id="queryUsers" resultMap="userMap">
-   select id,username,password,gender,birthday,last_login_Ip as lastLoginIp,
-   last_login_time as lastLoginTime,user_level as userLevel,nickname as userLevel,mobile,avatar,
-    weixin_openid as weixinOpenid,status,add_time,update_time AS updateTime,deleted
-		from cskaoyan_mall_user
-		<where>
-		<trim prefixOverrides="and">
-            <if test="myPageHelper.username!=null">
-              and username like #{myPageHelper.username}
-            </if>
-              <if test="myPageHelper.mobile!=null">
-                and mobile like  #{myPageHelper.mobile}
-              </if>
-        </trim>
+    <select id="queryUsers" resultMap="userMap">
+        select id,username,password,gender,birthday,last_login_Ip as lastLoginIp,
+        last_login_time as lastLoginTime,user_level as userLevel,nickname as userLevel,mobile,avatar,
+        weixin_openid as weixinOpenid,status,add_time,update_time AS updateTime,deleted
+        from cskaoyan_mall_user
+        <where>
+            <trim prefixOverrides="and">
+                <if test="myPageHelper.username!=null and myPageHelper.username!=''">
+                    and username like #{myPageHelper.username}
+                </if>
+                <if test="myPageHelper.mobile!=null and myPageHelper.mobile!=''">
+                    and mobile like #{myPageHelper.mobile}
+                </if>
+            </trim>
         </where>
-</select>
+    </select>
 
 
     <resultMap id="addressMapper" type="com.j4h.mall.model.user.Address">
@@ -36,11 +36,13 @@
         <result column="isDefault" property="isDefault"/>
         <result column="userId" property="userId"/>
         <result column="areaId" property="areaId"/>
+        <association property="area" column="areaId" select="com.j4h.mall.mapper.user.UserMapper.queryArea"/>
+        <association property="province" column="provinceId" select="com.j4h.mall.mapper.user.UserMapper.queryArea"/>
+        <association property="city" column="cityId" select="com.j4h.mall.mapper.user.UserMapper.queryArea"/>
     </resultMap>
-
     <select id="queryAddressList" resultMap="addressMapper">
         select `name`,id,province_id as provinceId,city_id as cityId,area_id as areaId,
-        address,mobile,is_default as isDefault,user_id as userId
+        address,mobile,`is_default` as `isDefault`,user_id as userId
         from cskaoyan_mall_address
         <where>
             <trim prefixOverrides="and">
@@ -50,13 +52,102 @@
                 <if test="myPageHelper.userId!=0 and myPageHelper.userId !=null and myPageHelper.userId!=''">
                     and user_id = #{myPageHelper.userId}
                 </if>
+            </trim>
+        </where>
+    </select>
+    <select id="queryArea" resultType="string">
+      select name from cskaoyan_mall_region where id = #{id}
+    </select>
 
 
+
+    <resultMap id="colletMap" type="com.j4h.mall.model.user.Collect">
+        <result column="userId" property="userId"/>
+        <result column="valueId" property="valueId"/>
+        <result column="addTime" property="addTime"/>
+        <result column="updateTime" property="updateTime"/>
+    </resultMap>
+    <select id="queryCollectList" resultMap="colletMap">
+        select id,user_id as userId,value_id as valueId,type,add_time as addTime,update_time as updateTime,deleted
+        from cskaoyan_mall_collect
+        <where>
+            <trim prefixOverrides="and">
+                <if test="myPageHelper.valueId!=0 and myPageHelper.valueId !=null and myPageHelper.valueId!=''">
+                    and value_id = #{myPageHelper.valueId}
+                </if>
+                <if test="myPageHelper.userId!=0 and myPageHelper.userId !=null and myPageHelper.userId!=''">
+                    and user_id = #{myPageHelper.userId}
+                </if>
             </trim>
         </where>
     </select>
 
-    <select id="queryRegionNameById" resultType="string">
-        select `name` from cskaoyan_mall_region where id = #{id}
+
+    <resultMap id="footprintMap" type="com.j4h.mall.model.user.Footprint">
+        <result column="userId" property="userId"/>
+        <result column="goodsId" property="goodsId"/>
+        <result column="addTime" property="addTime"/>
+        <result column="updateTime" property="updateTime"/>
+    </resultMap>
+    <select id="queryFootprintList" resultMap="footprintMap">
+        select id,user_id as userId,goods_id as goodsId,add_time as addTime,update_time as updateTime,deleted
+        from cskaoyan_mall_footprint
+        <where>
+            <trim prefixOverrides="and">
+
+                <if test="myPageHelper.userId!=0 and myPageHelper.userId !=null and myPageHelper.userId!=''">
+                    and user_id = #{myPageHelper.userId}
+                </if>
+                <if test="myPageHelper.goodsId!=0 and myPageHelper.goodsId !=null and myPageHelper.goodsId!=''">
+                    and goods_id = #{myPageHelper.goodsId}
+                </if>
+            </trim>
+        </where>
+    </select>
+
+
+    <resultMap id="historyMap" type="com.j4h.mall.model.user.History">
+        <result column="userId" property="userId"/>
+        <result column="addTime" property="addTime"/>
+        <result column="updateTime" property="updateTime"/>
+    </resultMap>
+    <select id="querySearchHistoryList" resultMap="historyMap">
+        select id,user_id as userId,keyword,`from`,add_time as addTime,update_time as updateTime,deleted
+        from cskaoyan_mall_search_history
+        <where>
+            <trim prefixOverrides="and">
+                <if test="myPageHelper.keyword!=null and myPageHelper.keyword!=''">
+                    and keyword like #{myPageHelper.keyword}
+                </if>
+                <if test="myPageHelper.userId!=0 and myPageHelper.userId !=null and myPageHelper.userId!=''">
+                    and user_id = #{myPageHelper.userId}
+                </if>
+            </trim>
+        </where>
+    </select>
+
+    <resultMap id="feedbackMap" type="com.j4h.mall.model.user.FeedBack">
+        <result column="userId" property="userId"/>
+        <result column="feedType" property="feedType"/>
+        <result column="hasPicture" property="hasPicture"/>
+        <result column="addTime" property="addTime"/>
+        <result column="updateTime" property="updateTime"/>
+        <result column="pic" property="pic"/>
+    </resultMap>
+    <select id="queryFeedbackList" resultMap="feedbackMap">
+        select id,user_id as userId, username,mobile,feed_type as feedType,content,
+        status,has_picture as hasPicture,add_time as addTime,
+        update_time as updateTime,deleted,pic_urls as pic
+        from cskaoyan_mall_feedback
+        <where>
+            <trim prefixOverrides="and">
+                <if test="myPageHelper.username!=null and myPageHelper.username!=''">
+                    and username like #{myPageHelper.username}
+                </if>
+                <if test="myPageHelper.id!=0 and myPageHelper.id!=null and myPageHelper.id!=''">
+                    and id = #{myPageHelper.id}
+                </if>
+            </trim>
+        </where>
     </select>
 </mapper>

@@ -1,7 +1,6 @@
 package com.j4h.mall.mapper.user;
 
-import com.j4h.mall.model.user.Address;
-import com.j4h.mall.model.user.User;
+import com.j4h.mall.model.user.*;
 import com.j4h.mall.vo.user.MyPageHelper;
 import org.apache.ibatis.annotations.Param;
 
@@ -14,5 +13,13 @@ public interface UserMapper {
 
     List<Address> queryAddressList(@Param("myPageHelper")MyPageHelper myPageHelper);
 
-    String queryRegionNameById(@Param("id")int areaId);
+    List<Collect> queryCollectList(@Param("myPageHelper")MyPageHelper myPageHelper);
+
+    List<Footprint> queryFootprintList(@Param("myPageHelper")MyPageHelper myPageHelper);
+
+    List<History> querySearchHistoryList(@Param("myPageHelper")MyPageHelper myPageHelper);
+
+    List<FeedBack> queryFeedbackList(@Param("myPageHelper")MyPageHelper myPageHelper);
+
+
 }

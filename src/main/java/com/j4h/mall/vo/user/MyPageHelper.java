@@ -9,6 +9,18 @@ public class MyPageHelper {
     String mobile;
     String userId;
     String name;
+    String valueId;
+    String goodsId;
+    String keyword;
+    String id;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     @Override
     public String toString() {
@@ -19,9 +31,36 @@ public class MyPageHelper {
                 ", order='" + order + '\'' +
                 ", username='" + username + '\'' +
                 ", mobile='" + mobile + '\'' +
-                ", userId=" + userId +
+                ", userId='" + userId + '\'' +
                 ", name='" + name + '\'' +
+                ", valueId='" + valueId + '\'' +
+                ", goodsId='" + goodsId + '\'' +
+                ", keyword='" + keyword + '\'' +
                 '}';
+    }
+
+    public String getKeyword() {
+        return keyword;
+    }
+
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
+    }
+
+    public String getGoodsId() {
+        return goodsId;
+    }
+
+    public void setGoodsId(String goodsId) {
+        this.goodsId = goodsId;
+    }
+
+    public String getValueId() {
+        return valueId;
+    }
+
+    public void setValueId(String valueId) {
+        this.valueId = valueId;
     }
 
     public int getPage() {

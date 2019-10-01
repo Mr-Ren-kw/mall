@@ -26,4 +26,32 @@ public class UserController {
        BaseRespVo<PageBean> ok = BaseRespVo.ok(pageBean);
        return ok;
    }
+
+    @RequestMapping("admin/collect/list")
+    public BaseRespVo queryCollectList(MyPageHelper myPageHelper){
+      PageBean pageBean= userService.queryCollectList(myPageHelper);
+       BaseRespVo<PageBean> ok = BaseRespVo.ok(pageBean);
+       return ok;
+   }
+
+   @RequestMapping("admin/footprint/list")
+    public BaseRespVo queryFootprintList(MyPageHelper myPageHelper){
+      PageBean pageBean= userService.queryFootprintList(myPageHelper);
+       BaseRespVo<PageBean> ok = BaseRespVo.ok(pageBean);
+       return ok;
+   }
+
+   @RequestMapping("admin/history/list")
+    public BaseRespVo querySearchHistoryList(MyPageHelper myPageHelper){
+       PageBean pageBean=  userService.querySearchHistoryList(myPageHelper);
+       BaseRespVo<PageBean> ok = BaseRespVo.ok(pageBean);
+       return ok;
+   }
+
+   @RequestMapping("admin/feedback/list")
+    public BaseRespVo queryFeedbackList(MyPageHelper myPageHelper){
+       PageBean pageBean = userService.queryFeedbackList(myPageHelper);
+       BaseRespVo<PageBean> ok = BaseRespVo.ok(pageBean);
+       return ok;
+   }
 }
