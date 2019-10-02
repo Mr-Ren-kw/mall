@@ -9,3 +9,6 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
 pagehelper:
   helper-dialect: mysql
+mybatis:
+  type-handlers-package: com.j4h.mall.mybatis
+
