@@ -61,4 +61,10 @@ public class StorageServiceImpl implements StorageService{
         // 这边只进行修改数据库中的值，不再查询数据库返回
         return storage;
     }
+
+    @Override
+    public void deleteStorage(Storage storage) {
+        String key = storage.getKey();
+        storageMapper.deleteStorage(key);
+    }
 }

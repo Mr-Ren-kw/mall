@@ -55,6 +55,13 @@ public class StorageController {
     @PostMapping("/update")
     public BaseRespVo updateStorage(@RequestBody Storage storage){
         Storage storage1 = storageService.updateStorage(storage);
+        // 没有考虑修改失败的情况（图片已经被别人删掉了）
         return BaseRespVo.ok(storage1);
+    }
+
+    @PostMapping("/delete")
+    public BaseRespVo deleteStorage(@RequestBody Storage storage){
+        storageService.deleteStorage(storage);
+        return BaseRespVo.ok(null);
     }
 }

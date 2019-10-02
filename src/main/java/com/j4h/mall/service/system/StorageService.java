@@ -13,4 +13,5 @@ public interface StorageService {
     int addPicture(Storage storage);
     StorageList queryStorage(StorageQuery storageQuery);
     Storage updateStorage(Storage storage);
+    void deleteStorage(Storage storage);
 }
