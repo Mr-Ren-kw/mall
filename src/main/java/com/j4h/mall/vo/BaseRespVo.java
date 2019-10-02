@@ -14,6 +14,14 @@ public class BaseRespVo<T> {
         return tBaseRespVo;
     }
 
+    public static <T> BaseRespVo<T> error(T data) {
+        BaseRespVo<T> tBaseRespVo = new BaseRespVo<>();
+        tBaseRespVo.setData(data);
+        tBaseRespVo.setErrmsg("error");
+        tBaseRespVo.setErrno(5000);
+        return tBaseRespVo;
+    }
+
     public BaseRespVo() {
     }
 

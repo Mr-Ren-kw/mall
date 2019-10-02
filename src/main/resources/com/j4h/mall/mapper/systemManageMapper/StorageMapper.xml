@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.j4h.mall.mapper.systemManageMapper.StorageMapper">
+    <insert id="addPicture">
+        insert into cskaoyan_mall_storage (`key`,`name`,type,size,url,add_time,update_time) value (#{key},#{name},#{type},#{size},#{url},#{addTime},#{updateTime})
+    </insert>
+
+</mapper>

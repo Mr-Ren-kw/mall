@@ -8,16 +8,16 @@ public class AdminOfSystemManage {
      * avatar : http://192.168.2.100:8081/wx/storage/fetch/4vekgosssa1av18yqonb.jpg
      * username : yanhua
      */
-    private String roleIds;
+    private String[] roleIds;
     private int id;
     private String avatar;
     private String username;
 
-    public String getRoleIds() {
+    public String[] getRoleIds() {
         return roleIds;
     }
 
-    public void setRoleIds(String roleIds) {
+    public void setRoleIds(String[] roleIds) {
         this.roleIds = roleIds;
     }
 
