@@ -1,6 +1,6 @@
-package com.j4h.mall.model.category;
+package com.j4h.mall.model.mall;
 
-public class L1Category {
+public class L2Category {
     private String desc;
     private String iconUrl;
     private int id;
@@ -8,7 +8,6 @@ public class L1Category {
     private String level;
     private String name;
     private String picUrl;
-    private L2Category[] children;
 
     public String getDesc() {
         return desc;
@@ -64,13 +63,5 @@ public class L1Category {
 
     public void setPicUrl(String picUrl) {
         this.picUrl = picUrl;
-    }
-
-    public L2Category[] getChildren() {
-        return children;
-    }
-
-    public void setChildren(L2Category[] children) {
-        this.children = children;
     }
 }

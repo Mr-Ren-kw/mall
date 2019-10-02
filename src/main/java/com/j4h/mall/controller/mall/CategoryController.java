@@ -1,8 +1,8 @@
-package com.j4h.mall.controller.category;
+package com.j4h.mall.controller.mall;
 
-import com.j4h.mall.model.category.L1Category;
-import com.j4h.mall.model.category.L1Name;
-import com.j4h.mall.service.category.CategoryService;
+import com.j4h.mall.model.mall.L1Category;
+import com.j4h.mall.model.mall.L1Name;
+import com.j4h.mall.service.mall.CategoryService;
 import com.j4h.mall.vo.BaseRespVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

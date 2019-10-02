@@ -1,4 +1,4 @@
-package com.j4h.mall.model.category;
+package com.j4h.mall.model.mall;
 
 public class L1Name {
     String lable;

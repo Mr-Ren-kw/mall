@@ -1,7 +1,7 @@
 package com.j4h.mall.mapper.category;
 
-import com.j4h.mall.model.category.L1Category;
-import com.j4h.mall.model.category.L1Name;
+import com.j4h.mall.model.mall.L1Category;
+import com.j4h.mall.model.mall.L1Name;
 
 import java.util.List;
 
