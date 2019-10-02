@@ -1,21 +1,10 @@
-package com.j4h.mall.model.mall;
+package com.j4h.mall.model.mall.region;
 
-import java.util.List;
-
-public class RegionCity {
-    private List<RegionArea> children;
+public class RegionArea {
     private int code;
     private int id;
     private String name;
     private int type;
-
-    public List<RegionArea> getChildren() {
-        return children;
-    }
-
-    public void setChildren(List<RegionArea> children) {
-        this.children = children;
-    }
 
     public int getCode() {
         return code;

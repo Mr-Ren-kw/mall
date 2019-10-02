@@ -1,6 +1,6 @@
 package com.j4h.mall.mapper.mall;
 
-import com.j4h.mall.model.mall.Brand;
+import com.j4h.mall.model.mall.brand.Brand;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

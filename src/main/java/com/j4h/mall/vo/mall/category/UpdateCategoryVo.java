@@ -1,6 +1,6 @@
-package com.j4h.mall.vo.category;
+package com.j4h.mall.vo.mall.category;
 
-import com.j4h.mall.model.category.L2Category;
+import com.j4h.mall.model.mall.category.L2Category;
 
 public class UpdateCategoryVo {
     private String desc;

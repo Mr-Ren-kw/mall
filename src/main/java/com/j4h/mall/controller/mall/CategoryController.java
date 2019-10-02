@@ -1,12 +1,12 @@
-package com.j4h.mall.controller.category;
+package com.j4h.mall.controller.mall;
 
-import com.j4h.mall.model.category.AddCategory;
-import com.j4h.mall.model.category.L1Category;
-import com.j4h.mall.model.category.L1Name;
-import com.j4h.mall.service.category.CategoryService;
+import com.j4h.mall.model.mall.category.AddCategory;
+import com.j4h.mall.model.mall.category.L1Category;
+import com.j4h.mall.model.mall.category.L1Name;
+import com.j4h.mall.service.mall.CategoryService;
 import com.j4h.mall.vo.BaseRespVo;
-import com.j4h.mall.vo.category.AddCategoryVo;
-import com.j4h.mall.vo.category.UpdateCategoryVo;
+import com.j4h.mall.vo.mall.category.AddCategoryVo;
+import com.j4h.mall.vo.mall.category.UpdateCategoryVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

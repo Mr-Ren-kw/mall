@@ -1,4 +1,4 @@
-package com.j4h.mall.model.category;
+package com.j4h.mall.model.mall.category;
 
 public class L1Category {
     private String desc;

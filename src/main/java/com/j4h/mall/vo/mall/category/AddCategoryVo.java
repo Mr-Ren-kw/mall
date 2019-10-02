@@ -1,4 +1,4 @@
-package com.j4h.mall.vo.category;
+package com.j4h.mall.vo.mall.category;
 
 public class AddCategoryVo {
     private String desc;

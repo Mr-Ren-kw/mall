@@ -7,7 +7,7 @@
   <select id="getRegionProvinceList" resultMap="regionProvinceMap">
     select id,`name`,type,code from cskaoyan_mall_region where pid = 0
   </select>
-  <resultMap id="regionProvinceMap" type="com.j4h.mall.model.mall.RegionProvince">
+  <resultMap id="regionProvinceMap" type="com.j4h.mall.model.mall.region.RegionProvince">
     <result column="code" property="code"/>
     <result column="id" property="id"/>
     <result column="name" property="name"/>
@@ -18,7 +18,7 @@
   <select id="getRegionCityListByPid" resultMap="regionCityMap">
     select id,`name`,type,code from cskaoyan_mall_region where pid = #{pid}
   </select>
-  <resultMap id="regionCityMap" type="com.j4h.mall.model.mall.RegionCity">
+  <resultMap id="regionCityMap" type="com.j4h.mall.model.mall.region.RegionCity">
     <result column="code" property="code"/>
     <result column="id" property="id"/>
     <result column="name" property="name"/>
@@ -26,7 +26,7 @@
     <collection property="children" column="id" select="com.j4h.mall.mapper.mall.RegionMapper.getRegionAreaListByCid"/>
   </resultMap>
   <!--取出对应城市的区域-->
-  <select id="getRegionAreaListByCid" resultType="com.j4h.mall.model.mall.RegionArea">
+  <select id="getRegionAreaListByCid" resultType="com.j4h.mall.model.mall.region.RegionArea">
     select id,`name`,type,code from cskaoyan_mall_region where pid = #{cid}
   </select>
 </mapper>

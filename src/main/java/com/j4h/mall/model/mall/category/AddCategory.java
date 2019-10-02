@@ -1,4 +1,4 @@
-package com.j4h.mall.model.category;
+package com.j4h.mall.model.mall.category;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 

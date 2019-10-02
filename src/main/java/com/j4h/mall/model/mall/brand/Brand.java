@@ -1,4 +1,4 @@
-package com.j4h.mall.model.mall;
+package com.j4h.mall.model.mall.brand;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 

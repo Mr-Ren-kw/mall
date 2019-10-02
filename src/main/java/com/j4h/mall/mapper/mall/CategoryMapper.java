@@ -1,10 +1,10 @@
-package com.j4h.mall.mapper.category;
+package com.j4h.mall.mapper.mall;
 
-import com.j4h.mall.model.category.AddCategory;
-import com.j4h.mall.model.category.L1Category;
-import com.j4h.mall.model.category.L1Name;
-import com.j4h.mall.vo.category.AddCategoryVo;
-import com.j4h.mall.vo.category.UpdateCategoryVo;
+import com.j4h.mall.model.mall.category.AddCategory;
+import com.j4h.mall.model.mall.category.L1Category;
+import com.j4h.mall.model.mall.category.L1Name;
+import com.j4h.mall.vo.mall.category.AddCategoryVo;
+import com.j4h.mall.vo.mall.category.UpdateCategoryVo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
