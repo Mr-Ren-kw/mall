@@ -1,4 +1,4 @@
-package com.j4h.mall.vo.goods;
+package com.j4h.mall.model.goods;
 
 public class Brand {
     private int value;

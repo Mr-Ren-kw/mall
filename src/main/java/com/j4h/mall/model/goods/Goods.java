@@ -1,8 +1,11 @@
-package com.j4h.mall.vo.goods;
+package com.j4h.mall.model.goods;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import java.util.Date;
 import java.util.List;
 
-public class GoodsVo {
+public class Goods {
 
     /**
      * brief : Jk制服
@@ -33,10 +36,48 @@ public class GoodsVo {
     private String detail;
     private boolean isOnSale;
     private String retailPrice;
-    private List<String> gallery;
+    private String[] gallery;
     private int categoryId;
     private boolean isHot;
     private int id;
+    private boolean deleted;
+    private int sortOrder;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date addTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date updateTime;
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+
+    public int getSortOrder() {
+        return sortOrder;
+    }
+
+    public void setSortOrder(int sortOrder) {
+        this.sortOrder = sortOrder;
+    }
+
+    public Date getAddTime() {
+        return addTime;
+    }
+
+    public void setAddTime(Date addTime) {
+        this.addTime = addTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
 
     public int getId() {
         return id;
@@ -94,7 +135,7 @@ public class GoodsVo {
         this.retailPrice = retailPrice;
     }
 
-    public void setGallery(List<String> gallery) {
+    public void setGallery(String[] gallery) {
         this.gallery = gallery;
     }
 
@@ -154,7 +195,7 @@ public class GoodsVo {
         return retailPrice;
     }
 
-    public List<?> getGallery() {
+    public String[] getGallery() {
         return gallery;
     }
 

@@ -16,3 +16,6 @@ logging:
       j4h:
         mall:
           mapper: debug
+
+mybatis:
+  type-handlers-package: com.j4h.mall.mybatis

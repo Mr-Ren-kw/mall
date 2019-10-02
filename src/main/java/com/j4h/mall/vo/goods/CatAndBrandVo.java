@@ -1,7 +1,7 @@
 package com.j4h.mall.vo.goods;
 
+import com.j4h.mall.model.goods.Brand;
 import com.j4h.mall.model.goods.Category;
-import org.springframework.context.annotation.Bean;
 
 import java.util.List;
 

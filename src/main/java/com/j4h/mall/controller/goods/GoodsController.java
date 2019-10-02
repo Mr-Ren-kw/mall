@@ -1,11 +1,11 @@
 package com.j4h.mall.controller.goods;
 
 import com.j4h.mall.model.PageBean;
+import com.j4h.mall.model.goods.Goods;
 import com.j4h.mall.service.goods.GoodsService;
 import com.j4h.mall.vo.BaseRespVo;
 import com.j4h.mall.vo.goods.CatAndBrandVo;
 import com.j4h.mall.vo.goods.GoodsItemVo;
-import jdk.nashorn.internal.ir.CallNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,6 +38,23 @@ public class GoodsController {
     public BaseRespVo<CatAndBrandVo> getCatAndBrand() {
         CatAndBrandVo catAndBrandVo = goodsService.getAllCatAndBrand();
         return ok(catAndBrandVo);
+    }
 
+    @RequestMapping(value = "detail", method = RequestMethod.GET)
+    public BaseRespVo<GoodsItemVo> getGoodsDetail(int id) {
+        GoodsItemVo goodsItemVo = goodsService.getGoodsDetail(id);
+        return ok(goodsItemVo);
+    }
+
+    @RequestMapping(value = "update", method = RequestMethod.POST)
+    public BaseRespVo updateGoods(@RequestBody GoodsItemVo goodsItemVo) {
+        goodsService.updateGoods(goodsItemVo);
+        return ok(null);
+    }
+
+    @RequestMapping(value = "delete", method = RequestMethod.POST)
+    public BaseRespVo deleteGoods(@RequestBody Goods goods) {
+        goodsService.deleteGoods(goods.getId());
+        return ok(null);
     }
 }

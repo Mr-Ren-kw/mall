@@ -1,7 +1,5 @@
 package com.j4h.mall.model;
 
-import com.j4h.mall.model.goods.GoodItem;
-
 import java.util.List;
 
 /**

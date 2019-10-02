@@ -1,42 +1,57 @@
 package com.j4h.mall.vo.goods;
 
+import com.j4h.mall.model.goods.Goods;
+import com.j4h.mall.model.goods.GoodsAttribute;
+import com.j4h.mall.model.goods.GoodsProduct;
+import com.j4h.mall.model.goods.GoodsSpecification;
+
 import java.util.List;
 
 public class GoodsItemVo {
-    private GoodsVo goods;
-    private List<GoodsSpecificationVo> specifications;
-    private List<GoodsProductVo> products;
-    private List<GoodsAttributeVo> attributes;
+    private Goods goods;
+    private List<GoodsSpecification> specifications;
+    private List<GoodsProduct> products;
+    private List<GoodsAttribute> attributes;
+    private List<Integer> categoryIds;
 
-    public GoodsVo getGoods() {
+    public List<Integer> getCategoryIds() {
+        return categoryIds;
+    }
+
+    public void setCategoryIds(List<Integer> categoryIds) {
+        this.categoryIds = categoryIds;
+    }
+
+    public Goods getGoods() {
         return goods;
     }
 
-    public void setGoods(GoodsVo goods) {
+    public void setGoods(Goods goods) {
         this.goods = goods;
     }
 
-    public List<GoodsSpecificationVo> getSpecifications() {
+    public List<GoodsSpecification> getSpecifications() {
         return specifications;
     }
 
-    public void setSpecifications(List<GoodsSpecificationVo> specifications) {
+    public void setSpecifications(List<GoodsSpecification> specifications) {
         this.specifications = specifications;
     }
 
-    public List<GoodsProductVo> getProducts() {
+    public List<GoodsProduct> getProducts() {
         return products;
     }
 
-    public void setProducts(List<GoodsProductVo> products) {
+    public void setProducts(List<GoodsProduct> products) {
         this.products = products;
     }
 
-    public List<GoodsAttributeVo> getAttributes() {
+    public List<GoodsAttribute> getAttributes() {
         return attributes;
     }
 
-    public void setAttributes(List<GoodsAttributeVo> attributes) {
+    public void setAttributes(List<GoodsAttribute> attributes) {
         this.attributes = attributes;
     }
+
 }
