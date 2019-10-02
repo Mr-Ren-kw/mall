@@ -55,7 +55,7 @@
         goods_id as goodsId,
         specification,
         `value`,
-        pic_url as pic_Url,
+        pic_url as picUrl,
         add_time as addTime,
         update_time as updateTime,
         deleted
@@ -119,7 +119,7 @@
         insert into cskaoyan_mall_goods_specification (id, goods_id, specification, value, pic_url, add_time, update_time, deleted)
         VALUES
         <foreach collection="specifications" item="spec">
-               (null, #{goodId}, #{spec.specification}, #{spec.value}, #{spec.picUrl}, now(), now(), 0)
+               (null, #{goodsId}, #{spec.specification}, #{spec.value}, #{spec.picUrl}, now(), now(), 0)
         </foreach>
     </insert>
 
@@ -209,6 +209,7 @@
         counter_price = #{goods.counterPrice},
         retail_price = #{goods.retailPrice},
         update_time = now()
+        where id = #{goods.id}
     </update>
     
     <update id="deleteGoodsSpecifications">
