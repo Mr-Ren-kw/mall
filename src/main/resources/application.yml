@@ -1,5 +1,5 @@
 server:
-  port: 8085
+  port: 80
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
@@ -22,6 +22,7 @@ logging:
 multipart:
   maxFileSize: 5Mb
   maxRequestSize: 5Mb
-web:
-  upload-path: E:/Develop/Files/Photos/
 
+
+mybatis:
+  type-handlers-package: com.j4h.mall.mybatis
