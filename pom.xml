@@ -51,6 +51,8 @@
             <artifactId>pagehelper-spring-boot-starter</artifactId>
             <version>1.2.5</version>
         </dependency>
+<<<<<<< HEAD
+=======
 
 
         <!-- https://mvnrepository.com/artifact/com.github.pagehelper/pagehelper-spring-boot-starter -->
@@ -61,6 +63,7 @@
         </dependency>
 
 
+>>>>>>> dev
     </dependencies>
 
     <build>
