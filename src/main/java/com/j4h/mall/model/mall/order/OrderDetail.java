@@ -1,5 +1,7 @@
 package com.j4h.mall.model.mall.order;
 
+import com.j4h.mall.model.user.OrderUser;
+
 public class OrderDetail {
     private Order order;
     private OrderGoods[] orderGoods;
