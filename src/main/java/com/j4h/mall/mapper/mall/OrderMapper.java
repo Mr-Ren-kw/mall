@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface OrderMapper {
     List<Order> queryOrderList(@Param("userId") Integer userId,@Param("orderSn") Integer orderSn,@Param("orderStatusArray") Integer[] orderStatusArray);
+
+    Order queryOrderById(@Param("id") int id);
 }
