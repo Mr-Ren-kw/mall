@@ -3,6 +3,8 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!--namespace要等于接口的全类名-->
+
+
 <mapper namespace="com.j4h.mall.mapper.goods.GoodsMapper">
 
     <sql id="goods">

@@ -7,6 +7,8 @@ import com.j4h.mall.model.goods.GoodsSpecification;
 
 import java.util.List;
 
+
+
 public class GoodsItemVo {
     private Goods goods;
     private List<GoodsSpecification> specifications;

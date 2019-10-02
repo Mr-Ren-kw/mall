@@ -5,6 +5,8 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
+
+
 public interface GoodsMapper {
     List<Goods> getGoodsInfo(@Param("goodsSn") Integer goodsSn, @Param("name") String name);
 

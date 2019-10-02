@@ -5,6 +5,8 @@ import com.j4h.mall.model.goods.GoodsComment;
 import com.j4h.mall.vo.goods.CatAndBrandVo;
 import com.j4h.mall.vo.goods.GoodsItemVo;
 
+
+
 public interface GoodsService {
     PageBean getGoodsInfo(int page, int limit, String sort, String order, Integer goodsSn, String name);
 
