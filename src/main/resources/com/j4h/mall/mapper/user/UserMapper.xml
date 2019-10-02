@@ -132,12 +132,12 @@
         <result column="hasPicture" property="hasPicture"/>
         <result column="addTime" property="addTime"/>
         <result column="updateTime" property="updateTime"/>
-        <result column="pic" property="pic"/>
+        <result column="picUrls" property="picUrls"/>
     </resultMap>
     <select id="queryFeedbackList" resultMap="feedbackMap">
         select id,user_id as userId, username,mobile,feed_type as feedType,content,
         status,has_picture as hasPicture,add_time as addTime,
-        update_time as updateTime,deleted,pic_urls as pic
+        update_time as updateTime,deleted,pic_urls as picUrls
         from cskaoyan_mall_feedback
         <where>
             <trim prefixOverrides="and">
@@ -149,5 +149,9 @@
                 </if>
             </trim>
         </where>
+    </select>
+
+    <select id="queryUserById" resultType="com.j4h.mall.model.user.OrderUser">
+        select avatar,nickname from cskaoyan_mall_user where id = #{id}
     </select>
 </mapper>

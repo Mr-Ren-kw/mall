@@ -87,11 +87,6 @@ public class UserServiceImp implements UserService {
            myPageHelper.setUsername("%"+myPageHelper.getUsername()+"%");
        }
         List<FeedBack> feedBackList = userMapper.queryFeedbackList(myPageHelper);
-        for (FeedBack feedBack : feedBackList) {
-            String pic = feedBack.getPic();
-            String[] split = pic.split(",");
-            feedBack.setPicUrls(split);
-        }
         PageBean pagebean = getPagebean(feedBackList);
         return pagebean;
     }

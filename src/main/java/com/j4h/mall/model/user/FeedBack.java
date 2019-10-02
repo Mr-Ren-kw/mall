@@ -17,15 +17,7 @@ public class FeedBack {
     String updateTime;
     boolean deleted;
     String[] picUrls;
-    String pic;
 
-    public String getPic() {
-        return pic;
-    }
-
-    public void setPic(String pic) {
-        this.pic = pic;
-    }
 
     public String getMobile() {
         return mobile;

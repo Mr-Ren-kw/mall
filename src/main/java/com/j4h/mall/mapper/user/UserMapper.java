@@ -21,5 +21,7 @@ public interface UserMapper {
 
     List<FeedBack> queryFeedbackList(@Param("myPageHelper")MyPageHelper myPageHelper);
 
+    OrderUser queryUserById(@Param("id")int id);
+
 
 }
