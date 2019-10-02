@@ -4,9 +4,12 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.j4h.mall.mapper.extension.GrouponMapper;
 import com.j4h.mall.mapper.extension.GrouponRulesMapper;
+import com.j4h.mall.mapper.goods.GoodsMapper;
 import com.j4h.mall.model.extension.groupon.BeanForDatabase.Groupon;
 import com.j4h.mall.model.extension.groupon.BeanForDatabase.GrouponRules;
+import com.j4h.mall.model.extension.groupon.BeanForDatabase.GrouponUser;
 import com.j4h.mall.model.extension.groupon.BeanForItems.GrouponItem;
+import com.j4h.mall.model.goods.Goods;
 import com.j4h.mall.vo.extension.BeanForData.PageData;
 import com.j4h.mall.vo.extension.BeanForRequest.GrouponPageRequest;
 import com.j4h.mall.vo.extension.BeanForRequest.GrouponRulesPageRequest;
@@ -43,8 +46,8 @@ public class GrouponServiceImpl implements GrouponService {
     @Override
     public GrouponRules addGrouponRules(GrouponRules grouponRules) {
         Goods goods = goodsMapper.getGoodsById(grouponRules.getGoodsId());
-        grouponRules.setPicUrl(goods.getPicUrl);
-        grouponRules.setGoodsName(goods.getName);
+        grouponRules.setPicUrl(goods.getPicUrl());
+        grouponRules.setGoodsName(goods.getName());
         grouponRulesMapper.insertGrouponRules(grouponRules);
         return grouponRulesMapper.queryGrouponRulesById(grouponRules.getId());
     }
@@ -55,8 +58,8 @@ public class GrouponServiceImpl implements GrouponService {
         int oldId = grouponRulesMapper.getGoodsIdById(grouponRules.getId());
         if(newId != oldId) {
             Goods goods = goodsMapper.getGoodsById(grouponRules.getGoodsId());
-            grouponRules.setPicUrl(goods.getPicUrl);
-            grouponRules.setGoodsName(goods.getName);
+            grouponRules.setPicUrl(goods.getPicUrl());
+            grouponRules.setGoodsName(goods.getName());
         }
         grouponRulesMapper.updateGrouponRules(grouponRules);
     }
@@ -69,22 +72,25 @@ public class GrouponServiceImpl implements GrouponService {
     @Override
     public PageData queryGrouponByPage(GrouponPageRequest grouponPageRequest) {
         List<GrouponItem> grouponItems = new ArrayList<>();
-        int goodsId = grouponPageRequest.getGoodsId();
         PageData grouponPageData = new PageData<Groupon>();
+        int goodsId = grouponPageRequest.getGoodsId();
         String orderBy = grouponPageRequest.getSort() + " " + grouponPageRequest.getOrder();
         PageHelper.startPage(grouponPageRequest.getPage(), grouponPageRequest.getLimit(), orderBy);
         List<Groupon> grouponList = grouponMapper.queryGrouponByCondition(goodsId);
+        PageInfo<Groupon> grouponPageInfo = new PageInfo<>(grouponList);
+        long total = grouponPageInfo.getTotal();
         for (Groupon groupon : grouponList) {
             GrouponItem grouponItem = new GrouponItem();
+            int creatorUserId = groupon.getCreatorUserId();
+            GrouponUser[] grouponUsers = grouponMapper.queryParticipanter(creatorUserId);
             Goods goods = goodsMapper.getGoodsById(groupon.getGoodsId());
             GrouponRules rules = grouponRulesMapper.queryGrouponRulesById(groupon.getRulesId());
             grouponItem.setGoods(goods);
             grouponItem.setGroupon(groupon);
             grouponItem.setRules(rules);
+            grouponItem.setSubGroupons(grouponUsers);
             grouponItems.add(grouponItem);
         }
-        PageInfo<Groupon> grouponPageInfo = new PageInfo<>(grouponList);
-        long total = grouponPageInfo.getTotal();
         grouponPageData.setItems(grouponItems);
         grouponPageData.setTotal((int)total);
         return grouponPageData;

@@ -2,12 +2,14 @@ package com.j4h.mall.model.extension.groupon.BeanForItems;
 
 import com.j4h.mall.model.extension.groupon.BeanForDatabase.Groupon;
 import com.j4h.mall.model.extension.groupon.BeanForDatabase.GrouponRules;
+import com.j4h.mall.model.extension.groupon.BeanForDatabase.GrouponUser;
+import com.j4h.mall.model.goods.Goods;
 
 public class GrouponItem {
     private Goods goods;
     private Groupon groupon;
     private GrouponRules rules;
-    private Groupon[] subGroupons;
+    private GrouponUser[] subGroupons;
 
     public Goods getGoods() {
         return goods;
@@ -33,11 +35,11 @@ public class GrouponItem {
         this.rules = rules;
     }
 
-    public Groupon[] getSubGroupons() {
+    public GrouponUser[] getSubGroupons() {
         return subGroupons;
     }
 
-    public void setSubGroupons(Groupon[] subGroupons) {
+    public void setSubGroupons(GrouponUser[] subGroupons) {
         this.subGroupons = subGroupons;
     }
 }
