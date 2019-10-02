@@ -8,7 +8,7 @@ import java.util.List;
 public interface BrandMapper {
     List<Brand> brandList(@Param("id") Integer id,@Param("name") String name);
 
-    Brand brandCreate(@Param("brand")Brand brand);
+    int brandCreate(@Param("brand")Brand brand);
 
     Brand brandSearchById(@Param("id")int id);
 

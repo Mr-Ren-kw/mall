@@ -39,7 +39,7 @@ public class BrandServiceImpl implements BrandService {
         brand.setName(brandCreateVo.getName());
         brand.setPicUrl(brandCreateVo.getPicUrl());
         brand.setFloorPrice(Double.parseDouble(brandCreateVo.getFloorPrice()));
-        brand = brandMapper.brandCreate(brand);
+        brandMapper.brandCreate(brand);
         return brandMapper.brandSearchById(brand.getId());
     }
 
