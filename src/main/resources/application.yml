@@ -7,13 +7,22 @@ spring:
     username: root
     password: 123456
     type: com.alibaba.druid.pool.DruidDataSource
+
 pagehelper:
   helper-dialect: mysql
+
+
 logging:
   level:
     com:
       j4h:
         mall:
           mapper: debug
+
+multipart:
+  maxFileSize: 5Mb
+  maxRequestSize: 5Mb
+
+
 mybatis:
   type-handlers-package: com.j4h.mall.mybatis
