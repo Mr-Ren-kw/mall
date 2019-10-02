@@ -9,6 +9,7 @@ import com.j4h.mall.model.system.StorageQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -51,5 +52,13 @@ public class StorageServiceImpl implements StorageService{
         storageList.setItems(storages);
         storageList.setTotal(total);
         return storageList;
+    }
+
+    @Override
+    public Storage updateStorage(Storage storage) {
+        storage.setUpdateTime(new Date());
+        storageMapper.updateStorage(storage);
+        // 这边只进行修改数据库中的值，不再查询数据库返回
+        return storage;
     }
 }

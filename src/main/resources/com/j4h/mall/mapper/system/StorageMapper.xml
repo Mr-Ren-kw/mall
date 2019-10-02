@@ -11,4 +11,7 @@
         select `key`,`name`,type,size,url,add_time,update_time,deleted from cskaoyan_mall_storage where `key` like #{key} and `name` like #{name}
     </select>
 
+    <update id="updateStorage">
+        update cskaoyan_mall_storage set `name` = #{name},update_time = #{updateTime} where `key` = #{key}
+    </update>
 </mapper>

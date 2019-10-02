@@ -12,4 +12,5 @@ import com.j4h.mall.model.system.StorageQuery;
 public interface StorageService {
     int addPicture(Storage storage);
     StorageList queryStorage(StorageQuery storageQuery);
+    Storage updateStorage(Storage storage);
 }

@@ -32,6 +32,7 @@ public class StorageController {
         // 存入数据库
         int insert = storageService.addPicture(storage);
         if (insert >= 0) {
+            // 这边可以改成添加成功后去数据库再查询出来，获取id等完整信息
             return BaseRespVo.ok(storage);
         }
         BaseRespVo baseRespVo = new BaseRespVo();
@@ -45,5 +46,15 @@ public class StorageController {
     public BaseRespVo showStorageList(StorageQuery storageQuery){
         StorageList storageList = storageService.queryStorage(storageQuery);
         return BaseRespVo.ok(storageList);
+    }
+
+    /**
+     * 更新storage信息（只更改name和updateTime）
+     * @return
+     */
+    @PostMapping("/update")
+    public BaseRespVo updateStorage(@RequestBody Storage storage){
+        Storage storage1 = storageService.updateStorage(storage);
+        return BaseRespVo.ok(storage1);
     }
 }

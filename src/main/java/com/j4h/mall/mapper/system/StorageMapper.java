@@ -13,4 +13,6 @@ import java.util.List;
 public interface StorageMapper {
     int addPicture(Storage storage);
     List<Storage> queryStorages(String key, String name);
+    // 只修改updateTime和name
+    int updateStorage(Storage storage);
 }
