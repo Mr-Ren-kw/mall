@@ -83,7 +83,6 @@ public class UserServiceImp implements UserService {
     @Override
     public PageBean queryFeedbackList(MyPageHelper myPageHelper) {
         PageHelper.startPage(myPageHelper.getPage(),myPageHelper.getLimit(),myPageHelper.getSort()+" "+myPageHelper.getOrder());
-
         if (myPageHelper.getUsername()!=null){
            myPageHelper.setUsername("%"+myPageHelper.getUsername()+"%");
        }

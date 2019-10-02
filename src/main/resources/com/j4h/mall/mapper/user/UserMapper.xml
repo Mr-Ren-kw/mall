@@ -56,7 +56,7 @@
         </where>
     </select>
     <select id="queryArea" resultType="string">
-      select name from cskaoyan_mall_region where id = #{id}
+      select `name` from cskaoyan_mall_region where id = #{id}
     </select>
 
 
