@@ -1,28 +1,10 @@
 package com.j4h.mall.model;
 
-import com.j4h.mall.model.user.User;
-
 import java.util.List;
 
 public class PageBean<T> {
-    int total;
-    List<T> items;
-
-    @Override
-    public String toString() {
-        return "PageBean{" +
-                "total=" + total +
-                ", items=" + items +
-                '}';
-    }
-
-    public int getTotal() {
-        return total;
-    }
-
-    public void setTotal(int total) {
-        this.total = total;
-    }
+    private List<T> items;
+    private long total;
 
     public List<T> getItems() {
         return items;
@@ -31,4 +13,22 @@ public class PageBean<T> {
     public void setItems(List<T> items) {
         this.items = items;
     }
+
+    public long getTotal() {
+        return total;
+    }
+
+    public void setTotal(long total) {
+        this.total = total;
+    }
+
+
+    @Override
+    public String toString() {
+        return "GoodInfo{" +
+                "items=" + items +
+                ", total=" + total +
+                '}';
+    }
+
 }

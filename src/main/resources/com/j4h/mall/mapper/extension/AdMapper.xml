@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.j4h.mall.mapper.extension.AdMapper">
+    <sql id="queryItems">
+        id,`name`,link,url,position,content,start_time,end_time,enabled,add_time as addTime,update_time as updateTime,deleted
+    </sql>
+    <select id="queryAdsByCondition" resultType="com.j4h.mall.model.extension.ad.BeanForDatabase.Advertise">
+        select <include refid="queryItems"/> from cskaoyan_mall_ad
+        <where>
+            deleted = 0
+            <if test="name != null">
+                and `name` like #{name}
+            </if>
+            <if test="content != null">
+                and content like #{content}
+            </if>
+        </where>
+    </select>
+    <update id="updateAd">
+        update cskaoyan_mall_ad set
+        content = #{ad.content},
+        enabled = #{ad.enabled},
+        link = #{ad.link},
+        name = #{ad.name},
+        position = #{ad.position},
+        update_time = now(),
+        url = #{ad.url} where id = #{ad.id}
+    </update>
+    <select id="queryAdById" resultType="com.j4h.mall.model.extension.ad.BeanForDatabase.Advertise">
+        select <include refid="queryItems"/> from cskaoyan_mall_ad where id = #{id}
+    </select>
+    <update id="deleteAdById">
+        update cskaoyan_mall_ad set deleted = 1 where id = #{id}
+    </update>
+    <insert id="insertAd">
+        <selectKey resultType="int" keyProperty="ad.id" keyColumn="idl" order="AFTER">
+            select last_insert_id() as idl
+        </selectKey>
+        insert into cskaoyan_mall_ad (name,link,url,position,content,enabled,add_time,update_time,deleted) values (#{ad.name},#{ad.link},#{ad.url},#{ad.position},#{ad.content},#{ad.enabled},now(),now(),0)
+    </insert>
+</mapper>

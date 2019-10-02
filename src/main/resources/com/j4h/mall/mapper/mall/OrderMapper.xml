@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.j4h.mall.mapper.mall.OrderMapper">
+  <select id="queryOrderList" resultType="com.j4h.mall.model.mall.order.Order">
+    select actual_price as actualPrice,add_time as addTime,address,comments,consignee,coupon_price as couponPrice,
+           deleted,end_time as endTime,freight_price as freightPrice,goods_price as goodsPrice,groupon_price as grouponPrice,
+           id,integral_price as integralPrice,message,mobile,order_price as orderPrice,order_sn as orderSn,order_status as orderStatus,
+           update_time as updateTime,user_id as userId from cskaoyan_mall_order
+    <where>
+      <if test="userId != null">
+        and user_id = #{userId}
+      </if>
+      <if test="orderSn != null">
+        and order_sn = #{orderSn}
+      </if>
+      <if test="orderStatusArray != null">
+        and order_status in
+        <foreach collection="orderStatusArray" item="orderStatus" separator="," open="(" close=")">
+          #{orderStatus}
+        </foreach>
+      </if>
+    </where>
+  </select>
+</mapper>
