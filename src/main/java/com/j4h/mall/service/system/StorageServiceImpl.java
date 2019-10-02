@@ -1,9 +1,15 @@
 package com.j4h.mall.service.system;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.j4h.mall.mapper.system.StorageMapper;
 import com.j4h.mall.model.system.Storage;
+import com.j4h.mall.model.system.StorageList;
+import com.j4h.mall.model.system.StorageQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @author sld
@@ -19,5 +25,31 @@ public class StorageServiceImpl implements StorageService{
     @Override
     public int addPicture(Storage storage) {
         return storageMapper.addPicture(storage);
+    }
+
+    @Override
+    public StorageList queryStorage(StorageQuery storageQuery) {
+        int start = storageQuery.getPage();
+        int limit = storageQuery.getLimit();
+        String sort = storageQuery.getSort();
+        String order = storageQuery.getOrder();
+        PageHelper.startPage(start,limit,sort + " " + order);
+        String key = storageQuery.getKey();
+        if (key == null){
+            key = "";
+        }
+        key = "%" + key + "%";
+        String name = storageQuery.getName();
+        if(name == null){
+            name = "";
+        }
+        name = "%" + name + "%";
+        List<Storage> storages = storageMapper.queryStorages(key,name);
+        PageInfo<Storage> storagePageInfo = new PageInfo<>(storages);
+        long total = storagePageInfo.getTotal();
+        StorageList storageList = new StorageList();
+        storageList.setItems(storages);
+        storageList.setTotal(total);
+        return storageList;
     }
 }

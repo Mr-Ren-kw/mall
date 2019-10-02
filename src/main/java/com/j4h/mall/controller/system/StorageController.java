@@ -1,6 +1,8 @@
 package com.j4h.mall.controller.system;
 
 import com.j4h.mall.model.system.Storage;
+import com.j4h.mall.model.system.StorageList;
+import com.j4h.mall.model.system.StorageQuery;
 import com.j4h.mall.service.system.StorageService;
 import com.j4h.mall.util.FileUtil;
 import com.j4h.mall.vo.BaseRespVo;
@@ -37,5 +39,11 @@ public class StorageController {
         baseRespVo.setErrno(499);
         baseRespVo.setErrmsg("上传失败");
         return baseRespVo;
+    }
+
+    @GetMapping("/list")
+    public BaseRespVo showStorageList(StorageQuery storageQuery){
+        StorageList storageList = storageService.queryStorage(storageQuery);
+        return BaseRespVo.ok(storageList);
     }
 }
