@@ -40,7 +40,6 @@ public class GoodsServiceImpl implements GoodsService {
         if(goods.getName() == null || goods.getGoodsSn() == null || "".equals(goods.getName()) || "".equals(goods.getGoodsSn())) {
             return 2;
         }
-//        if("".equals(goods.getCounterPrice().trim()))
         List<Goods> goodsList = goodsMapper.getGoodsByName(goods.getName());
         if (goodsList == null || goodsList.isEmpty()) {
             goodsMapper.insertGoods(goodsItemVo.getGoods());

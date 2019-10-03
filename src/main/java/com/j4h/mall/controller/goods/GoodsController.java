@@ -40,8 +40,6 @@ public class GoodsController {
                 err = new BaseRespVo(null, "商品名已经存在", 611);
             } else if(res == 2) {
                 err = new BaseRespVo(null, "参数不对", 401);
-            } else if(res == 3) {
-                err = new BaseRespVo(null, "参数值不对", 402);
             }
         }
         return err;
@@ -70,8 +68,6 @@ public class GoodsController {
                 err = new BaseRespVo(null, "商品名已经存在", 611);
             } else if(res == 2) {
                 err = new BaseRespVo(null, "参数不对", 401);
-            } else if(res == 3) {
-                err = new BaseRespVo(null, "参数值不对", 402);
             }
         }
         return err;
