@@ -32,4 +32,10 @@ public class RoleController {
         Role role1 = roleService.addRole(role);
         return BaseRespVo.ok(role1);
     }
+
+    @PostMapping("/delete")
+    public BaseRespVo deleteRole(@RequestBody Role role){
+        roleService.deleteRole(role);
+        return BaseRespVo.ok(null);
+    }
 }

@@ -12,4 +12,5 @@ import com.j4h.mall.model.system.StorageQuery;
 public interface RoleService {
     RoleList queryRole(StorageQuery storageQuery);
     Role addRole(Role role);
+    void deleteRole(Role role);
 }

@@ -14,4 +14,5 @@ public interface RoleMapper {
     List<Role> queryRole(String name);
     void insertRole(@Param("role") Role role);
     Role queryRoleById(int id);
+    void deleteRole(Role role);
 }

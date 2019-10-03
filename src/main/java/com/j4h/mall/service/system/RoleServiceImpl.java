@@ -55,4 +55,9 @@ public class RoleServiceImpl implements RoleService{
         int id = role.getId();
         return roleMapper.queryRoleById(id);
     }
+
+    @Override
+    public void deleteRole(Role role) {
+        roleMapper.deleteRole(role);
+    }
 }
