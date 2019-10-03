@@ -126,11 +126,8 @@
         update_time, deleted)
         VALUES
         <foreach collection="specifications" item="spec" separator=",">
-<<<<<<< HEAD
                (null, #{goodsId}, #{spec.specification}, #{spec.value}, #{spec.picUrl}, now(), now(), 0)
-=======
             (null, #{goodsId}, #{spec.specification}, #{spec.value}, #{spec.picUrl}, now(), now(), 0)
->>>>>>> yyt
         </foreach>
     </insert>
 
@@ -139,12 +136,7 @@
         update_time, deleted)
         values
         <foreach collection="products" item="product" separator=",">
-<<<<<<< HEAD
                (null, #{goodsId}, #{product.specifications}, #{product.price}, #{product.number}, #{product.url}, now(), now(), 0)
-=======
-            (null, #{goodsId}, #{product.specifications}, #{product.price}, #{product.number}, #{product.url}, now(),
-            now(), 0)
->>>>>>> yyt
         </foreach>
     </insert>
 
@@ -231,28 +223,9 @@
     </select>
 
     <update id="updateGoods">
-<<<<<<< HEAD
-        update cskaoyan_mall_goods set
-        goods_sn = #{goods.goodsSn},
-        `name` = #{goods.name},
-        category_id = #{goods.categoryId},
-        brand_id = #{goods.brandId},
-        gallery = #{goods.gallery},
-        keywords = #{goods.keywords},
-        brief = #{goods.brief},
-        is_on_sale = #{goods.isOnSale},
-        sort_order = #{goods.sortOrder},
-        pic_url = #{goods.picUrl},
-        is_new = #{goods.isNew},
-        is_hot = #{goods.isHot},
-        unit = #{goods.unit},
-        counter_price = #{goods.counterPrice},
-        retail_price = #{goods.retailPrice},
-        update_time = now()
-=======
         update cskaoyan_mall_goods
         set goods_sn      = #{goods.goodsSn},
-            `name`        = #{goods.name},
+            `name`         = #{goods.name},
             category_id   = #{goods.categoryId},
             brand_id      = #{goods.brandId},
             gallery       = #{goods.gallery},
@@ -267,7 +240,6 @@
             counter_price = #{goods.counterPrice},
             retail_price  = #{goods.retailPrice},
             update_time   = now()
->>>>>>> yyt
         where id = #{goods.id}
     </update>
 
