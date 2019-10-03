@@ -6,18 +6,18 @@ public class CouUserPageRequest {
     private String sort;
     private String order;
     private int couponId;
-    private int userId;
+    private String userId;
     private int status;
 
     public CouUserPageRequest() {
         this.status = -1;
     }
 
-    public int getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

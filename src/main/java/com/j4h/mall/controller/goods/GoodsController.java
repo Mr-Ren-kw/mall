@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import static com.j4h.mall.vo.BaseRespVo.ok;
 
+
+
 @RestController
 @RequestMapping("admin/goods")
 public class GoodsController {

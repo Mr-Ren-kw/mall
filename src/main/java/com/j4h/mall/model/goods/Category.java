@@ -2,6 +2,8 @@ package com.j4h.mall.model.goods;
 
 import java.util.List;
 
+
+
 public class Category {
     private int value;
     private String label;

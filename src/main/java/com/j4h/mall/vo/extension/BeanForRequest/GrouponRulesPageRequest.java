@@ -5,7 +5,7 @@ public class GrouponRulesPageRequest {
     private int limit;
     private String sort;
     private String order;
-    private int goodsId;
+    private String goodsId;
 
     public int getPage() {
         return page;
@@ -39,11 +39,11 @@ public class GrouponRulesPageRequest {
         this.order = order;
     }
 
-    public int getGoodsId() {
+    public String getGoodsId() {
         return goodsId;
     }
 
-    public void setGoodsId(int goodsId) {
+    public void setGoodsId(String goodsId) {
         this.goodsId = goodsId;
     }
 }

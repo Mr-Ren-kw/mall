@@ -6,6 +6,7 @@ import com.j4h.mall.model.goods.Category;
 import java.util.List;
 
 
+
 public class CatAndBrandVo {
     private List<Category> categoryList;
     private List<Brand> brandList;

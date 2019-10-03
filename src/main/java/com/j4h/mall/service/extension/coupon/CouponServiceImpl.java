@@ -56,7 +56,13 @@ public class CouponServiceImpl implements CouponService {
     public PageData queryCouUserByPage(CouUserPageRequest couUserPageRequest) {
         int couponId = couUserPageRequest.getCouponId();
         int status = couUserPageRequest.getStatus();
-        int userId = couUserPageRequest.getUserId();
+        int userId;
+        String userId1 = couUserPageRequest.getUserId();
+        if(userId1 == null || "".equals(userId1)) {
+            userId = 0;
+        }else {
+            userId = Integer.parseInt(userId1);
+        }
         PageData couUserPageData = new PageData<CouponUser>();
         String orderBy = couUserPageRequest.getSort() + " " + couUserPageRequest.getOrder();
         PageHelper.startPage(couUserPageRequest.getPage(), couUserPageRequest.getLimit(), orderBy);

@@ -11,4 +11,13 @@ pagehelper:
   helper-dialect: mysql
 mybatis:
   type-handlers-package: com.j4h.mall.mybatis
+logging:
+  level:
+    com:
+      j4h:
+        mall:
+          mapper: debug
+multipart:
+  maxFileSize: 5Mb
+  maxRequestSize: 5Mb
 

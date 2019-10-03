@@ -2,9 +2,6 @@ package com.j4h.mall.model;
 
 import java.util.List;
 
-/**
- * 商品列表返回的data
- */
 public class PageBean<T> {
     private List<T> items;
     private long total;
@@ -25,6 +22,7 @@ public class PageBean<T> {
         this.total = total;
     }
 
+
     @Override
     public String toString() {
         return "GoodInfo{" +
@@ -32,4 +30,5 @@ public class PageBean<T> {
                 ", total=" + total +
                 '}';
     }
+
 }

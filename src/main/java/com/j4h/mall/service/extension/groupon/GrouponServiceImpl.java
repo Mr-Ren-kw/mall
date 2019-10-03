@@ -31,7 +31,13 @@ public class GrouponServiceImpl implements GrouponService {
 
     @Override
     public PageData queryGrouponRulesByPage(GrouponRulesPageRequest grouponRulesPageRequest) {
-        int goodsId = grouponRulesPageRequest.getGoodsId();
+        int goodsId;
+        String goodsId1 = grouponRulesPageRequest.getGoodsId();
+        if(goodsId1 == null || "".equals(goodsId1)) {
+            goodsId = 0;
+        }else {
+            goodsId = Integer.parseInt(goodsId1);
+        }
         PageData grouponRulesPageData = new PageData<GrouponRules>();
         String orderBy = grouponRulesPageRequest.getSort() + " " + grouponRulesPageRequest.getOrder();
         PageHelper.startPage(grouponRulesPageRequest.getPage(), grouponRulesPageRequest.getLimit(), orderBy);
@@ -58,6 +64,9 @@ public class GrouponServiceImpl implements GrouponService {
         int oldId = grouponRulesMapper.getGoodsIdById(grouponRules.getId());
         if(newId != oldId) {
             Goods goods = goodsMapper.getGoodsById(grouponRules.getGoodsId());
+            if(goods == null) {
+                throw new NumberFormatException();
+            }
             grouponRules.setPicUrl(goods.getPicUrl());
             grouponRules.setGoodsName(goods.getName());
         }
@@ -73,7 +82,13 @@ public class GrouponServiceImpl implements GrouponService {
     public PageData queryGrouponByPage(GrouponPageRequest grouponPageRequest) {
         List<GrouponItem> grouponItems = new ArrayList<>();
         PageData grouponPageData = new PageData<Groupon>();
-        int goodsId = grouponPageRequest.getGoodsId();
+        int goodsId;
+        String goodsId1 = grouponPageRequest.getGoodsId();
+        if(goodsId1 == null || "".equals(goodsId1)) {
+            goodsId = 0;
+        }else {
+            goodsId = Integer.parseInt(goodsId1);
+        }
         String orderBy = grouponPageRequest.getSort() + " " + grouponPageRequest.getOrder();
         PageHelper.startPage(grouponPageRequest.getPage(), grouponPageRequest.getLimit(), orderBy);
         List<Groupon> grouponList = grouponMapper.queryGrouponByCondition(goodsId);
