@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.j4h.mall.mapper.system.AdminMapper">
+    <insert id="insertAdmin">
+        insert into cskaoyan_mall_admin (username,`password`,avatar,add_time,update_time,role_ids) value (#{admin.username},#{admin.password},#{admin.avatar},#{admin.addTime},now(),#{admin.roleIds,typeHandler=com.j4h.mall.util.TransferIntegerArrayHandler})
+    </insert>
+
+    <resultMap id="adminMap" type="com.j4h.mall.model.system.Admin">
+        <result column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="avatar" property="avatar"/>
+        <result column="add_time" property="addTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="role_ids" property="roleIds" typeHandler="com.j4h.mall.util.TransferIntegerArrayHandler"/>
+    </resultMap>
+    <select id="queryAdminByNameAndPassword" resultMap="adminMap">
+        select `id`,username,`password`,avatar,add_time,update_time,role_ids from cskaoyan_mall_admin where username = #{name} and `password` = #{password}
+    </select>
+</mapper>
