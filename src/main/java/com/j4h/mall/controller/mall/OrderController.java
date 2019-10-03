@@ -40,4 +40,9 @@ public class OrderController {
 
         return BaseRespVo.ok(orderService.queryOrderList(page, limit, sort, order,userIdInteger,orderSnInteger,orderStatusArray));
     }
+
+    @GetMapping("/detail")
+    public BaseRespVo queryOrderDetail(int id) {
+        return BaseRespVo.ok(orderService.queryOrderDetail(id));
+    }
 }

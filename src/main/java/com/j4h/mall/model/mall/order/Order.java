@@ -1,15 +1,19 @@
 package com.j4h.mall.model.mall.order;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class Order {
     private int actualPrice;
+    @JsonFormat(pattern = "yyyy-MM-dd HH-mm-ss",timezone = "GMT+8")
     private Date addTime;
     private String address;
     private int comments;
     private String consignee;
     private int couponPrice;
     private boolean deleted;
+    @JsonFormat(pattern = "yyyy-MM-dd HH-mm-ss",timezone = "GMT+8")
     private Date endTime;
     private int freightPrice;
     private int goodsPrice;
