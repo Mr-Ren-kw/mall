@@ -2,7 +2,7 @@ package com.j4h.mall.model.user;
 
 public class OrderUser {
     String avatar;
-    String nicename;
+    String nickname;
 
     public String getAvatar() {
         return avatar;
@@ -12,11 +12,11 @@ public class OrderUser {
         this.avatar = avatar;
     }
 
-    public String getNicename() {
-        return nicename;
+    public String getNickname() {
+        return nickname;
     }
 
-    public void setNicename(String nicename) {
-        this.nicename = nicename;
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 }

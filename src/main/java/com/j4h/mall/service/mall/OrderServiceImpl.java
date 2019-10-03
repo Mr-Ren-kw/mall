@@ -40,6 +40,7 @@ public class OrderServiceImpl implements OrderService {
         // 查询goods表
         orderDetail.setUser(userMapper.queryUserById(order.getUserId()));
         // 查询user表
+        orderDetail.setOrderGoods(orderMapper.queryOrderGoodsByOid(order.getId()));
         return orderDetail;
     }
 }

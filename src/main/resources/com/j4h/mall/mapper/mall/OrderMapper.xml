@@ -29,4 +29,10 @@
            id,integral_price as integralPrice,message,mobile,order_price as orderPrice,order_sn as orderSn,order_status as orderStatus,
            update_time as updateTime,user_id as userId from cskaoyan_mall_order where id = #{id}
   </select>
+
+  <select id="queryOrderGoodsByOid" resultType="com.j4h.mall.model.mall.order.OrderGoods">
+    select id,order_id as orderId,goods_id as goodsId,goods_name as goodsName,goods_sn as goodsSn,product_id as productId,
+           number,price,specifications,pic_url as picUrl,comment,add_time as addTime,update_time as updateTime,deleted
+    from cskaoyan_mall_order_goods where order_id = #{oid}
+  </select>
 </mapper>
