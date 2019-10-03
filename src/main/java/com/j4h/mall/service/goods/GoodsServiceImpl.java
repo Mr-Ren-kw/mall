@@ -38,6 +38,7 @@ public class GoodsServiceImpl implements  GoodsService{
     @Override
     public void createGoods(GoodsItemVo goodsItemVo) {
         goodsMapper.insertGoods(goodsItemVo.getGoods());
+        //spec 的Url不能为空
         goodsMapper.insertGoodsSpecifications(goodsItemVo.getGoods().getId(), goodsItemVo.getSpecifications());
         goodsMapper.insertGoodsProducts(goodsItemVo.getGoods().getId(), goodsItemVo.getProducts());
         goodsMapper.insertGoodsAttributes(goodsItemVo.getGoods().getId(), goodsItemVo.getAttributes());
