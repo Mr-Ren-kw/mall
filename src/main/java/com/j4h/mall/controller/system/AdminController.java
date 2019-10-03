@@ -30,4 +30,16 @@ public class AdminController {
         AdminList adminList = adminService.queryAdmin(adminQuery);
         return BaseRespVo.ok(adminList);
     }
+
+    @PostMapping("/update")
+    public BaseRespVo updateAdmin(@RequestBody Admin admin){
+        Admin admin1 = adminService.updateAdmin(admin);
+        return BaseRespVo.ok(admin1);
+    }
+
+    @PostMapping("/delete")
+    public BaseRespVo deleteAdmin(@RequestBody Admin admin){
+        adminService.deleteAdmin(admin);
+        return BaseRespVo.ok(null);
+    }
 }

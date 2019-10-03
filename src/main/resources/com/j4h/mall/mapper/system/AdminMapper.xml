@@ -17,10 +17,18 @@
         <result column="role_ids" property="roleIds" typeHandler="com.j4h.mall.util.TransferIntegerArrayHandler"/>
     </resultMap>
     <select id="queryAdminByNameAndPassword" resultMap="adminMap">
-        select `id`,username,`password`,avatar,add_time,update_time,role_ids from cskaoyan_mall_admin where username = #{name} and `password` = #{password}
+        select `id`,username,`password`,avatar,add_time,update_time,role_ids from cskaoyan_mall_admin where username = #{name} and `password` = #{password} and deleted = false
     </select>
 
     <select id="queryAdmin" resultMap="adminMap">
-        select `id`,username,`password`,avatar,add_time,update_time,role_ids from cskaoyan_mall_admin where username like #{username}
+        select `id`,username,`password`,avatar,add_time,update_time,role_ids from cskaoyan_mall_admin where username like #{username} and deleted = false
     </select>
+
+    <update id="updateAdmin">
+        update cskaoyan_mall_admin set username = #{username}, password = #{password},avatar = #{avatar}, role_ids = #{roleIds,typeHandler=com.j4h.mall.util.TransferIntegerArrayHandler} where id = #{id} and deleted = false
+    </update>
+
+    <update id="deleteAdminById">
+        update cskaoyan_mall_admin set deleted = true where `id` = #{id}
+    </update>
 </mapper>

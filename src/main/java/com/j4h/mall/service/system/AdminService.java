@@ -13,4 +13,6 @@ import com.j4h.mall.model.system.StorageQuery;
 public interface AdminService {
     Admin insertAdmin(Admin admin);
     AdminList queryAdmin(AdminQuery adminQuery);
+    Admin updateAdmin(Admin admin);
+    void deleteAdmin(Admin admin);
 }

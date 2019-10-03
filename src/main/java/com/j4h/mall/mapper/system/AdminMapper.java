@@ -14,4 +14,6 @@ public interface AdminMapper {
     int insertAdmin(@Param("admin") Admin admin);
     Admin queryAdminByNameAndPassword(String name,String password);
     List<Admin> queryAdmin(String username);
+    int updateAdmin(Admin admin);
+    void deleteAdminById(int id);
 }

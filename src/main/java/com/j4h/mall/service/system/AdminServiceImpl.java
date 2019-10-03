@@ -54,4 +54,19 @@ public class AdminServiceImpl implements AdminService{
         adminList.setItems(admins);
         return adminList;
     }
+
+    @Override
+    public Admin updateAdmin(Admin admin) {
+        adminMapper.updateAdmin(admin);
+        String username = admin.getUsername();
+        String password = admin.getPassword();
+        Admin admin1 = adminMapper.queryAdminByNameAndPassword(username, password);
+        return admin1;
+    }
+
+    @Override
+    public void deleteAdmin(Admin admin) {
+        int id = admin.getId();
+        adminMapper.deleteAdminById(id);
+    }
 }
