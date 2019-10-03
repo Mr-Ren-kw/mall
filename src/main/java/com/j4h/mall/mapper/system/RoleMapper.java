@@ -1,6 +1,7 @@
 package com.j4h.mall.mapper.system;
 
 import com.j4h.mall.model.system.Role;
+import com.j4h.mall.model.system.RoleVo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -15,4 +16,5 @@ public interface RoleMapper {
     void insertRole(@Param("role") Role role);
     Role queryRoleById(int id);
     void deleteRole(Role role);
+    List<RoleVo> getAllRole();
 }

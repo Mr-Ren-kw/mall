@@ -1,13 +1,12 @@
 package com.j4h.mall.controller.system;
 
-import com.j4h.mall.model.system.Role;
-import com.j4h.mall.model.system.RoleList;
-import com.j4h.mall.model.system.StorageList;
-import com.j4h.mall.model.system.StorageQuery;
+import com.j4h.mall.model.system.*;
 import com.j4h.mall.service.system.RoleService;
 import com.j4h.mall.vo.BaseRespVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author sld
@@ -37,5 +36,11 @@ public class RoleController {
     public BaseRespVo deleteRole(@RequestBody Role role){
         roleService.deleteRole(role);
         return BaseRespVo.ok(null);
+    }
+
+    @GetMapping("/options")
+    public BaseRespVo optionsRole(){
+        List<RoleVo> data = roleService.getAllRole();
+        return BaseRespVo.ok(data);
     }
 }

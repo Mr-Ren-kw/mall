@@ -1,6 +1,9 @@
 package com.j4h.mall.mapper.system;
 
 import com.j4h.mall.model.system.Admin;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * @author sld
@@ -8,6 +11,7 @@ import com.j4h.mall.model.system.Admin;
  * @date 2019/10/3 16:40
  */
 public interface AdminMapper {
-    int insertAdmin(Admin admin);
+    int insertAdmin(@Param("admin") Admin admin);
     Admin queryAdminByNameAndPassword(String name,String password);
+    List<Admin> queryAdmin(String username);
 }

@@ -19,4 +19,8 @@
     <select id="queryAdminByNameAndPassword" resultMap="adminMap">
         select `id`,username,`password`,avatar,add_time,update_time,role_ids from cskaoyan_mall_admin where username = #{name} and `password` = #{password}
     </select>
+
+    <select id="queryAdmin" resultMap="adminMap">
+        select `id`,username,`password`,avatar,add_time,update_time,role_ids from cskaoyan_mall_admin where username like #{username}
+    </select>
 </mapper>

@@ -1,6 +1,9 @@
 package com.j4h.mall.service.system;
 
 import com.j4h.mall.model.system.Admin;
+import com.j4h.mall.model.system.AdminList;
+import com.j4h.mall.model.system.AdminQuery;
+import com.j4h.mall.model.system.StorageQuery;
 
 /**
  * @author sld
@@ -9,4 +12,5 @@ import com.j4h.mall.model.system.Admin;
  */
 public interface AdminService {
     Admin insertAdmin(Admin admin);
+    AdminList queryAdmin(AdminQuery adminQuery);
 }

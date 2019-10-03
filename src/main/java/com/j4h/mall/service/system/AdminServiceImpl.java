@@ -1,11 +1,17 @@
 package com.j4h.mall.service.system;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.j4h.mall.mapper.system.AdminMapper;
 import com.j4h.mall.model.system.Admin;
+import com.j4h.mall.model.system.AdminList;
+import com.j4h.mall.model.system.AdminQuery;
+import com.j4h.mall.model.system.StorageQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author sld
@@ -26,5 +32,26 @@ public class AdminServiceImpl implements AdminService{
         String password = admin.getPassword();
         Admin admin1 = adminMapper.queryAdminByNameAndPassword(username, password);
         return admin1;
+    }
+
+    @Override
+    public AdminList queryAdmin(AdminQuery adminQuery) {
+        int start = adminQuery.getPage();
+        int limit = adminQuery.getLimit();
+        String sort = adminQuery.getSort();
+        String order = adminQuery.getOrder();
+        PageHelper.startPage(start,limit,sort + " " + order);
+        String username = adminQuery.getUsername();
+        if (username == null){
+            username = "";
+        }
+        username = "%" + username + "%";
+        List<Admin> admins = adminMapper.queryAdmin(username);
+        PageInfo<Admin> adminPageInfo = new PageInfo<>(admins);
+        long total = adminPageInfo.getTotal();
+        AdminList adminList = new AdminList();
+        adminList.setTotal(total);
+        adminList.setItems(admins);
+        return adminList;
     }
 }

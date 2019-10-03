@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.j4h.mall.mapper.system.RoleMapper;
 import com.j4h.mall.model.system.Role;
 import com.j4h.mall.model.system.RoleList;
+import com.j4h.mall.model.system.RoleVo;
 import com.j4h.mall.model.system.StorageQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -59,5 +60,11 @@ public class RoleServiceImpl implements RoleService{
     @Override
     public void deleteRole(Role role) {
         roleMapper.deleteRole(role);
+    }
+
+    @Override
+    public List<RoleVo> getAllRole() {
+        List<RoleVo> allRole = roleMapper.getAllRole();
+        return allRole;
     }
 }
