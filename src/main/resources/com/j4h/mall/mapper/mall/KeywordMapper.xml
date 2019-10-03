@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.j4h.mall.mapper.mall.KeywordMapper">
+  <select id="queryKeywordList" resultType="com.j4h.mall.model.mall.keyword.Keyword">
+    select add_time as addTime,update_time as updateTime,deleted,id,is_default as isDefault,is_hot as isHot,
+           keyword,sort_order as sortOrder,url from cskaoyan_mall_keyword
+    <where>
+      deleted = 0
+      <if test="keyword != null and keyword != ''">
+        and keyword like #{keyword}
+      </if>
+      <if test="url != null and url != ''">
+        and url like #{url}
+      </if>
+    </where>
+  </select>
+
+  <insert id="createKeyword">
+    <selectKey resultType="_int" keyColumn="id" keyProperty="result.id" order="AFTER">
+      select last_insert_id() as id
+    </selectKey>
+    insert into cskaoyan_mall_keyword (keyword, url, is_hot, is_default, add_time, update_time)
+    VALUES (#{new.keyword},#{new.url},#{new.isHot},#{new.isDefault},now(),now())
+  </insert>
+  <select id="queryKeywordById" resultType="com.j4h.mall.model.mall.keyword.Keyword">
+    select add_time as addTime,update_time as updateTime,deleted,id,is_default as isDefault,is_hot as isHot,
+           keyword,sort_order as sortOrder,url from cskaoyan_mall_keyword where id = #{id}
+  </select>
+
+  <update id="updateKeyword">
+    update cskaoyan_mall_keyword set is_default = #{new.isDefault},is_hot = #{new.isHot},keyword = #{new.keyword},
+                                     url = #{new.url},update_time = now() where id = #{new.id}
+  </update>
+
+  <update id="deleteKeywordById">
+    update cskaoyan_mall_keyword set deleted = 1 where id = #{id}
+  </update>
+</mapper>

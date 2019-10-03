@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.j4h.mall.mapper.mall.OrderMapper;
 import com.j4h.mall.model.PageBean;
 import com.j4h.mall.model.mall.order.Order;
+import com.j4h.mall.model.mall.order.OrderDetail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,5 +26,14 @@ public class OrderServiceImpl implements OrderService {
         pageBean.setTotal(total);
         pageBean.setItems(orderList);
         return pageBean;
+    }
+
+    @Override
+    public OrderDetail queryOrderDetail(int id) {
+        OrderDetail orderDetail = new OrderDetail();
+        orderDetail.setOrder(orderMapper.queryOrderById(id));
+        // 查询goods表
+        // 查询user表
+        return orderDetail;
     }
 }

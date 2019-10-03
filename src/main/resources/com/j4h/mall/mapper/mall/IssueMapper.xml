@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.j4h.mall.mapper.mall.IssueMapper">
+  <select id="queryIssueList" resultType="com.j4h.mall.model.mall.issue.Issue">
+    select add_time as addTime,answer,deleted,id,question,update_time as updateTime from cskaoyan_mall_issue
+    <where>
+      deleted = 0
+      <if test="ques != null">
+        and question like #{ques}
+      </if>
+    </where>
+  </select>
+
+  <insert id="createIssue">
+    <selectKey resultType="_int" keyColumn="id" keyProperty="result.id" order="AFTER">
+      select last_insert_id() as id
+    </selectKey>
+    insert into cskaoyan_mall_issue (question,answer,add_time,update_time) values (#{new.question},#{new.answer},now(),now())
+  </insert>
+  <select id="queryIssueById" resultType="com.j4h.mall.model.mall.issue.Issue">
+    select add_time as addTime,answer,deleted,id,question,update_time as updateTime from cskaoyan_mall_issue where id = #{id}
+  </select>
+
+  <update id="updateIssue">
+    update cskaoyan_mall_issue set update_time = now(),answer = #{new.answer},question = #{new.question} where id = #{new.id}
+  </update>
+
+  <update id="deleteIssueById">
+    update cskaoyan_mall_issue set update_time = now(),deleted = 1 where id = #{id}
+  </update>
+</mapper>
