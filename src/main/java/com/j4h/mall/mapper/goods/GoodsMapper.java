@@ -31,9 +31,9 @@ public interface GoodsMapper {
 
     List<GoodsAttribute> getGoodsAttributeByGid(@Param("gid") int id);
 
-    int getChildCategoryIdByGid(@Param("gid") int id);
+    Integer getChildCategoryIdByGid(@Param("gid") int id);
 
-    int getFatherCategoryIdByGid(@Param("cid") int id);
+    Integer getFatherCategoryIdByGid(@Param("cid") int id);
 
     void updateGoods(@Param("goods") Goods goods);
 
@@ -48,4 +48,8 @@ public interface GoodsMapper {
     List<GoodsComment> getGoodsComments(@Param("uid") Integer userId, @Param("gid") Integer valueId);
 
     void deleteCommentById(@Param("cid") int id);
+
+    List<Goods> getGoodsByName(@Param("name") String name);
+
+    List<Goods> getGoodsByNameExceptId(@Param("name") String name, @Param("id") int id);
 }
