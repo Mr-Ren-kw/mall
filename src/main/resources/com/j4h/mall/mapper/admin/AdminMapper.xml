@@ -24,7 +24,7 @@
     </select>
 
     <select id="getPermissionByRoleIds" resultType="string">
-        select permission from cskaoyan_mall_permission where role_id in
+        select distinct permission from cskaoyan_mall_permission where role_id in
         <foreach collection="ids" item="id" separator="," open="(" close=")">
             #{id}
         </foreach>
@@ -32,5 +32,16 @@
 
     <select id="getAvatarByUsername" resultType="string">
         select avatar from cskaoyan_mall_admin where deleted = 0 and username = #{username}
+    </select>
+
+    <update id="updatePasswordByUsername">
+        update cskaoyan_mall_admin set password = #{password} where deleted = 0 and username = #{username}
+    </update>
+
+    <select id="getPermsByPermissions" resultType="string">
+        select distinct api from cskaoyan_mall_system_permissions where value in
+        <foreach collection="permissions" item="perm" open="(" close=")" separator=",">
+            #{perm}
+        </foreach>
     </select>
 </mapper>

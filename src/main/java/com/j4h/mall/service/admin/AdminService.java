@@ -1,5 +1,7 @@
 package com.j4h.mall.service.admin;
 
+import com.j4h.mall.model.admin.AdminPassword;
+
 import java.util.List;
 
 public interface AdminService {
@@ -9,4 +11,6 @@ public interface AdminService {
     List<String> getPermissionByUsername(String principal);
 
     List<String> getRolesByUsername(String principal);
+
+    int alterAdminPassword(String username, AdminPassword password);
 }
