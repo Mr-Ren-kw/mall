@@ -3,7 +3,7 @@ package com.j4h.mall.service.extension.ad;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.j4h.mall.mapper.extension.AdMapper;
-import com.j4h.mall.vo.extension.BeanForData.AdPageData;
+import com.j4h.mall.vo.extension.BeanForData.PageData;
 import com.j4h.mall.model.extension.ad.BeanForDatabase.Advertise;
 import com.j4h.mall.vo.extension.BeanForRequest.AdPageRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +15,10 @@ import java.util.List;
 public class AdServiceImpl implements AdService{
 
     @Autowired
-    AdMapper admapper;
+    AdMapper adMapper;
 
     @Override
-    public AdPageData queryAdByPage(AdPageRequest adPageRequest) {
+    public PageData queryAdByPage(AdPageRequest adPageRequest) {
         String name = adPageRequest.getName();
         String content = adPageRequest.getContent();
         if(name != null) {
@@ -27,10 +27,10 @@ public class AdServiceImpl implements AdService{
         if(content != null) {
             content = "%" + content + "%";
         }
-        AdPageData adPageData = new AdPageData();
+        PageData adPageData = new PageData<Advertise>();
         String orderBy = adPageRequest.getSort() + " " + adPageRequest.getOrder();
         PageHelper.startPage(adPageRequest.getPage(), adPageRequest.getLimit(), orderBy);
-        List<Advertise> adList = admapper.queryAdsByCondition(name, content);
+        List<Advertise> adList = adMapper.queryAdsByCondition(name, content);
         PageInfo<Advertise> adPageInfo = new PageInfo<>(adList);
         long total = adPageInfo.getTotal();
         adPageData.setItems(adList);
@@ -40,19 +40,19 @@ public class AdServiceImpl implements AdService{
 
     @Override
     public Advertise updateAd(Advertise advertise) {
-        admapper.updateAd(advertise);
-        return admapper.queryAdById(advertise.getId());
+        adMapper.updateAd(advertise);
+        return adMapper.queryAdById(advertise.getId());
     }
 
     @Override
     public void deleteAdById(int adId) {
-        admapper.deleteAdById(adId);
+        adMapper.deleteAdById(adId);
     }
 
     @Override
     public Advertise addAd(Advertise advertise) {
-        admapper.insertAd(advertise);
-        return admapper.queryAdById(advertise.getId());
+        adMapper.insertAd(advertise);
+        return adMapper.queryAdById(advertise.getId());
     }
 
 }

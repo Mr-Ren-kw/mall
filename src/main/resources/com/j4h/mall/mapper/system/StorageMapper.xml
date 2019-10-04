@@ -6,4 +6,16 @@
     <insert id="addPicture">
         insert into cskaoyan_mall_storage (`key`,`name`,type,size,url,add_time,update_time) value (#{key},#{name},#{type},#{size},#{url},#{addTime},#{updateTime})
     </insert>
+
+    <select id="queryStorages" resultType="com.j4h.mall.model.system.Storage">
+        select `id`,`key`,`name`,type,size,url,add_time as addTime,update_time as updateTime,deleted from cskaoyan_mall_storage where `key` like #{key} and `name` like #{name} and deleted = false
+    </select>
+
+    <update id="updateStorage">
+        update cskaoyan_mall_storage set `name` = #{name},update_time = #{updateTime} where `key` = #{key}
+    </update>
+
+    <update id="deleteStorage">
+        update cskaoyan_mall_storage set deleted = true where `key` = #{key}
+    </update>
 </mapper>

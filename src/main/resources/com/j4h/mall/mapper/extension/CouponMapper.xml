@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.j4h.mall.mapper.extension.CouponMapper">
+    <sql id="queryItems">
+        id,add_time as addTime,days,deleted,`desc`,discount,goods_type as goodsType,goods_value as goodsValue,`limit`,`min`,`name`,status,tag,time_type as timeType,total,`type`,update_time as updateTime
+    </sql>
+    <select id="queryCouponByCondition" resultType="com.j4h.mall.model.extension.coupon.BeanForDatabase.Coupon">
+        select <include refid="queryItems"/> from cskaoyan_mall_coupon
+        <where>
+            deleted = 0
+            <if test="name != null">
+                and `name` like #{name}
+            </if>
+            <if test="status != -1">
+                and status = #{status}
+            </if>
+            <if test="type != -1">
+                and `type` = #{type}
+            </if>
+        </where>
+    </select>
+    <update id="updateCoupon">
+        update cskaoyan_mall_coupon set
+        `days` = #{coupon.days},
+        deleted = #{coupon.deleted},
+        `desc` = #{coupon.desc},
+        discount = #{coupon.discount},
+        goods_type = #{coupon.goodsType},
+        `limit` = #{coupon.limit},
+        `min` = #{coupon.min},
+        `name` = #{coupon.name},
+        status = #{coupon.status},
+        tag = #{coupon.tag},
+        time_type = #{coupon.timeType},
+        total = #{coupon.total},
+        type = #{coupon.type},
+        update_time = now(),
+        start_time = #{coupon.startTime},
+        end_time = #{coupon.endTime} where id = #{coupon.id}
+    </update>
+    <update id="deleteCouponById">
+        update cskaoyan_mall_coupon set deleted = 1 where id = #{id}
+    </update>
+    <insert id="insertCoupon">
+        <selectKey resultType="int" keyProperty="coupon.id" keyColumn="idl" order="AFTER">
+            select last_insert_id() as idl
+        </selectKey>
+        insert into cskaoyan_mall_coupon (`name`,`desc`,tag,total,discount,`min`,`limit`,`type`,status,goods_type,goods_value,code,time_type,days,start_time,end_time,add_time,update_time,deleted) values (#{coupon.name},#{coupon.desc},#{coupon.tag},#{coupon.total},#{coupon.discount},#{coupon.min},#{coupon.limit},#{coupon.type},#{coupon.status},#{coupon.goodsType},#{coupon.goodsValue},#{coupon.code},#{coupon.timeType},#{coupon.days},now(),#{coupon.endTime},#{coupon.addTime},now(),0)
+    </insert>
+    <select id="queryCouponById" resultType="com.j4h.mall.model.extension.coupon.BeanForDatabase.Coupon">
+        select <include refid="queryItems"/> from cskaoyan_mall_coupon where id = #{id}
+    </select>
+</mapper>
