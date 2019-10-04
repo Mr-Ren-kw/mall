@@ -1,6 +1,5 @@
 package com.j4h.mall.controller.profile;
 
-import com.j4h.mall.mapper.admin.AdminMapper;
 import com.j4h.mall.model.admin.AdminPassword;
 import com.j4h.mall.service.admin.AdminService;
 import com.j4h.mall.vo.BaseRespVo;

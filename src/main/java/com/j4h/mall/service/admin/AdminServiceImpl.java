@@ -1,6 +1,6 @@
 package com.j4h.mall.service.admin;
 
-import com.j4h.mall.mapper.admin.AdminMapper;
+import com.j4h.mall.mapper.system.AdminMapper;
 import com.j4h.mall.model.admin.Admin;
 import com.j4h.mall.model.admin.AdminPassword;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-@Service
+@Service("yytAdminService")
 public class AdminServiceImpl implements AdminService {
     @Autowired
     AdminMapper adminMapper;

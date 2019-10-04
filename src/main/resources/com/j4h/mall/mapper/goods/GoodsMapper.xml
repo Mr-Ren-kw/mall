@@ -127,7 +127,6 @@
         VALUES
         <foreach collection="specifications" item="spec" separator=",">
                (null, #{goodsId}, #{spec.specification}, #{spec.value}, #{spec.picUrl}, now(), now(), 0)
-            (null, #{goodsId}, #{spec.specification}, #{spec.value}, #{spec.picUrl}, now(), now(), 0)
         </foreach>
     </insert>
 

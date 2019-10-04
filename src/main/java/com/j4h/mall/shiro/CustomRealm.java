@@ -1,6 +1,6 @@
 package com.j4h.mall.shiro;
 
-import com.j4h.mall.mapper.admin.AdminMapper;
+import com.j4h.mall.mapper.system.AdminMapper;
 import com.j4h.mall.model.admin.Admin;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;

@@ -3,6 +3,7 @@ package com.j4h.mall.service.mall;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.j4h.mall.mapper.mall.OrderMapper;
+import com.j4h.mall.mapper.user.UserMapper;
 import com.j4h.mall.model.PageBean;
 import com.j4h.mall.model.mall.order.Order;
 import com.j4h.mall.model.mall.order.OrderDetail;
@@ -15,6 +16,9 @@ import java.util.List;
 public class OrderServiceImpl implements OrderService {
     @Autowired
     OrderMapper orderMapper;
+
+    @Autowired
+    UserMapper userMapper;
 
     @Override
     public PageBean<Order> queryOrderList(int page, int limit, String sort, String order,Integer userId,Integer orderSn,Integer[] orderStatusArray) {
@@ -31,9 +35,12 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDetail queryOrderDetail(int id) {
         OrderDetail orderDetail = new OrderDetail();
-        orderDetail.setOrder(orderMapper.queryOrderById(id));
+        Order order = orderMapper.queryOrderById(id);
+        orderDetail.setOrder(order);
         // 查询goods表
+        orderDetail.setUser(userMapper.queryUserById(order.getUserId()));
         // 查询user表
+        orderDetail.setOrderGoods(orderMapper.queryOrderGoodsByOid(order.getId()));
         return orderDetail;
     }
 }

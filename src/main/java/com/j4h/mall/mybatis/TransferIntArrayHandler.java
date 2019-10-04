@@ -47,7 +47,7 @@ public class TransferIntArrayHandler implements TypeHandler<int[]> {
 
     private int[] parseString2IntArray(String value) {
         int[] ints = new int[0];
-        if(value == null) {
+        if(value == null || "".equals(value.trim())) {
             return ints;
         }
         try {

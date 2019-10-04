@@ -1,47 +1,47 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!--namespace要等于接口的全类名-->
-<mapper namespace="com.j4h.mall.mapper.admin.AdminMapper">
+<!--<?xml version="1.0" encoding="UTF-8" ?>-->
+<!--<!DOCTYPE mapper-->
+<!--        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"-->
+<!--        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">-->
+<!--&lt;!&ndash;namespace要等于接口的全类名&ndash;&gt;-->
+<!--<mapper namespace="com.j4h.mall.mapper.admin.AdminMapper">-->
 
-    <select id="getPasswordByUsername" resultType="string">
-        select password from cskaoyan_mall_admin where deleted = 0 and username = #{username}
-    </select>
+<!--    <select id="getPasswordByUsername" resultType="string">-->
+<!--        select password from cskaoyan_mall_admin where deleted = 0 and username = #{username}-->
+<!--    </select>-->
 
-    <resultMap id="AdminRoleIdsMap" type="com.j4h.mall.model.admin.Admin">
-        <result column="role_ids" property="roleIds"/>
-    </resultMap>
-    <select id="getRoleIdsByUsername" resultMap="AdminRoleIdsMap">
-        select role_ids from cskaoyan_mall_admin where deleted = 0 and username = #{username}
-    </select>
+<!--    <resultMap id="AdminRoleIdsMap" type="com.j4h.mall.model.admin.Admin">-->
+<!--        <result column="role_ids" property="roleIds"/>-->
+<!--    </resultMap>-->
+<!--    <select id="getRoleIdsByUsername" resultMap="AdminRoleIdsMap">-->
+<!--        select role_ids from cskaoyan_mall_admin where deleted = 0 and username = #{username}-->
+<!--    </select>-->
 
-    <select id="getRolesByIds" resultType="string">
-        select name from cskaoyan_mall_role where id in
-        <foreach collection="ids" item="id" separator="," open="(" close=")">
-            #{id}
-        </foreach>
-    </select>
+<!--    <select id="getRolesByIds" resultType="string">-->
+<!--        select name from cskaoyan_mall_role where id in-->
+<!--        <foreach collection="ids" item="id" separator="," open="(" close=")">-->
+<!--            #{id}-->
+<!--        </foreach>-->
+<!--    </select>-->
 
-    <select id="getPermissionByRoleIds" resultType="string">
-        select distinct permission from cskaoyan_mall_permission where role_id in
-        <foreach collection="ids" item="id" separator="," open="(" close=")">
-            #{id}
-        </foreach>
-    </select>
+<!--    <select id="getPermissionByRoleIds" resultType="string">-->
+<!--        select distinct permission from cskaoyan_mall_permission where role_id in-->
+<!--        <foreach collection="ids" item="id" separator="," open="(" close=")">-->
+<!--            #{id}-->
+<!--        </foreach>-->
+<!--    </select>-->
 
-    <select id="getAvatarByUsername" resultType="string">
-        select avatar from cskaoyan_mall_admin where deleted = 0 and username = #{username}
-    </select>
+<!--    <select id="getAvatarByUsername" resultType="string">-->
+<!--        select avatar from cskaoyan_mall_admin where deleted = 0 and username = #{username}-->
+<!--    </select>-->
 
-    <update id="updatePasswordByUsername">
-        update cskaoyan_mall_admin set password = #{password} where deleted = 0 and username = #{username}
-    </update>
+<!--    <update id="updatePasswordByUsername">-->
+<!--        update cskaoyan_mall_admin set password = #{password} where deleted = 0 and username = #{username}-->
+<!--    </update>-->
 
-    <select id="getPermsByPermissions" resultType="string">
-        select distinct api from cskaoyan_mall_system_permissions where value in
-        <foreach collection="permissions" item="perm" open="(" close=")" separator=",">
-            #{perm}
-        </foreach>
-    </select>
-</mapper>
+<!--    <select id="getPermsByPermissions" resultType="string">-->
+<!--        select distinct api from cskaoyan_mall_system_permissions where value in-->
+<!--        <foreach collection="permissions" item="perm" open="(" close=")" separator=",">-->
+<!--            #{perm}-->
+<!--        </foreach>-->
+<!--    </select>-->
+<!--</mapper>-->

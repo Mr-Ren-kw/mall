@@ -1,14 +1,12 @@
 package com.j4h.mall.controller.extension;
 
 import com.j4h.mall.model.extension.ad.BeanForDatabase.Advertise;
-import com.j4h.mall.vo.extension.BeanForData.AdPageData;
 import com.j4h.mall.service.extension.ad.AdService;
 import com.j4h.mall.vo.BaseRespVo;
+import com.j4h.mall.vo.extension.BeanForData.PageData;
 import com.j4h.mall.vo.extension.BeanForRequest.AdPageRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/admin/ad")
@@ -17,9 +15,9 @@ public class AdController {
     @Autowired
     AdService adService;
 
-    @RequestMapping("/list")
+    @GetMapping("/list")
     public BaseRespVo adPage(AdPageRequest adPageRequest) {
-        AdPageData adPageData = adService.queryAdByPage(adPageRequest);
+        PageData adPageData = adService.queryAdByPage(adPageRequest);
         return BaseRespVo.ok(adPageData);
     }
     @RequestMapping("/update")

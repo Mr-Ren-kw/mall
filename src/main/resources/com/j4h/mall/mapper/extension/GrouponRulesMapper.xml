@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.j4h.mall.mapper.extension.GrouponRulesMapper">
+    <sql id="queryItems">
+        id,goods_id as goodsId,goods_name as goodsName,pic_url as pinUrl,discount,discount_member as discountMember,add_time as addTime,update_time as updateTime,expire_time as expireTime,deleted
+    </sql>
+    <select id="queryGrouponRulesByCondition" resultType="com.j4h.mall.model.extension.groupon.BeanForDatabase.GrouponRules">
+        select <include refid="queryItems"/> from cskaoyan_mall_groupon_rules
+        <where>
+            deleted = 0
+            <if test="goodsId != 0">
+                and goods_id = #{goodsId}
+            </if>
+        </where>
+    </select>
+    <insert id="insertGrouponRules">
+        <selectKey resultType="int" keyProperty="rules.id" keyColumn="idl" order="AFTER">
+            select last_insert_id() as idl
+        </selectKey>
+        insert into cskaoyan_mall_groupon_rules (goods_id,goods_name,pic_url,discount,discount_memeber,add_time,update_time,expire_time,deleted) values (#{rules.goodsId},#{rules.goodsName},#{rules.picUrl},#{rules.discount},#{rules.discountMemeber},now(),now(),#{rules.expireTime},0})
+    </insert>
+    <select id="getGoodsIdById" resultType="int">
+        select goods_id from cskaoyan_mall_groupon_rules where id = #{rulesId}
+    </select>
+    <update id="updateGrouponRules">
+        update cskaoyan_mall_groupon_rules set
+        goods_id = #{rules.goodsId},
+        goods_name = #{rules.goodsName},
+        pic_url = #{rules.picUrl},
+        discount = #{rules.discount},
+        discount_member = #{rules.discountMember},
+        update_time = now(),
+        expire_time = #{rules.expireTime} where id = #{rules.id}
+    </update>
+    <update id="deleteRulesById">
+        update cskaoyan_mall_groupon_rules set deleted = 1 where id = #{rulesId}
+    </update>
+    <select id="queryGrouponRulesById" resultType="com.j4h.mall.model.extension.groupon.BeanForDatabase.GrouponRules">
+        select <include refid="queryItems"/> from cskaoyan_mall_groupon_rules where id = #{id}
+    </select>
+</mapper>

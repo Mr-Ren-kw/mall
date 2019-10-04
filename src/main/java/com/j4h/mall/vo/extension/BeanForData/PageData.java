@@ -1,11 +1,10 @@
 package com.j4h.mall.vo.extension.BeanForData;
 
-import com.j4h.mall.model.extension.ad.BeanForDatabase.Advertise;
 import java.util.List;
 
-public class AdPageData {
+public class PageData<T> {
     private int total;
-    private List<Advertise> items;
+    private List<T> items;
 
     public int getTotal() {
         return total;
@@ -15,11 +14,11 @@ public class AdPageData {
         this.total = total;
     }
 
-    public List<Advertise> getItems() {
+    public List<T> getItems() {
         return items;
     }
 
-    public void setItems(List<Advertise> items) {
+    public void setItems(List<T> items) {
         this.items = items;
     }
 }

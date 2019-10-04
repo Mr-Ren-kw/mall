@@ -1,6 +1,5 @@
 package com.j4h.mall.controller;
 
-import com.j4h.mall.mapper.admin.AdminMapper;
 import com.j4h.mall.model.AdminInfo;
 import com.j4h.mall.service.admin.AdminService;
 import com.j4h.mall.vo.BaseRespVo;
@@ -10,6 +9,7 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,6 +22,7 @@ import java.util.List;
 @RequestMapping("/admin/auth")
 public class LoginController {
     @Autowired
+    @Qualifier("yytAdminService")
     AdminService adminService;
 
     @RequestMapping("/login")
