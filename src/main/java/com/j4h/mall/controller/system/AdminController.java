@@ -21,8 +21,16 @@ public class AdminController {
 
     @PostMapping("/create")
     public BaseRespVo insertAdmin(@RequestBody Admin admin){
-        Admin admin1 = adminService.insertAdmin(admin);
-        return BaseRespVo.ok(admin1);
+        // 先判断这个名字是否已经存在
+        String username = admin.getUsername();
+        if (adminService.queryAdminByUsername(username).isEmpty()){
+            Admin admin1 = adminService.insertAdmin(admin);
+            return BaseRespVo.ok(admin1);
+        }
+        BaseRespVo baseRespVo = new BaseRespVo();
+        baseRespVo.setErrno(602);
+        baseRespVo.setErrmsg("管理员已存在");
+        return  baseRespVo;
     }
 
     @GetMapping("/list")
@@ -34,7 +42,13 @@ public class AdminController {
     @PostMapping("/update")
     public BaseRespVo updateAdmin(@RequestBody Admin admin){
         Admin admin1 = adminService.updateAdmin(admin);
-        return BaseRespVo.ok(admin1);
+        if (admin1 != null){
+            return BaseRespVo.ok(admin1);
+        }
+        BaseRespVo baseRespVo = new BaseRespVo();
+        baseRespVo.setErrno(602);
+        baseRespVo.setErrmsg("管理员已存在");
+        return  baseRespVo;
     }
 
     @PostMapping("/delete")

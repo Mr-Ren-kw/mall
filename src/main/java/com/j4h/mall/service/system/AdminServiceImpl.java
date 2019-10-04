@@ -6,7 +6,6 @@ import com.j4h.mall.mapper.system.AdminMapper;
 import com.j4h.mall.model.system.Admin;
 import com.j4h.mall.model.system.AdminList;
 import com.j4h.mall.model.system.AdminQuery;
-import com.j4h.mall.model.system.StorageQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -57,6 +56,15 @@ public class AdminServiceImpl implements AdminService{
 
     @Override
     public Admin updateAdmin(Admin admin) {
+        // 先通过id获取
+        Admin admin2 = adminMapper.queryAdminById(admin.getId());
+        // 如果用户名修改就需要判断
+        if (!admin.getUsername().equals(admin2.getUsername())){
+            if(!adminMapper.queryAdminByUsername(admin.getUsername()).isEmpty()){
+                // 有重名
+                return null;
+            }
+        }
         adminMapper.updateAdmin(admin);
         String username = admin.getUsername();
         String password = admin.getPassword();
@@ -68,5 +76,10 @@ public class AdminServiceImpl implements AdminService{
     public void deleteAdmin(Admin admin) {
         int id = admin.getId();
         adminMapper.deleteAdminById(id);
+    }
+
+    @Override
+    public List<Admin> queryAdminByUsername(String username) {
+        return adminMapper.queryAdminByUsername(username);
     }
 }

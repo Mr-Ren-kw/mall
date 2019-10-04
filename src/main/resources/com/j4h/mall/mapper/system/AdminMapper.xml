@@ -31,4 +31,12 @@
     <update id="deleteAdminById">
         update cskaoyan_mall_admin set deleted = true where `id` = #{id}
     </update>
+
+    <select id="queryAdminByUsername" resultMap="adminMap">
+        select `id`,username,`password`,avatar,add_time,update_time,role_ids from cskaoyan_mall_admin where username = #{username} and deleted = false
+    </select>
+
+    <select id="queryAdminById" resultMap="adminMap">
+        select `id`,username,`password`,avatar,add_time,update_time,role_ids from cskaoyan_mall_admin where `id` = #{id} and deleted = false
+    </select>
 </mapper>

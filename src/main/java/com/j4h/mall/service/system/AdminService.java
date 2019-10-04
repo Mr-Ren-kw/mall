@@ -5,6 +5,8 @@ import com.j4h.mall.model.system.AdminList;
 import com.j4h.mall.model.system.AdminQuery;
 import com.j4h.mall.model.system.StorageQuery;
 
+import java.util.List;
+
 /**
  * @author sld
  * @version 1.0
@@ -15,4 +17,5 @@ public interface AdminService {
     AdminList queryAdmin(AdminQuery adminQuery);
     Admin updateAdmin(Admin admin);
     void deleteAdmin(Admin admin);
+    List<Admin> queryAdminByUsername(String username);
 }

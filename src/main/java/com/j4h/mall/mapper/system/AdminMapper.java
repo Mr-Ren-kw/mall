@@ -16,4 +16,6 @@ public interface AdminMapper {
     List<Admin> queryAdmin(String username);
     int updateAdmin(Admin admin);
     void deleteAdminById(int id);
+    List<Admin> queryAdminByUsername(String username);
+    Admin queryAdminById(int id);
 }
