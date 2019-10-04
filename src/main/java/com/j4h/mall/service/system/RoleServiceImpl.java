@@ -3,10 +3,7 @@ package com.j4h.mall.service.system;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.j4h.mall.mapper.system.RoleMapper;
-import com.j4h.mall.model.system.Role;
-import com.j4h.mall.model.system.RoleList;
-import com.j4h.mall.model.system.RoleVo;
-import com.j4h.mall.model.system.StorageQuery;
+import com.j4h.mall.model.system.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -66,5 +63,24 @@ public class RoleServiceImpl implements RoleService{
     public List<RoleVo> getAllRole() {
         List<RoleVo> allRole = roleMapper.getAllRole();
         return allRole;
+    }
+
+    @Override
+    public PermissionVo getPermissionsByRoleId(int roleId) {
+        PermissionVo permissionVo = new PermissionVo();
+        String[] permissionsByRoleId = roleMapper.getPermissionsByRoleId(roleId);
+        List<SystemPermissions> allPermissions = roleMapper.getAllPermissions();
+        permissionVo.setAssignedPermissions(permissionsByRoleId);
+        permissionVo.setSystemPermissions(allPermissions);
+        return permissionVo;
+    }
+
+    @Override
+    public boolean updatePermissions(PermissionsPostVo permissionsPostVo) {
+        int roleId = permissionsPostVo.getRoleId();
+        roleMapper.deletePermissionByRoleId(roleId);
+        String[] permissions = permissionsPostVo.getPermissions();
+        int i = roleMapper.insertPermissionByRoleIdAndPermission(roleId, permissions);
+        return i > 0;
     }
 }

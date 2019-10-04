@@ -2,6 +2,7 @@ package com.j4h.mall.mapper.system;
 
 import com.j4h.mall.model.system.Role;
 import com.j4h.mall.model.system.RoleVo;
+import com.j4h.mall.model.system.SystemPermissions;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -17,4 +18,8 @@ public interface RoleMapper {
     Role queryRoleById(int id);
     void deleteRole(Role role);
     List<RoleVo> getAllRole();
+    String[] getPermissionsByRoleId(int roleId);
+    List<SystemPermissions> getAllPermissions();
+    void deletePermissionByRoleId(int roleId);
+    int insertPermissionByRoleIdAndPermission(@Param("roleId") int roleId,@Param("permissions") String[] permissions);
 }

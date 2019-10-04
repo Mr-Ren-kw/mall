@@ -43,4 +43,23 @@ public class RoleController {
         List<RoleVo> data = roleService.getAllRole();
         return BaseRespVo.ok(data);
     }
+
+    @GetMapping("/permissions")
+    public BaseRespVo getPermissionsByRoleId(int roleId){
+        PermissionVo permissionsByRoleId = roleService.getPermissionsByRoleId(roleId);
+        return BaseRespVo.ok(permissionsByRoleId);
+    }
+
+    @PostMapping("/permissions")
+    public BaseRespVo getPermissions(@RequestBody PermissionsPostVo permissionsPostVo){
+        int roleId = permissionsPostVo.getRoleId();
+        boolean b = roleService.updatePermissions(permissionsPostVo);
+        if (b){
+            return BaseRespVo.ok(null);
+        }
+        BaseRespVo baseRespVo = new BaseRespVo();
+        baseRespVo.setErrno(666);
+        baseRespVo.setErrmsg("修改失败");
+        return baseRespVo;
+    }
 }

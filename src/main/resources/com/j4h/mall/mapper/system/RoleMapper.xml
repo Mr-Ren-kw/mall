@@ -25,4 +25,39 @@
     <select id="getAllRole" resultType="com.j4h.mall.model.system.RoleVo">
         select `id` as value, `name` as label from cskaoyan_mall_role
     </select>
+
+    <select id="getPermissionsByRoleId" resultType="String">
+        select permission from cskaoyan_mall_permission where `role_Id` = #{roleId} and permission != '*'
+    </select>
+
+    <select id="getAllPermissions" resultMap="getSystemPermissions">
+        select id as pid,`value` as id,label from cskaoyan_mall_system_permissions where pid = 0
+    </select>
+    <resultMap id="getSystemPermissions" type="com.j4h.mall.model.system.SystemPermissions">
+        <result column="id" property="id"/>
+        <result column="label" property="label"/>
+        <collection property="children" column="pid" select="com.j4h.mall.mapper.system.RoleMapper.getPermissionChildrenVo"/>
+    </resultMap>
+    <select id="getPermissionChildrenVo" resultMap="chileMap">
+        select id as pid,`value` as id,label from cskaoyan_mall_system_permissions where pid = #{pid}
+    </select>
+    <resultMap id="chileMap" type="com.j4h.mall.model.system.PermissionChildrenVo">
+        <result column="id" property="id"/>
+        <result column="label" property="label"/>
+        <collection property="children" column="pid" select="com.j4h.mall.mapper.system.RoleMapper.getPermissionChildrenChildrenVo"/>
+    </resultMap>
+    <select id="getPermissionChildrenChildrenVo" resultType="com.j4h.mall.model.system.PermissionChildrenChildrenVo">
+        select `value` as id,label,api from cskaoyan_mall_system_permissions where pid = #{pid}
+    </select>
+
+    <delete id="deletePermissionByRoleId">
+        delete from cskaoyan_mall_permission where role_id = #{roleId}
+    </delete>
+
+    <insert id="insertPermissionByRoleIdAndPermission">
+        insert into cskaoyan_mall_permission (role_id,permission,add_time,update_time) values
+        <foreach collection="permissions" separator="," item="permiss">
+            (#{roleId},#{permiss},now(),now())
+        </foreach>
+    </insert>
 </mapper>

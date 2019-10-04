@@ -1,9 +1,6 @@
 package com.j4h.mall.service.system;
 
-import com.j4h.mall.model.system.Role;
-import com.j4h.mall.model.system.RoleList;
-import com.j4h.mall.model.system.RoleVo;
-import com.j4h.mall.model.system.StorageQuery;
+import com.j4h.mall.model.system.*;
 
 import java.util.List;
 
@@ -17,4 +14,6 @@ public interface RoleService {
     Role addRole(Role role);
     void deleteRole(Role role);
     List<RoleVo> getAllRole();
+    PermissionVo getPermissionsByRoleId(int roleId);
+    boolean updatePermissions(PermissionsPostVo permissionsPostVo);
 }
