@@ -10,13 +10,13 @@ import com.j4h.mall.vo.goods.GoodsItemVo;
 public interface GoodsService {
     PageBean getGoodsInfo(int page, int limit, String sort, String order, Integer goodsSn, String name);
 
-    void createGoods(GoodsItemVo goodsItemVo);
+    int createGoods(GoodsItemVo goodsItemVo);
 
     CatAndBrandVo getAllCatAndBrand();
 
     GoodsItemVo getGoodsDetail(int id);
 
-    void updateGoods(GoodsItemVo goodsItemVo);
+    int updateGoods(GoodsItemVo goodsItemVo);
 
     void deleteGoods(int id);
 

@@ -31,7 +31,7 @@ public class Storage {
     private String type;
     private String key;
     private String url;
-    private int deleted;
+    private boolean deleted;
 
     public Date getAddTime() {
         return addTime;
@@ -49,11 +49,11 @@ public class Storage {
         this.updateTime = updateTime;
     }
 
-    public int getDeleted() {
+    public boolean isDeleted() {
         return deleted;
     }
 
-    public void setDeleted(int deleted) {
+    public void setDeleted(boolean deleted) {
         this.deleted = deleted;
     }
 

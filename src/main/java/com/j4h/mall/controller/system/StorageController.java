@@ -1,6 +1,8 @@
 package com.j4h.mall.controller.system;
 
 import com.j4h.mall.model.system.Storage;
+import com.j4h.mall.model.system.StorageList;
+import com.j4h.mall.model.system.StorageQuery;
 import com.j4h.mall.service.system.StorageService;
 import com.j4h.mall.util.FileUtil;
 import com.j4h.mall.vo.BaseRespVo;
@@ -30,6 +32,7 @@ public class StorageController {
         // 存入数据库
         int insert = storageService.addPicture(storage);
         if (insert >= 0) {
+            // 这边可以改成添加成功后去数据库再查询出来，获取id等完整信息
             return BaseRespVo.ok(storage);
         }
         BaseRespVo baseRespVo = new BaseRespVo();
@@ -37,5 +40,28 @@ public class StorageController {
         baseRespVo.setErrno(499);
         baseRespVo.setErrmsg("上传失败");
         return baseRespVo;
+    }
+
+    @GetMapping("/list")
+    public BaseRespVo showStorageList(StorageQuery storageQuery){
+        StorageList storageList = storageService.queryStorage(storageQuery);
+        return BaseRespVo.ok(storageList);
+    }
+
+    /**
+     * 更新storage信息（只更改name和updateTime）
+     * @return
+     */
+    @PostMapping("/update")
+    public BaseRespVo updateStorage(@RequestBody Storage storage){
+        Storage storage1 = storageService.updateStorage(storage);
+        // 没有考虑修改失败的情况（图片已经被别人删掉了）
+        return BaseRespVo.ok(storage1);
+    }
+
+    @PostMapping("/delete")
+    public BaseRespVo deleteStorage(@RequestBody Storage storage){
+        storageService.deleteStorage(storage);
+        return BaseRespVo.ok(null);
     }
 }

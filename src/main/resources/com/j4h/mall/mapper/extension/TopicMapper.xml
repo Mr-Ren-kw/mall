@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.j4h.mall.mapper.extension.TopicMapper">
+    <sql id="queryItems">
+        id,title,subtitle,content,price,read_count as readCount,pic_url as picUrl,sort_order as sortOrder,goods,add_time as addTime,update_time as updateTime,deleted
+    </sql>
+    <select id="queryTopicByCondition" resultType="com.j4h.mall.model.extension.topic.BeanForDatabase.Topic">
+        select <include refid="queryItems"/> from cskaoyan_mall_topic
+        <where>
+            deleted = 0
+            <if test="title != null">
+                and title like #{title}
+            </if>
+            <if test="subtitle != null">
+                and subtitle like #{subtitle}
+            </if>
+        </where>
+    </select>
+    <update id="updateTopic">
+        update cskaoyan_mall_topic set
+        title = #{topic.title},
+        subtitle = #{topic.subtitle},
+        content = #{topic.content},
+        price = #{topic.price},
+        read_count = #{topic.readCount},
+        pic_url = #{topic.picUrl},
+        goods = #{topic.goods},
+        update_time = now() where id = #{topic.id}
+    </update>
+    <select id="queryTopicById" resultType="com.j4h.mall.model.extension.topic.BeanForDatabase.Topic">
+        select <include refid="queryItems"/> from cskaoyan_mall_topic where id = #{id}
+    </select>
+    <update id="deleteTopicById">
+        update cskaoyan_mall_topic set deleted = 1 where id = #{id}
+    </update>
+    <insert id="insertTopic">
+        <selectKey resultType="int" keyProperty="topic.id" keyColumn="idl" order="AFTER">
+            select last_insert_id() as idl
+        </selectKey>
+        insert into cskaoyan_mall_topic (title,subtitle,content,price,read_count,pic_url,goods,add_time,update_time,deleted) values (#{topic.title},#{topic.subtitle},#{topic.content},#{topic.price},#{topic.readCount},#{topic.picUrl},#{topic.goods},now(),now(),0)
+    </insert>
+</mapper>
