@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace要等于接口的全类名-->
+
+
+<mapper namespace="com.j4h.mall.mapper.goods.GoodsMapper">
+
+    <sql id="goods">
+        id,
+        goods_sn,
+        `name`,
+        category_id,
+        brand_id,
+        gallery,
+        keywords,
+        brief,
+        is_on_sale,
+        sort_order,
+        pic_url,
+        is_new,
+        is_hot,
+        unit,
+        counter_price,
+        retail_price,
+        add_time,
+        update_time,
+        deleted
+    </sql>
+
+    <resultMap id="goodsMap" type="com.j4h.mall.model.goods.Goods">
+        <result column="id" property="id" />
+        <result column="goods_sn" property="goodsSn" />
+        <result column="name" property="name" />
+        <result column="category_id" property="categoryId" />
+        <result column="brand_id" property="brandId" />
+        <result column="gallery" property="gallery" />
+        <result column="keywords" property="keywords" />
+        <result column="brief" property="brief" />
+        <result column="is_on_sale" property="isOnSale" />
+        <result column="sort_order" property="sortOrder" />
+        <result column="pic_url" property="picUrl" />
+        <result column="is_new" property="isNew" />
+        <result column="is_hot" property="isHot" />
+        <result column="unit" property="unit" />
+        <result column="counter_price" property="counterPrice" />
+        <result column="retail_price" property="retailPrice" />
+        <result column="add_time" property="addTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="deleted" property="deleted" />
+    </resultMap>
+    <sql id="goodsSpecification">
+        id,
+        goods_id as goodsId,
+        specification,
+        `value`,
+        pic_url as picUrl,
+        add_time as addTime,
+        update_time as updateTime,
+        deleted
+    </sql>
+
+    <sql id="goodsAttribute">
+        id,
+        goods_id as goodsId,
+        attribute,
+        `value`,
+        add_time as addTime,
+        update_time as updateTime
+    </sql>
+    
+    <sql id="goodsProduct">
+        id,
+        goods_id,
+        specifications,
+        price,
+        `number`,
+        url,
+        add_time,
+        update_time,
+        deleted
+    </sql>
+
+    <resultMap id="goodsProductMap" type="com.j4h.mall.model.goods.GoodsProduct">
+        <result column="id" property="id" />
+        <result column="goods_id" property="goodsId" />
+        <result column="specifications" property="specifications"/>
+        <result column="price" property="price" />
+        <result column="number" property="number" />
+        <result column="url" property="url" />
+        <result column="add_time" property="addTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="deleted" property="deleted" />
+    </resultMap>
+
+    <select id="getGoodsInfo" resultMap="goodsMap">
+        select <include refid="goods" /> from cskaoyan_mall_goods
+        <where>
+            deleted = 0
+            <if test="goodsSn != null">
+                and goods_sn = #{goodsSn}
+            </if>
+            <if test="name != null">
+                and name like #{name}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertGoods">
+        <selectKey resultType="int" keyColumn="idz" keyProperty="goods.id" order="AFTER">
+            select last_insert_id() as idz
+        </selectKey>
+        insert into cskaoyan_mall_goods (id, goods_sn, name, category_id, brand_id, gallery, keywords, brief, is_on_sale, sort_order, pic_url, share_url, is_new, is_hot, unit, counter_price, retail_price, detail, add_time, update_time, deleted)
+        values (null, #{goods.goodsSn}, #{goods.name}, #{goods.categoryId}, #{goods.brandId}, #{goods.gallery}, #{goods.keywords}, #{goods.brief}, #{goods.isOnSale}, 100, #{goods.picUrl}, null, #{goods.isNew}, #{goods.isHot}, #{goods.unit},#{goods.counterPrice},#{goods.retailPrice},#{goods.detail}, now(), now(), 0)
+    </insert>
+
+    <insert id="insertGoodsSpecifications">
+        insert into cskaoyan_mall_goods_specification (id, goods_id, specification, value, pic_url, add_time, update_time, deleted)
+        VALUES
+        <foreach collection="specifications" item="spec" separator=",">
+               (null, #{goodsId}, #{spec.specification}, #{spec.value}, #{spec.picUrl}, now(), now(), 0)
+        </foreach>
+    </insert>
+
+    <insert id="insertGoodsProducts">
+        insert into cskaoyan_mall_goods_product (id, goods_id, specifications, price, number, url, add_time, update_time, deleted)
+        values
+        <foreach collection="products" item="product" separator=",">
+               (null, #{goodsId}, #{product.specifications}, #{product.price}, #{product.number}, #{product.url}, now(), now(), 0)
+        </foreach>
+    </insert>
+
+    <insert id="insertGoodsAttributes">
+        insert into cskaoyan_mall_goods_attribute (id, goods_id, attribute, value, add_time, update_time, deleted)
+        values
+        <foreach collection="attributes" item="attr" separator=",">
+            (null, #{goodsId}, #{attr.attribute}, #{attr.value}, now(), now(), 0)
+        </foreach>
+    </insert>
+    
+    <resultMap id="categoryMap" type="com.j4h.mall.model.goods.Category">
+        <result column="id" property="value" />
+        <result column="name" property="label" />
+        <collection property="children" column="id" select="com.j4h.mall.mapper.goods.GoodsMapper.getChildCategory" />
+    </resultMap>
+
+    <resultMap id="childCategoryMap" type="com.j4h.mall.model.goods.ChildCategory">
+        <result column="id" property="value" />
+        <result column="name" property="label" />
+    </resultMap>
+
+    <select id="getAllCategory" resultMap="categoryMap">
+        select id, name from cskaoyan_mall_category where deleted = 0 AND level = 'L1'
+    </select>
+
+    <select id="getChildCategory" resultMap="childCategoryMap">
+        select id, name from cskaoyan_mall_category where deleted = 0 and pid = #{idd}
+    </select>
+
+    <resultMap id="brandMap" type="com.j4h.mall.model.goods.Brand">
+        <result column="id" property="value" />
+        <result column="name" property="label" />
+    </resultMap>
+
+    <select id="getAllBrand" resultMap="brandMap">
+        select id, name from cskaoyan_mall_brand where deleted = 0
+    </select>
+
+    <select id="getGoodsById" resultMap="goodsMap">
+        select <include refid="goods"/> from cskaoyan_mall_goods where deleted = 0 and id = #{id}
+    </select>
+
+    <select id="getGoodsSpecificationByGid" resultType="com.j4h.mall.model.goods.GoodsSpecification">
+        select <include refid="goodsSpecification" /> from cskaoyan_mall_goods_specification where goods_id = #{gid} and deleted = 0
+    </select>
+
+    <select id="getGoodsProductByGid" resultMap="goodsProductMap">
+        select <include refid="goodsProduct"/> from cskaoyan_mall_goods_product where goods_id = #{gid} and deleted = 0
+    </select>
+    
+    <select id="getGoodsAttributeByGid" resultType="com.j4h.mall.model.goods.GoodsAttribute">
+        select <include refid="goodsAttribute"/> from cskaoyan_mall_goods_attribute where goods_id = #{gid} and deleted = 0
+    </select>
+    
+    <select id="getChildCategoryIdByGid" resultType="_int">
+        select category_id from cskaoyan_mall_goods where id = #{gid} and deleted = 0
+    </select>
+    
+    <select id="getFatherCategoryIdByGid" resultType="_int">
+        select pid from cskaoyan_mall_category where id = #{cid} and deleted = 0
+    </select>
+
+    <update id="updateGoods">
+        update cskaoyan_mall_goods set
+        goods_sn = #{goods.goodsSn},
+        `name` = #{goods.name},
+        category_id = #{goods.categoryId},
+        brand_id = #{goods.brandId},
+        gallery = #{goods.gallery},
+        keywords = #{goods.keywords},
+        brief = #{goods.brief},
+        is_on_sale = #{goods.isOnSale},
+        sort_order = #{goods.sortOrder},
+        pic_url = #{goods.picUrl},
+        is_new = #{goods.isNew},
+        is_hot = #{goods.isHot},
+        unit = #{goods.unit},
+        counter_price = #{goods.counterPrice},
+        retail_price = #{goods.retailPrice},
+        update_time = now()
+        where id = #{goods.id}
+    </update>
+    
+    <update id="deleteGoodsSpecifications">
+        update cskaoyan_mall_goods_specification set deleted = 1 where deleted = 0 and goods_id = #{gid}
+    </update>
+    
+    <update id="deleteGoodsProducts">
+        update cskaoyan_mall_goods_product set deleted = 1 where deleted = 0 and goods_id = #{gid}
+    </update>
+
+    <update id="deleteGoodsAttributes">
+        update cskaoyan_mall_goods_attribute set deleted = 1 where deleted = 0 and goods_id = #{gid}
+    </update>
+
+    <update id="deleteGoods">
+        update cskaoyan_mall_goods set deleted = 1 where deleted = 0 and id = #{id}
+    </update>
+
+    <sql id="comment">
+        id, value_id, type, content, user_id, has_picture, pic_urls, star, add_time, update_time, deleted
+    </sql>
+
+    <resultMap id="commentMap" type="com.j4h.mall.model.goods.GoodsComment">
+        <result column="id" property="id" />
+        <result column="value_id" property="valueId" />
+        <result column="type" property="type" />
+        <result column="content" property="content" />
+        <result column="user_id" property="userId" />
+        <result column="has_picture" property="hasPicture" />
+        <result column="pic_urls" property="picUrls" />
+        <result column="star" property="star" />
+        <result column="add_time" property="addTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="deleted" property="deleted" />
+    </resultMap>
+
+    <select id="getGoodsComments" resultMap="commentMap">
+        select <include refid="comment" /> from cskaoyan_mall_comment
+        <where>
+            deleted = 0
+            <if test="uid != null">
+                and user_id = #{uid}
+            </if>
+            <if test="gid != null">
+                and value_id = #{gid}
+            </if>
+        </where>
+    </select>
+
+    <update id="deleteCommentById">
+        update cskaoyan_mall_comment set deleted = 1 where id = #{cid} and deleted = 0
+    </update>
+</mapper>

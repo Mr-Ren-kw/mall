@@ -1,6 +1,6 @@
 package com.j4h.mall.controller.mall;
 
-import com.j4h.mall.model.mall.Brand;
+import com.j4h.mall.model.mall.brand.Brand;
 import com.j4h.mall.service.mall.BrandService;
 import com.j4h.mall.vo.BaseRespVo;
 import com.j4h.mall.vo.mall.BrandCreateVo;

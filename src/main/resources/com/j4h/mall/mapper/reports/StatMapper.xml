@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace要等于接口的全类名-->
+<mapper namespace="com.j4h.mall.mapper.reports.StatMapper">
+    <resultMap id="statUserMapper" type="com.j4h.mall.model.reports.Rows">
+        <result column="day" property="day"/>
+        <result column="users" property="users"/>
+    </resultMap>
+    <select id="queryStatUser" resultMap="statUserMapper">
+       select substr(add_time,1,11) as `day`,count(id) as users
+       from cskaoyan_mall_user group by `day`
+    </select>
+
+
+    <resultMap id="statOrderMapper" type="com.j4h.mall.model.reports.Rows">
+        <result column="day" property="day"/>
+        <result column="customers" property="customers"/>
+        <result column="amount" property="amount"/>
+        <result column="pcr" property="pcr"/>
+        <result column="orders" property="orders"/>
+    </resultMap>
+    <select id="queryStatOrder" resultMap="statOrderMapper">
+           select substr(pay_time,1,11) as `day`,count(id) as orders,count(distinct user_id) as customers,
+        sum(actual_price) as amount,sum(actual_price)/count(distinct user_id) as pcr
+        from cskaoyan_mall_order where order_status=201 group by `day`
+    </select>
+
+
+    <resultMap id="statGoodsMapper" type="com.j4h.mall.model.reports.Rows">
+        <result column="day" property="day"/>
+        <result column="orders" property="orders"/>
+        <result column="amount" property="amount"/>
+        <result column="products" property="products"/>
+    </resultMap>
+    <select id="queryStatGoods" resultMap="statGoodsMapper">
+       select count(id) as orders,sum(`number`*price) as amount,substr(add_time,1,11) as `day`,
+       sum(`number`) as products from cskaoyan_mall_order_goods group by `day`
+
+    </select>
+
+</mapper>

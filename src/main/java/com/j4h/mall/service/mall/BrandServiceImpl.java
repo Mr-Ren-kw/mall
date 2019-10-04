@@ -4,7 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.j4h.mall.mapper.mall.BrandMapper;
 import com.j4h.mall.model.PageBean;
-import com.j4h.mall.model.mall.Brand;
+import com.j4h.mall.model.mall.brand.Brand;
 import com.j4h.mall.vo.mall.BrandCreateVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,7 +39,7 @@ public class BrandServiceImpl implements BrandService {
         brand.setName(brandCreateVo.getName());
         brand.setPicUrl(brandCreateVo.getPicUrl());
         brand.setFloorPrice(Double.parseDouble(brandCreateVo.getFloorPrice()));
-        brand = brandMapper.brandCreate(brand);
+        brandMapper.brandCreate(brand);
         return brandMapper.brandSearchById(brand.getId());
     }
 

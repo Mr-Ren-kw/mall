@@ -1,6 +1,6 @@
 package com.j4h.mall.service.mall;
 
-import com.j4h.mall.model.mall.RegionProvince;
+import com.j4h.mall.model.mall.region.RegionProvince;
 
 import java.util.List;
 

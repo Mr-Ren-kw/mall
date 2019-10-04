@@ -1,7 +1,7 @@
 package com.j4h.mall.service.mall;
 
 import com.j4h.mall.mapper.mall.RegionMapper;
-import com.j4h.mall.model.mall.RegionProvince;
+import com.j4h.mall.model.mall.region.RegionProvince;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,7 +1,7 @@
 package com.j4h.mall.service.mall;
 
 import com.j4h.mall.model.PageBean;
-import com.j4h.mall.model.mall.Brand;
+import com.j4h.mall.model.mall.brand.Brand;
 import com.j4h.mall.vo.mall.BrandCreateVo;
 
 public interface BrandService {
