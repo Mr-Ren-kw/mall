@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import static com.j4h.mall.vo.BaseRespVo.ok;
 
 
-
 @RestController
 @RequestMapping("admin/goods")
 public class GoodsController {
@@ -32,8 +31,18 @@ public class GoodsController {
 
     @RequestMapping(value = "create", method = RequestMethod.POST)
     public BaseRespVo createGoods(@RequestBody GoodsItemVo goodsItemVo) {
-        goodsService.createGoods(goodsItemVo);
-        return ok(null);
+        int res = goodsService.createGoods(goodsItemVo);
+        BaseRespVo err = new BaseRespVo();
+        if (res == 0) {
+            return ok(null);
+        } else {
+            if (res == 1) {
+                err = new BaseRespVo(null, "商品名已经存在", 611);
+            } else if(res == 2) {
+                err = new BaseRespVo(null, "参数不对", 401);
+            }
+        }
+        return err;
     }
 
     @RequestMapping(value = "catAndBrand", method = RequestMethod.GET)
@@ -50,8 +59,18 @@ public class GoodsController {
 
     @RequestMapping(value = "update", method = RequestMethod.POST)
     public BaseRespVo updateGoods(@RequestBody GoodsItemVo goodsItemVo) {
-        goodsService.updateGoods(goodsItemVo);
-        return ok(null);
+        int res = goodsService.updateGoods(goodsItemVo);
+        BaseRespVo err = new BaseRespVo();
+        if(res == 0) {
+            return ok(null);
+        } else {
+            if (res == 1) {
+                err = new BaseRespVo(null, "商品名已经存在", 611);
+            } else if(res == 2) {
+                err = new BaseRespVo(null, "参数不对", 401);
+            }
+        }
+        return err;
     }
 
     @RequestMapping(value = "delete", method = RequestMethod.POST)

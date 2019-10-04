@@ -17,7 +17,7 @@ import java.util.List;
  * @version 1.0
  * @date 2019/10/2 23:53
  */
-@Service
+@Service("sldAdminService")
 public class AdminServiceImpl implements AdminService{
 
     @Autowired

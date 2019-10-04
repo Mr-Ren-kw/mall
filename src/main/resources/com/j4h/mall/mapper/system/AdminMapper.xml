@@ -39,4 +39,45 @@
     <select id="queryAdminById" resultMap="adminMap">
         select `id`,username,`password`,avatar,add_time,update_time,role_ids from cskaoyan_mall_admin where `id` = #{id} and deleted = false
     </select>
+
+<!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+    <select id="getPasswordByUsername" resultType="string">
+        select password from cskaoyan_mall_admin where deleted = 0 and username = #{username}
+    </select>
+
+    <resultMap id="AdminRoleIdsMap" type="com.j4h.mall.model.admin.Admin">
+        <result column="role_ids" property="roleIds"/>
+    </resultMap>
+    <select id="getRoleIdsByUsername" resultMap="AdminRoleIdsMap">
+        select role_ids from cskaoyan_mall_admin where deleted = 0 and username = #{username}
+    </select>
+
+    <select id="getRolesByIds" resultType="string">
+        select name from cskaoyan_mall_role where id in
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <select id="getPermissionByRoleIds" resultType="string">
+        select distinct permission from cskaoyan_mall_permission where role_id in
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <select id="getAvatarByUsername" resultType="string">
+        select avatar from cskaoyan_mall_admin where deleted = 0 and username = #{username}
+    </select>
+
+    <update id="updatePasswordByUsername">
+        update cskaoyan_mall_admin set password = #{password} where deleted = 0 and username = #{username}
+    </update>
+
+    <select id="getPermsByPermissions" resultType="string">
+        select distinct api from cskaoyan_mall_system_permissions where value in
+        <foreach collection="permissions" item="perm" open="(" close=")" separator=",">
+            #{perm}
+        </foreach>
+    </select>
 </mapper>

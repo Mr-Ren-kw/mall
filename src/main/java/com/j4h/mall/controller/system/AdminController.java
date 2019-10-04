@@ -4,6 +4,7 @@ import com.j4h.mall.model.system.*;
 import com.j4h.mall.service.system.AdminService;
 import com.j4h.mall.vo.BaseRespVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 public class AdminController {
 
     @Autowired
+    @Qualifier("sldAdminService")
     AdminService adminService;
 
     @PostMapping("/create")
