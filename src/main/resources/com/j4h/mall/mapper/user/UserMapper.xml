@@ -161,6 +161,7 @@
         select avatar,nickname from cskaoyan_mall_user where id = #{id}
     </select>
 
+
     <select id="queryCountSameUsername" resultType="_int">
         select count(id) from cskaoyan_mall_user where username = #{username} and deleted = 0
     </select>
@@ -171,4 +172,19 @@
         </selectKey>
         insert into cskaoyan_mall_user (username,password,mobile,nickname,add_time,update_time) values (#{new.username},#{new.password},#{new.mobile},#{new.username},now(),now())
     </insert>
+
+    <resultMap id="userInfoMap" type="com.j4h.mall.util.UserInfo">
+        <result column="id" property="id"/>
+        <result column="nickname" property="nickName"/>
+        <result column="avatar" property="avatarUrl"/>
+    </resultMap>
+
+    <select id="getUserInfoByUsernameAndPassword" resultMap="userInfoMap">
+        select id, nickname, avatar from cskaoyan_mall_user where deleted = 0 and username = #{username} and password = #{password}
+    </select>
+
+    <select id="getPasswordByUsername" resultType="string">
+        select password from cskaoyan_mall_user where username = #{username} and deleted = 0
+    </select>
+
 </mapper>

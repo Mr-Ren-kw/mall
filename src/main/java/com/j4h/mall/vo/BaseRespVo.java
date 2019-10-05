@@ -79,7 +79,11 @@ public class BaseRespVo<T> {
         return fail(510, "创建数据失败");
     }
 
-    public static BaseRespVo badArgument() {
+    public static BaseRespVo badArgument401() {
+        return fail(401, "参数不对");
+    }
+
+    public static BaseRespVo badArgument402() {
         return fail(401, "参数不对");
     }
 }
