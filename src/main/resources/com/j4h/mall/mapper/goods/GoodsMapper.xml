@@ -317,6 +317,7 @@
     <select id="getGoodsByNameExceptId" resultMap="goodsMap">
         select <include refid="goods"/> from cskaoyan_mall_goods where deleted = 0 and name = #{name} and id != #{id}
     </select>
+
     <select id="queryGoodsByL1Id" resultType="com.j4h.mall.model.goods.Goods">
         select goods.id,goods.brief,goods.counter_price as counterPrice,goods.is_hot as isHot,goods.is_new as isNew,goods.name,goods.pic_url as picUrl,goods.retail_price as retailPrice from cskaoyan_mall_goods goods left join cskaoyan_mall_category category on goods.category_id = category.id where goods.deleted = 0 and category.deleted = 0 and category.pid = #{id}
     </select>
@@ -329,6 +330,13 @@
     <select id="queryNewGoods" resultType="com.j4h.mall.model.goods.Goods">
         select <include refid="queryItems"/> from cskaoyan_mall_goods where is_new = 1
     </select>
+
+
+    <select id="getGoodsProductByPid" resultMap="goodsProductMap">
+        select <include refid="goodsProduct"/> from cskaoyan_mall_goods_product where id = #{pid}
+    </select>
+
+
     <select id="queryGoodsCountForWx" resultType="com.j4h.mall.model.wx.goods.WxGoodsCount">
         select count(id) as goodsCount from cskaoyan_mall_goods where deleted = 0
     </select>

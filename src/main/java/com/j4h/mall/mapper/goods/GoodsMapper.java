@@ -65,4 +65,7 @@ public interface GoodsMapper {
     List<Goods> queryGoodsByCategoryId(@Param("id") int categoryId);
 
     List<GoodsComment> queryGoodsComment(@Param("vId") int goodsId);
+
+    GoodsProduct getGoodsProductByPid(@Param("pid") int productId);
+
 }
