@@ -20,7 +20,7 @@
     insert into cskaoyan_mall_issue (question,answer,add_time,update_time) values (#{new.question},#{new.answer},now(),now())
   </insert>
   <select id="queryIssueById" resultType="com.j4h.mall.model.mall.issue.Issue">
-    select add_time as addTime,answer,deleted,id,question,update_time as updateTime from cskaoyan_mall_issue where id = #{id}
+    select add_time as addTime,answer,deleted,id,question,update_time as updateTime from cskaoyan_mall_issue where id = #{id} and deleted = 0
   </select>
 
   <update id="updateIssue">

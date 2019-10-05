@@ -61,4 +61,8 @@ public interface GoodsMapper {
     List<Goods> queryGoodsByL1Id(@Param("id") int l1Id);
 
     WxGoodsCount queryGoodsCountForWx();
+
+    List<Goods> queryGoodsByCategoryId(@Param("id") int categoryId);
+
+    List<GoodsComment> queryGoodsComment(@Param("vId") int goodsId);
 }
