@@ -49,13 +49,15 @@ public class CustomShiroConfig {
     @Bean
     public DefaultWebSecurityManager securityManager(@Qualifier("adminRealm") AdminRealm adminRealm,
                                                      @Qualifier("wxRealm") WxRealm wxRealm,
-                                                     CustomRealmAuthenticator authenticator) {
+                                                     CustomRealmAuthenticator authenticator,
+                                                     CustomSessionManager customSessionManager) {
         DefaultWebSecurityManager defaultWebSecurityManager = new DefaultWebSecurityManager();
         ArrayList<Realm> realms = new ArrayList<>();
         realms.add(adminRealm);
         realms.add(wxRealm);
         defaultWebSecurityManager.setRealms(realms);
         defaultWebSecurityManager.setAuthenticator(authenticator);
+        defaultWebSecurityManager.setSessionManager(customSessionManager);
         return defaultWebSecurityManager;
     }
 
