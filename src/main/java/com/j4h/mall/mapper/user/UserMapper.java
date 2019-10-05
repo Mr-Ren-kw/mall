@@ -23,5 +23,5 @@ public interface UserMapper {
 
     OrderUser queryUserById(@Param("id")int id);
 
-
+    UserInfoForComment queryUserById2(@Param("id")int id);
 }
