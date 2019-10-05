@@ -35,4 +35,42 @@
            number,price,specifications,pic_url as picUrl,comment,add_time as addTime,update_time as updateTime,deleted
     from cskaoyan_mall_order_goods where order_id = #{oid}
   </select>
+
+   <!-- 微信端-->
+    <!--根据userId和status查询用户对应的订单的数量-->
+    <select id="queryDetailOrderNumByUserId" resultType="int">
+        select count(id) from cskaoyan_mall_order where  deleted=0 and  user_id = #{id}  and order_status in
+        <foreach collection="status" item="statu" separator="," open="(" close=")">
+            #{statu}
+        </foreach>
+    </select>
+
+    <select id="queryGoodsListByUserIdAndStatus" resultMap="queryGoodsListByUserIdAndStatusMapper">
+      select order_status as orderStatusText,order_sn as orderSn,actual_price as actualPrice,id,order_status as statu
+      from cskaoyan_mall_order
+      where  deleted=0 and  user_id = #{id}  and order_status in
+        <foreach collection="status" item="statu" separator="," open="(" close=")">
+            #{statu}
+        </foreach>
+    </select>
+    <resultMap id="queryGoodsListByUserIdAndStatusMapper" type="com.j4h.mall.model.wx.user.UserOrderDetailsList">
+        <result column="orderStatusText" property="orderStatusText"/>
+        <result column="orderSn" property="orderSn"/>
+        <result column="actualPrice" property="actualPrice"/>
+        <result column="statu" property="statu"/>
+    </resultMap>
+
+    <select id="queryGoodsByOrderId" resultMap="queryGoodsByOidMapper">
+        select `number`,goods_id as id ,goods_name as goodsName
+        from cskaoyan_mall_order_goods
+        where  order_id = #{id} and deleted = 0
+    </select>
+    <resultMap id="queryGoodsByOidMapper" type="com.j4h.mall.model.wx.user.GoodsList">
+        <result column="id" property="id"/>
+        <result column="goodsName" property="goodsName"/>
+    </resultMap>
+
+    <select id="queryPicUrlById" resultType="string">
+        select pic_url from cskaoyan_mall_goods where id = #{id} and deleted = 0
+    </select>
 </mapper>

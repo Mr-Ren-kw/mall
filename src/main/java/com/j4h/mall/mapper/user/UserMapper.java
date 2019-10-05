@@ -3,6 +3,7 @@ package com.j4h.mall.mapper.user;
 import com.j4h.mall.model.user.*;
 import com.j4h.mall.util.UserInfo;
 import com.j4h.mall.vo.user.MyPageHelper;
+import com.j4h.mall.vo.wx.RegisterVo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -24,8 +25,12 @@ public interface UserMapper {
 
     OrderUser queryUserById(@Param("id")int id);
 
+    int queryCountSameUsername(@Param("username") String username);
+
+    int insertUserForRegister(@Param("new") RegisterVo registerVo);
 
     UserInfo getUserInfoByUsernameAndPassword(@Param("username") String username, @Param("password") String password);
 
     String getPasswordByUsername(@Param("username") String principal);
+
 }
