@@ -326,4 +326,7 @@
     <select id="queryNewGoods" resultType="com.j4h.mall.model.goods.Goods">
         select id,brief,counter_price as counterPrice,is_hot as isHot,is_new as isNew,name,pic_url as picUrl,retail_price as retailPrice from cskaoyan_mall_goods goods where goods.is_new = 1
     </select>
+    <select id="queryGoodsCountForWx" resultType="com.j4h.mall.model.wx.goods.WxGoodsCount">
+        select count(id) as goodsCount from cskaoyan_mall_goods where deleted = 0
+    </select>
 </mapper>

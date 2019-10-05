@@ -53,7 +53,7 @@ public class Keyword {
         return isDefault;
     }
 
-    public void setDefault(boolean aDefault) {
+    public void setIsDefault(boolean aDefault) {
         isDefault = aDefault;
     }
 
@@ -61,7 +61,7 @@ public class Keyword {
         return isHot;
     }
 
-    public void setHot(boolean hot) {
+    public void setIsHot(boolean hot) {
         isHot = hot;
     }
 
