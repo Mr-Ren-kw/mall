@@ -154,4 +154,18 @@
     <select id="queryUserById" resultType="com.j4h.mall.model.user.OrderUser">
         select avatar,nickname from cskaoyan_mall_user where id = #{id}
     </select>
+
+    <resultMap id="userInfoMap" type="com.j4h.mall.util.UserInfo">
+        <result column="id" property="id"/>
+        <result column="nickname" property="nickName"/>
+        <result column="avatar" property="avatarUrl"/>
+    </resultMap>
+
+    <select id="getUserInfoByUsernameAndPassword" resultMap="userInfoMap">
+        select id, nickname, avatar from cskaoyan_mall_user where deleted = 0 and username = #{username} and password = #{password}
+    </select>
+
+    <select id="getPasswordByUsername" resultType="string">
+        select password from cskaoyan_mall_user where username = #{username} and deleted = 0
+    </select>
 </mapper>

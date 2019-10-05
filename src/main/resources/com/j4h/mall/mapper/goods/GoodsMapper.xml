@@ -317,4 +317,8 @@
     <select id="getGoodsByNameExceptId" resultMap="goodsMap">
         select <include refid="goods"/> from cskaoyan_mall_goods where deleted = 0 and name = #{name} and id != #{id}
     </select>
+
+    <select id="getGoodsProductByPid" resultMap="goodsProductMap">
+        select <include refid="goodsProduct"/> from cskaoyan_mall_goods_product where id = #{pid}
+    </select>
 </mapper>

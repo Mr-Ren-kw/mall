@@ -1,6 +1,7 @@
 package com.j4h.mall.mapper.user;
 
 import com.j4h.mall.model.user.*;
+import com.j4h.mall.util.UserInfo;
 import com.j4h.mall.vo.user.MyPageHelper;
 import org.apache.ibatis.annotations.Param;
 
@@ -24,4 +25,7 @@ public interface UserMapper {
     OrderUser queryUserById(@Param("id")int id);
 
 
+    UserInfo getUserInfoByUsernameAndPassword(@Param("username") String username, @Param("password") String password);
+
+    String getPasswordByUsername(@Param("username") String principal);
 }

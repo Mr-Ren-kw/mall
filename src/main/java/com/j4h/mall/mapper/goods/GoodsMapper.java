@@ -52,4 +52,6 @@ public interface GoodsMapper {
     List<Goods> getGoodsByName(@Param("name") String name);
 
     List<Goods> getGoodsByNameExceptId(@Param("name") String name, @Param("id") int id);
+
+    GoodsProduct getGoodsProductByPid(@Param("pid") int productId);
 }
