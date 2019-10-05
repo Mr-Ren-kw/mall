@@ -1,6 +1,7 @@
 package com.j4h.mall.util;
 
 public class UserInfo {
+    private int id;
     private String nickName;
     private String avatarUrl;
     private String country;
@@ -8,6 +9,14 @@ public class UserInfo {
     private String city;
     private String language;
     private Byte gender;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getCountry() {
         return country;

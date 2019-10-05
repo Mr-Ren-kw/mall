@@ -1,15 +1,20 @@
 package com.j4h.mall.config;
 
 
-import com.j4h.mall.shiro.CustomRealm;
+import com.j4h.mall.shiro.AdminRealm;
+import com.j4h.mall.shiro.CustomRealmAuthenticator;
+import com.j4h.mall.shiro.WxRealm;
 import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.realm.Realm;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Properties;
@@ -22,7 +27,7 @@ public class CustomShiroConfig {
     public ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager){
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         //如果访问url没有通过认证，会重定向到loginUrl
-        shiroFilterFactoryBean.setLoginUrl("/");
+//        shiroFilterFactoryBean.setLoginUrl("/");
         //安全控制器
         shiroFilterFactoryBean.setSecurityManager(securityManager);
         //拦截器配置
@@ -42,10 +47,15 @@ public class CustomShiroConfig {
     }
 
     @Bean
-    public DefaultWebSecurityManager securityManager(CustomRealm realm, DefaultWebSessionManager sessionManager) {
+    public DefaultWebSecurityManager securityManager(@Qualifier("adminRealm") AdminRealm adminRealm,
+                                                     @Qualifier("wxRealm") WxRealm wxRealm,
+                                                     CustomRealmAuthenticator authenticator) {
         DefaultWebSecurityManager defaultWebSecurityManager = new DefaultWebSecurityManager();
-        defaultWebSecurityManager.setRealm(realm);
-        defaultWebSecurityManager.setSessionManager(sessionManager);
+        ArrayList<Realm> realms = new ArrayList<>();
+        realms.add(adminRealm);
+        realms.add(wxRealm);
+        defaultWebSecurityManager.setRealms(realms);
+        defaultWebSecurityManager.setAuthenticator(authenticator);
         return defaultWebSecurityManager;
     }
 
@@ -64,5 +74,16 @@ public class CustomShiroConfig {
         mappings.setProperty("org.apache.shiro.authz.AuthorizationException","/admin/auth/login");
         simpleMappingExceptionResolver.setExceptionMappings(mappings);
         return simpleMappingExceptionResolver;
+    }
+
+    @Bean
+    public CustomRealmAuthenticator customRealmAuthenticator(@Qualifier("adminRealm") AdminRealm adminRealm,
+                                                             @Qualifier("wxRealm") WxRealm wxRealm){
+        CustomRealmAuthenticator customRealmAuthenticator = new CustomRealmAuthenticator();
+        ArrayList<Realm> realms = new ArrayList<>();
+        realms.add(adminRealm);
+        realms.add(wxRealm);
+        customRealmAuthenticator.setRealms(realms);
+        return customRealmAuthenticator;
     }
 }

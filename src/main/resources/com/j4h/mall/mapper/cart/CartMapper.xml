@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace要等于接口的全类名-->
+<mapper namespace="com.j4h.mall.mapper.cart.CartMapper">
+
+    <insert id="addCart">
+        <selectKey resultType="_int" order="AFTER">
+            select sum(number) from cskaoyan_mall_cart where user_id = #{uid} and deleted = 0
+        </selectKey>
+        insert into cskaoyan_mall_cart (id, user_id, goods_id, goods_sn, goods_name, product_id, price, number, specifications, checked, pic_url, add_time, update_time, deleted)
+        values (null, #{cart.userId}, #{cart.goodsId}, #{cart.goodsSn}, #{cart.goodsName}, #{cart.productId}, #{cart.price}, #{cart.number}, #{cart.specifications}, 1, #{cart.picUrl}, now(), now(), 0)
+    </insert>
+
+
+</mapper>
