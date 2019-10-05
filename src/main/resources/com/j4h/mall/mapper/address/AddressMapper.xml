@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.j4h.mall.mapper.address.AddressMapper">
+  <select id="getAddressListByUserId" resultType="com.j4h.mall.model.wx.address.WxAddress">
+    select id,`name`, mobile,is_default as isDefault,address as detailedAddress,province_id as provinceId,city_id as cityId,area_id as areaId from cskaoyan_mall_address where user_id = #{userId} and deleted = 0
+  </select>
+</mapper>

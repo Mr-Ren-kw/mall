@@ -106,4 +106,11 @@ public class WxAuthController {
 			return BaseRespVo.fail(703, "验证码错误");
 		}
 	}
+
+	@PostMapping("/logout")
+	public BaseRespVo logout() {
+		Session session = SecurityUtils.getSubject().getSession();
+		session.setAttribute("userId",null);
+		return BaseRespVo.ok(null);
+	}
 }

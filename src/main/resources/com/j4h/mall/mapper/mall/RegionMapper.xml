@@ -29,4 +29,12 @@
   <select id="getRegionAreaListByCid" resultType="com.j4h.mall.model.mall.region.RegionArea">
     select id,`name`,type,code from cskaoyan_mall_region where pid = #{cid}
   </select>
+
+  <select id="queryRegionListByPidForWx" resultType="com.j4h.mall.model.wx.region.WxRegion">
+    select id,`name`,type,code,pid from cskaoyan_mall_region where pid = #{pid}
+  </select>
+
+  <select id="queryRegionNameById" resultType="string">
+    select name from cskaoyan_mall_region where id = #{id}
+  </select>
 </mapper>
