@@ -54,8 +54,18 @@ public interface GoodsMapper {
 
     List<Goods> getGoodsByNameExceptId(@Param("name") String name, @Param("id") int id);
 
-    GoodsProduct getGoodsProductByPid(@Param("pid") int productId);
+    List<Goods> queryHotGoods();
+
+    List<Goods> queryNewGoods();
+
+    List<Goods> queryGoodsByL1Id(@Param("id") int l1Id);
 
     WxGoodsCount queryGoodsCountForWx();
+
+    List<Goods> queryGoodsByCategoryId(@Param("id") int categoryId);
+
+    List<GoodsComment> queryGoodsComment(@Param("vId") int goodsId);
+
+    GoodsProduct getGoodsProductByPid(@Param("pid") int productId);
 
 }

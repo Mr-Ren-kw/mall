@@ -1,6 +1,8 @@
 package com.j4h.mall.mapper.mall;
 
+import com.j4h.mall.model.goods.Goods;
 import com.j4h.mall.model.mall.category.AddCategory;
+import com.j4h.mall.model.mall.category.CategoryInfo;
 import com.j4h.mall.model.mall.category.L1Name;
 import com.j4h.mall.model.mall.category.L1Category;
 import com.j4h.mall.model.wx.catalog.WxCategory;
@@ -28,4 +30,6 @@ public interface CategoryMapper {
     List<WxCategory> queryCategoryListForWxIndex(@Param("pid")int pid);
 
     WxCategory queryCurrentCategoryForWx(@Param("id") int id);
+
+    List<CategoryInfo> getAllL2CategoryInfo();
 }
