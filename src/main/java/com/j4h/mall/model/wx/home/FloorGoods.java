@@ -1,4 +1,6 @@
-package com.j4h.mall.model.goods;
+package com.j4h.mall.model.wx.home;
+
+import com.j4h.mall.model.goods.Goods;
 
 import java.util.List;
 

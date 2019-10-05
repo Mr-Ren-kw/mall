@@ -34,10 +34,10 @@ public class Goods {
     private String unit;
     private int brandId;
     private String name;
-    private String counterPrice;
+    private Double counterPrice;
     private String detail;
     private boolean isOnSale;
-    private String retailPrice;
+    private Double retailPrice;
     private String[] gallery;
     private int categoryId;
     private boolean isHot;
@@ -121,9 +121,6 @@ public class Goods {
         this.name = name;
     }
 
-    public void setCounterPrice(String counterPrice) {
-        this.counterPrice = counterPrice;
-    }
 
     public void setDetail(String detail) {
         this.detail = detail;
@@ -133,9 +130,6 @@ public class Goods {
         this.isOnSale = isOnSale;
     }
 
-    public void setRetailPrice(String retailPrice) {
-        this.retailPrice = retailPrice;
-    }
 
     public void setGallery(String[] gallery) {
         this.gallery = gallery;
@@ -181,9 +175,6 @@ public class Goods {
         return name;
     }
 
-    public String getCounterPrice() {
-        return counterPrice;
-    }
 
     public String getDetail() {
         return detail;
@@ -193,9 +184,6 @@ public class Goods {
         return isOnSale;
     }
 
-    public String getRetailPrice() {
-        return retailPrice;
-    }
 
     public String[] getGallery() {
         return gallery;
@@ -207,5 +195,21 @@ public class Goods {
 
     public boolean getIsHot() {
         return isHot;
+    }
+
+    public Double getCounterPrice() {
+        return counterPrice;
+    }
+
+    public void setCounterPrice(Double counterPrice) {
+        this.counterPrice = counterPrice;
+    }
+
+    public Double getRetailPrice() {
+        return retailPrice;
+    }
+
+    public void setRetailPrice(Double retailPrice) {
+        this.retailPrice = retailPrice;
     }
 }

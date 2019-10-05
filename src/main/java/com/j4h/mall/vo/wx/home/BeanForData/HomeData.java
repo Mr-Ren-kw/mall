@@ -2,22 +2,21 @@ package com.j4h.mall.vo.wx.home.BeanForData;
 
 import com.j4h.mall.model.extension.ad.BeanForDatabase.Advertise;
 import com.j4h.mall.model.extension.coupon.BeanForDatabase.Coupon;
-import com.j4h.mall.model.extension.groupon.BeanForDatabase.Groupon;
 import com.j4h.mall.model.extension.topic.BeanForDatabase.Topic;
-import com.j4h.mall.model.goods.Category;
-import com.j4h.mall.model.goods.FloorGoods;
+import com.j4h.mall.model.wx.home.FloorGoods;
 import com.j4h.mall.model.goods.Goods;
 import com.j4h.mall.model.mall.brand.Brand;
-
+import com.j4h.mall.model.wx.home.GrouponGoods;
+import com.j4h.mall.model.wx.home.L1Categories;
 import java.util.List;
 
 public class HomeData {
     private List<Advertise> banner;
     private List<Brand> brandList;
-    private List<Category> channel;
+    private List<L1Categories> channel;
     private List<Coupon> couponList;
     private List<FloorGoods> floorGoodsList;
-    private List<Groupon> grouponList;
+    private List<GrouponGoods> grouponList;
     private List<Goods> hotGoodsList;
     private List<Goods> newGoodsList;
     private List<Topic> topicList;
@@ -38,11 +37,11 @@ public class HomeData {
         this.brandList = brandList;
     }
 
-    public List<Category> getChannel() {
+    public List<L1Categories> getChannel() {
         return channel;
     }
 
-    public void setChannel(List<Category> channel) {
+    public void setChannel(List<L1Categories> channel) {
         this.channel = channel;
     }
 
@@ -62,11 +61,11 @@ public class HomeData {
         this.floorGoodsList = floorGoodsList;
     }
 
-    public List<Groupon> getGrouponList() {
+    public List<GrouponGoods> getGrouponList() {
         return grouponList;
     }
 
-    public void setGrouponList(List<Groupon> grouponList) {
+    public void setGrouponList(List<GrouponGoods> grouponList) {
         this.grouponList = grouponList;
     }
 

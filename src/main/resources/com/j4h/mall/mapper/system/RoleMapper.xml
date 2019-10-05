@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.j4h.mall.mapper.system.RoleMapper">
+    <select id="queryRole" resultType="com.j4h.mall.model.system.Role">
+        select `id`,`name`,`desc`,enabled,add_time,update_time,deleted from cskaoyan_mall_role where `name` like #{name} and deleted = false
+    </select>
+
+    <insert id="insertRole">
+        <selectKey resultType="int" keyColumn="id" keyProperty="role.id">
+            select last_insert_id() as id
+        </selectKey>
+        insert into cskaoyan_mall_role (`name`,`desc`,add_time,update_time) value (#{role.name},#{role.desc},now(),now())
+    </insert>
+
+    <select id="queryRoleById" resultType="com.j4h.mall.model.system.Role">
+        select `id`,`name`,`desc`,add_time as addTime,update_time as updateTime from cskaoyan_mall_role where `id` = #{id}
+    </select>
+
+    <update id="deleteRole">
+        update cskaoyan_mall_role set deleted = true where id = #{id}
+    </update>
+
+    <select id="getAllRole" resultType="com.j4h.mall.model.system.RoleVo">
+        select `id` as value, `name` as label from cskaoyan_mall_role
+    </select>
+
+    <select id="getPermissionsByRoleId" resultType="String">
+        select permission from cskaoyan_mall_permission where `role_Id` = #{roleId} and permission != '*'
+    </select>
+
+    <select id="getAllPermissions" resultMap="getSystemPermissions">
+        select id as pid,`value` as id,label from cskaoyan_mall_system_permissions where pid = 0
+    </select>
+    <resultMap id="getSystemPermissions" type="com.j4h.mall.model.system.SystemPermissions">
+        <result column="id" property="id"/>
+        <result column="label" property="label"/>
+        <collection property="children" column="pid" select="com.j4h.mall.mapper.system.RoleMapper.getPermissionChildrenVo"/>
+    </resultMap>
+    <select id="getPermissionChildrenVo" resultMap="chileMap">
+        select id as pid,`value` as id,label from cskaoyan_mall_system_permissions where pid = #{pid}
+    </select>
+    <resultMap id="chileMap" type="com.j4h.mall.model.system.PermissionChildrenVo">
+        <result column="id" property="id"/>
+        <result column="label" property="label"/>
+        <collection property="children" column="pid" select="com.j4h.mall.mapper.system.RoleMapper.getPermissionChildrenChildrenVo"/>
+    </resultMap>
+    <select id="getPermissionChildrenChildrenVo" resultType="com.j4h.mall.model.system.PermissionChildrenChildrenVo">
+        select `value` as id,label,api from cskaoyan_mall_system_permissions where pid = #{pid}
+    </select>
+
+    <delete id="deletePermissionByRoleId">
+        delete from cskaoyan_mall_permission where role_id = #{roleId}
+    </delete>
+
+    <insert id="insertPermissionByRoleIdAndPermission">
+        insert into cskaoyan_mall_permission (role_id,permission,add_time,update_time) values
+        <foreach collection="permissions" separator="," item="permiss">
+            (#{roleId},#{permiss},now(),now())
+        </foreach>
+    </insert>
+</mapper>

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/wx/home")
-public class IndexController {
+public class HomeController {
 
     @Autowired
     HomeService homeService;

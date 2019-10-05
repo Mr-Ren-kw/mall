@@ -1,5 +1,6 @@
 package com.j4h.mall.mapper.mall;
 
+import com.j4h.mall.model.goods.Goods;
 import com.j4h.mall.model.mall.category.AddCategory;
 import com.j4h.mall.model.mall.category.L1Name;
 import com.j4h.mall.model.mall.category.L1Category;
@@ -23,4 +24,5 @@ public interface CategoryMapper {
     int deleteCategoryByPid(@Param("pid") int pid);
 
     int deleteCategoryById(@Param("id") int id);
+
 }

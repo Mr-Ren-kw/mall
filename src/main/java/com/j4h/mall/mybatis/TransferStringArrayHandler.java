@@ -48,7 +48,7 @@ public class TransferStringArrayHandler implements TypeHandler<String[]> {
 
     private String[] parseString2StringList(String value) {
         String[] strings = new String[0];
-        if(value == null) {
+        if(value == null || "".equals(value.trim())) {
             return strings;
         }
         try {
