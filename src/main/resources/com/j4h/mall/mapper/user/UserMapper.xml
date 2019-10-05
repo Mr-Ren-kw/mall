@@ -154,4 +154,13 @@
     <select id="queryUserById" resultType="com.j4h.mall.model.user.OrderUser">
         select avatar,nickname from cskaoyan_mall_user where id = #{id}
     </select>
+
+    <!--微信端-->
+
+
+    <!--根据username查询用户的id-->
+    <select id="queryUserIdByUsername" resultType="int">
+        select id  from cskaoyan_mall_user where username = #{username} and deleted = 0;
+    </select>
+
 </mapper>

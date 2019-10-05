@@ -23,5 +23,5 @@ public interface UserMapper {
 
     OrderUser queryUserById(@Param("id")int id);
 
-
+    int queryUserIdByUsername(@Param("username") String principal);
 }
