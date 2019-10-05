@@ -4,10 +4,11 @@ import com.j4h.mall.mapper.cart.CartMapper;
 import com.j4h.mall.mapper.goods.GoodsMapper;
 import com.j4h.mall.model.goods.Goods;
 import com.j4h.mall.model.goods.GoodsProduct;
-import com.j4h.mall.model.wx.cart.AddCart;
-import com.j4h.mall.model.wx.cart.Cart;
+import com.j4h.mall.model.wx.cart.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class WxCartServiceImpl implements WxCartService {
@@ -36,5 +37,29 @@ public class WxCartServiceImpl implements WxCartService {
         cart.setSpecifications(goodsProduct.getSpecifications());
         cart.setUserId(userId);
         return cartMapper.addCart(cart);
+    }
+
+    @Override
+    public IndexCart getCartInfo(Integer userId) {
+        List<Cart> cartList = cartMapper.getCartListByUid(userId);
+        CartTotal cartTotal = new CartTotal();
+        if(cartList != null && cartList.size() != 0) {
+            for (Cart cart : cartList) {
+                if(cart != null) {
+                    if (cart.getChecked()) {
+                        cartTotal.setCheckedGoodsCount(cartTotal.getCheckedGoodsCount() + cart.getNumber());
+                        cartTotal.setCheckedGoodsAmount(cartTotal.getCheckedGoodsAmount() + cart.getNumber() * cart.getPrice());
+                    }
+                    cartTotal.setGoodsCount(cartTotal.getGoodsCount() + cart.getNumber());
+                    cartTotal.setGoodsAmount(cartTotal.getGoodsAmount() + cart.getNumber() * cart.getPrice());
+                }
+            }
+        }
+        return new IndexCart(cartList, cartTotal);
+    }
+
+    @Override
+    public void checkedProducts(Integer userId, CheckedCart checkedCart) {
+        cartMapper.updateProductCheckedByUidAndPid(userId, checkedCart);
     }
 }

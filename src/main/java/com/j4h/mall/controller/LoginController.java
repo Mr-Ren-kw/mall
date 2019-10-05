@@ -2,6 +2,7 @@ package com.j4h.mall.controller;
 
 import com.j4h.mall.model.AdminInfo;
 import com.j4h.mall.service.admin.AdminService;
+import com.j4h.mall.shiro.CustomToken;
 import com.j4h.mall.vo.BaseRespVo;
 import com.j4h.mall.vo.LoginVo;
 import org.apache.shiro.SecurityUtils;
@@ -32,7 +33,7 @@ public class LoginController {
         }
         String username = loginVo.getUsername();
         String password = loginVo.getPassword();
-        UsernamePasswordToken token = new UsernamePasswordToken(username, password);
+        CustomToken token = new CustomToken(username, password, "admin");
         Subject subject = SecurityUtils.getSubject();
         try {
             subject.login(token);
