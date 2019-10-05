@@ -3,6 +3,7 @@ package com.j4h.mall.service.wx.address;
 import com.j4h.mall.mapper.address.AddressMapper;
 import com.j4h.mall.mapper.mall.RegionMapper;
 import com.j4h.mall.model.wx.address.WxAddress;
+import com.j4h.mall.model.wx.address.WxAddressDetail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,5 +27,32 @@ public class WxAddressServiceImpl implements WxAddressService {
             wxAddress.setDetailedAddress(stringBuilder.toString() + " " + wxAddress.getDetailedAddress());
         }
         return addressListByUserId;
+    }
+
+    @Override
+    public WxAddressDetail getAddressDetailById(int id) {
+        WxAddressDetail addressDetailById = addressMapper.getAddressDetailById(id);
+        addressDetailById.setProvinceName(regionMapper.queryRegionNameById(addressDetailById.getProvinceId()));
+        addressDetailById.setCityName(regionMapper.queryRegionNameById(addressDetailById.getCityId()));
+        addressDetailById.setAreaName(regionMapper.queryRegionNameById(addressDetailById.getAreaId()));
+        return addressDetailById;
+    }
+
+    @Override
+    public int updateAddressById(WxAddressDetail wxAddressDetail) {
+        if (wxAddressDetail.getIsDefault()) {
+            addressMapper.setOtherAddressNotDefault();
+        }
+        addressMapper.updateAddressById(wxAddressDetail);
+        return wxAddressDetail.getId();
+    }
+
+    @Override
+    public int insertNewAddress(WxAddressDetail wxAddressDetail,int userId) {
+        if (wxAddressDetail.getIsDefault()) {
+            addressMapper.setOtherAddressNotDefault();
+        }
+        addressMapper.insertNewAddress(wxAddressDetail,userId);
+        return wxAddressDetail.getId();
     }
 }

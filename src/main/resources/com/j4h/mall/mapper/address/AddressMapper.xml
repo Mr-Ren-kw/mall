@@ -6,4 +6,27 @@
   <select id="getAddressListByUserId" resultType="com.j4h.mall.model.wx.address.WxAddress">
     select id,`name`, mobile,is_default as isDefault,address as detailedAddress,province_id as provinceId,city_id as cityId,area_id as areaId from cskaoyan_mall_address where user_id = #{userId} and deleted = 0
   </select>
+
+  <select id="getAddressDetailById" resultType="com.j4h.mall.model.wx.address.WxAddressDetail">
+    select id,`name`,address,is_default as isDefault,mobile,area_id as areaId,city_id as cityId,province_id as provinceId
+    from cskaoyan_mall_address where id = #{id} and deleted = 0
+  </select>
+
+  <update id="updateAddressById">
+    update cskaoyan_mall_address set address = #{new.address},area_id = #{new.areaId},city_id = #{new.cityId},is_default = #{new.isDefault},
+                                     mobile = #{new.mobile},name = #{new.name},province_id = #{new.provinceId},update_time = now()
+    where id = #{new.id}
+  </update>
+
+  <insert id="insertNewAddress">
+    <selectKey resultType="_int" keyColumn="id" keyProperty="new.id" order="AFTER">
+      select last_insert_id() as id
+    </selectKey>
+    insert into cskaoyan_mall_address (name, user_id, province_id, city_id, area_id, address, mobile, is_default, add_time, update_time)
+    VALUES (#{new.name},#{userId},#{new.provinceId},#{new.cityId},#{new.areaId},#{new.address},#{new.mobile},#{new.isDefault},now(),now())
+  </insert>
+
+  <update id="setOtherAddressNotDefault">
+    update cskaoyan_mall_address set is_default = 0
+  </update>
 </mapper>
