@@ -35,7 +35,17 @@
     </select>
 
     <update id="updateProductCheckedByUidAndPid">
-        update cskaoyan_mall_cart set checked = #{checkedCart.isChecked} where user_id = #{uid} and deleted = 0
+        update cskaoyan_mall_cart set checked = #{checkedCart.isChecked}
+        <where>
+            user_id = #{uid} and deleted = 0
+            <if test="checkedCart.productIds.length != 0">
+                and product_id in
+                <foreach collection="checkedCart.productIds" item="pid" separator="," open="(" close=")">
+                    #{pid}
+                </foreach>
+            </if>
+        </where>
+
     </update>
 
 
