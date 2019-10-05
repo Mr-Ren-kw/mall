@@ -1,6 +1,7 @@
 package com.j4h.mall.mapper.goods;
 
 import com.j4h.mall.model.goods.*;
+import com.j4h.mall.model.wx.goods.WxGoodsCount;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -54,4 +55,7 @@ public interface GoodsMapper {
     List<Goods> getGoodsByNameExceptId(@Param("name") String name, @Param("id") int id);
 
     GoodsProduct getGoodsProductByPid(@Param("pid") int productId);
+
+    WxGoodsCount queryGoodsCountForWx();
+
 }
