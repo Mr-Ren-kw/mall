@@ -161,6 +161,7 @@
         select avatar,nickname from cskaoyan_mall_user where id = #{id}
     </select>
 
+    <!--微信端-->
 
     <select id="queryCountSameUsername" resultType="_int">
         select count(id) from cskaoyan_mall_user where username = #{username} and deleted = 0
