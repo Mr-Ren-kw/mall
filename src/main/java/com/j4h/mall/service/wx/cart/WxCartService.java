@@ -11,4 +11,6 @@ public interface WxCartService {
 
     void checkedProducts(Integer userId, CheckedCart checkedCart);
 
+    Integer getAllCartGoodsCount(Integer userId);
+
 }

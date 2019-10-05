@@ -62,4 +62,17 @@ public class WxCartServiceImpl implements WxCartService {
     public void checkedProducts(Integer userId, CheckedCart checkedCart) {
         cartMapper.updateProductCheckedByUidAndPid(userId, checkedCart);
     }
+
+    @Override
+    public Integer getAllCartGoodsCount(Integer userId) {
+        List<Cart> cartListByUid = cartMapper.getCartListByUid(userId);
+        if(cartListByUid == null || cartListByUid.size() == 0) {
+            return 0;
+        }
+        Integer cnt = 0;
+        for (Cart cart : cartListByUid) {
+            cnt += cart.getNumber();
+        }
+        return cnt;
+    }
 }

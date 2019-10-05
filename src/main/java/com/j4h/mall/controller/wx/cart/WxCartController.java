@@ -58,4 +58,14 @@ public class WxCartController {
         IndexCart indexCart = wxCartService.getCartInfo(userId);
         return BaseRespVo.ok(indexCart);
     }
+
+    @RequestMapping("goodscount")
+    public BaseRespVo<Integer> countCartGoods() {
+        Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute("userId");
+        if(userId == null) {
+            return BaseRespVo.fail(501, "请登录");
+        }
+        Integer cnt = wxCartService.getAllCartGoodsCount(userId);
+        return BaseRespVo.ok(cnt);
+    }
 }

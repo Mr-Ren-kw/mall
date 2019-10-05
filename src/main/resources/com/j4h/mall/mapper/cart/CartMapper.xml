@@ -37,4 +37,6 @@
     <update id="updateProductCheckedByUidAndPid">
         update cskaoyan_mall_cart set checked = #{checkedCart.isChecked} where user_id = #{uid} and deleted = 0
     </update>
+
+
 </mapper>

@@ -18,4 +18,5 @@ public interface CartMapper {
 
     int updateProductCheckedByUidAndPid(@Param("uid") Integer userId, @Param("checkedCart") CheckedCart checkedCart);
 
+
 }
