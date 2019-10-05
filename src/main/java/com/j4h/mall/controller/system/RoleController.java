@@ -53,6 +53,12 @@ public class RoleController {
     @PostMapping("/permissions")
     public BaseRespVo getPermissions(@RequestBody PermissionsPostVo permissionsPostVo){
         int roleId = permissionsPostVo.getRoleId();
+        if (roleId == 1){
+            BaseRespVo baseRespVo = new BaseRespVo();
+            baseRespVo.setErrno(641);
+            baseRespVo.setErrmsg("当前角色的超级权限不能变更");
+            return baseRespVo;
+        }
         boolean b = roleService.updatePermissions(permissionsPostVo);
         if (b){
             return BaseRespVo.ok(null);
