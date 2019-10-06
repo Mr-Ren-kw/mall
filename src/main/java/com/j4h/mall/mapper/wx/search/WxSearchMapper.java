@@ -1,5 +1,6 @@
 package com.j4h.mall.mapper.wx.search;
 
+import com.j4h.mall.model.wx.search.HistoryKeyword;
 import com.j4h.mall.model.wx.search.KeywordOfSearch;
 
 import java.util.List;
@@ -11,7 +12,8 @@ import java.util.List;
  */
 public interface WxSearchMapper {
     KeywordOfSearch queryDefaultKeyword();
-    String[] queryHistoryKeywordList(int UserId);
+    List<HistoryKeyword> queryHistoryKeywordList(int UserId);
     List<KeywordOfSearch> hotKeywordList();
     String[] showSearchHelper(String keyword);
+    int deleteSearchHistoryByUserId(int userId);
 }

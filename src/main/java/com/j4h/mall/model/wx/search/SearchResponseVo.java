@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class SearchResponseVo {
     KeywordOfSearch defaultKeyword;
-    String[] historyKeywordList;
+    List<HistoryKeyword> historyKeywordList;
     List<KeywordOfSearch> hotKeywordList;
 
     public KeywordOfSearch getDefaultKeyword() {
@@ -20,11 +20,11 @@ public class SearchResponseVo {
         this.defaultKeyword = defaultKeyword;
     }
 
-    public String[] getHistoryKeywordList() {
+    public List<HistoryKeyword> getHistoryKeywordList() {
         return historyKeywordList;
     }
 
-    public void setHistoryKeywordList(String[] historyKeywordList) {
+    public void setHistoryKeywordList(List<HistoryKeyword> historyKeywordList) {
         this.historyKeywordList = historyKeywordList;
     }
 

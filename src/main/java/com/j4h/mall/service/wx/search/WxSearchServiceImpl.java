@@ -1,6 +1,7 @@
 package com.j4h.mall.service.wx.search;
 
 import com.j4h.mall.mapper.wx.search.WxSearchMapper;
+import com.j4h.mall.model.wx.search.HistoryKeyword;
 import com.j4h.mall.model.wx.search.KeywordOfSearch;
 import com.j4h.mall.model.wx.search.SearchResponseVo;
 import com.j4h.mall.util.LoginOrNotUtils;
@@ -22,11 +23,11 @@ public class WxSearchServiceImpl implements WxSearchService{
         if (userId == null){
             userId = -1;
         }
-        String[] strings = wxSearchMapper.queryHistoryKeywordList(userId);
+        List<HistoryKeyword> historyKeywords = wxSearchMapper.queryHistoryKeywordList(userId);
         List<KeywordOfSearch> keywordOfSearches = wxSearchMapper.hotKeywordList();
         SearchResponseVo searchResponseVo = new SearchResponseVo();
         searchResponseVo.setDefaultKeyword(keywordOfSearch);
-        searchResponseVo.setHistoryKeywordList(strings);
+        searchResponseVo.setHistoryKeywordList(historyKeywords);
         searchResponseVo.setHotKeywordList(keywordOfSearches);
         return searchResponseVo;
     }
@@ -41,5 +42,11 @@ public class WxSearchServiceImpl implements WxSearchService{
         keyword = "%" + keyword + "%";
         String[] strings = wxSearchMapper.showSearchHelper(keyword);
         return strings;
+    }
+
+    @Override
+    public int deleteSearchHistory(int userId) {
+        int i = wxSearchMapper.deleteSearchHistoryByUserId(userId);
+        return i;
     }
 }
