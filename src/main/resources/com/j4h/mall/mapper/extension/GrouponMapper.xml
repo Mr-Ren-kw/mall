@@ -16,4 +16,72 @@
     <select id="queryParticipanter" resultType="com.j4h.mall.model.extension.groupon.BeanForDatabase.GrouponUser">
         select user_id as userId,order_id as orderId from cskaoyan_mall_groupon where creator_user_id = #{id} and creator_user_id != user_id
     </select>
+
+    <!--从数据库获取小程序团购数据-->
+    <resultMap id="grouponMap" type="com.j4h.mall.model.wx.groupon.WxGrouponPageBean2">
+        <result column="groupon_price" property="groupon_price"/>
+        <result column="groupon_member" property="groupon_member"/>
+        <association property="goods" javaType="com.j4h.mall.model.wx.groupon.WxGrouponGoodsBean">
+            <result column="brief" property="brief"/>
+            <result column="counterPrice" property="counterPrice"/>
+            <result column="id" property="id"/>
+            <result column="name" property="name"/>
+            <result column="picUrl" property="picUrl"/>
+            <result column="retailPrice" property="retailPrice"/>
+        </association>
+    </resultMap>
+    <select id="getIndexGrouponGoods" resultMap="grouponMap">
+        select (g.retail_price - gr.discount) as groupon_price,gr.discount_member as groupon_member,g.brief,g.counter_price as counterPrice,
+        g.id,g.name,g.pic_url as picUrl,g.retail_price as retailPrice from cskaoyan_mall_groupon gon
+        left join cskaoyan_mall_groupon_rules gr on gon.rules_id = gr.id
+        left join cskaoyan_mall_goods g on gon.goods_id = g.id limit #{wxGrouponBean.size} offset ((#{wxGrouponBean.page} - 1)*10) order by gon.add_time desc
+    </select>
+
+    <select id="getMyGroupOnCount" resultType="int">
+        select count(id) from cskaoyan_mall_groupon where creator_user_id = #{userid}
+    </select>
+
+    <!--查询用户发起的团购信息-->
+
+
+    <sql id="grouponKeyId">
+        id,order_id as orderId,
+        groupon_id as grouponId,
+        rules_id as rulesId,
+        creator_user_id as creatorUserId
+    </sql>
+
+    <select id="getUserInitGroupOnKeyId" resultType="com.j4h.mall.model.wx.groupon.WxMyGrouponKeyId">
+        select <include refid="grouponKeyId"/> from cskaoyan_mall_groupon where creator_user_id = #{userId}
+    </select>
+
+    <select id="getUserJoinGroupOnKeyId" resultType="com.j4h.mall.model.wx.groupon.WxMyGrouponKeyId">
+        select <include refid="grouponKeyId"/> from cskaoyan_mall_groupon where user_id = #{userId}
+    </select>
+
+    <select id="getGrouponOrderMsg" resultType="com.j4h.mall.model.wx.groupon.WxMyGrouponOrderBean">
+        select actual_price as actualPrice,id as orderId,order_sn as orderSn,order_status as orderStatus
+        from cskaoyan_mall_order where id = #{id.orderId}
+    </select>
+
+    <select id="getOrderStatusText" resultType="string">
+        select order_status_text from cskaoyan_mall_order_status where order_status = #{orderStatus}
+    </select>
+
+
+    <select id="getGrouponGoods" resultType="com.j4h.mall.model.wx.groupon.WxMyGrouponGoodsBean">
+        select goods_name as goodsName,id,pic_url as picUrl,discount_member as `number`
+        from cskaoyan_mall_groupon_rules where id = #{id.rulesId}
+    </select>
+
+    <select id="getGrouponMsg" resultType="com.j4h.mall.model.wx.groupon.WxMyGroupon">
+        select add_time as addTime,creator_user_id as creatorUserId,deleted,groupon_id as grouponId,
+        id,order_id as orderId,payed,rules_id as rulesId,share_url as shareUrl,
+        update_time as updateTime,user_id as userId from cskaoyan_mall_groupon where
+        id = #{id.id}
+    </select>
+
+    <select id="getJoinerCount" resultType="int">
+        select count(user_id) from cskaoyan_mall_groupon where groupon_id = #{id.id}
+    </select>
 </mapper>
