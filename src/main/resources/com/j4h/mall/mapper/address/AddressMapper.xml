@@ -29,4 +29,8 @@
   <update id="setOtherAddressNotDefault">
     update cskaoyan_mall_address set is_default = 0
   </update>
+
+  <update id="deleteAddressById">
+    update cskaoyan_mall_address set deleted = 1 where id = #{id}
+  </update>
 </mapper>

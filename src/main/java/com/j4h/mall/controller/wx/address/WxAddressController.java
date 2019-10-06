@@ -4,6 +4,7 @@ import com.j4h.mall.model.wx.address.WxAddressDetail;
 import com.j4h.mall.service.wx.address.WxAddressService;
 import com.j4h.mall.util.LoginOrNotUtils;
 import com.j4h.mall.vo.BaseRespVo;
+import com.j4h.mall.vo.wx.address.DeleteAddressVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,6 +44,19 @@ public class WxAddressController {
         } else {
             // 修改收货地址
             return BaseRespVo.ok(wxAddressService.updateAddressById(wxAddressDetail));
+        }
+    }
+
+    @PostMapping("/delete")
+    public BaseRespVo deleteAddressById(@RequestBody DeleteAddressVo deleteAddressVo){
+        if (!LoginOrNotUtils.isLogin()){
+            return BaseRespVo.fail(501, "请登录后再访问！");
+        }
+        int result = wxAddressService.deleteAddressById(deleteAddressVo.getId());
+        if (result == 1) {
+            return BaseRespVo.ok(null);
+        } else {
+            return BaseRespVo.fail(402, "删除失败，请确认该地址是否存在！");
         }
     }
 }

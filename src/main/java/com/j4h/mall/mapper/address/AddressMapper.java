@@ -17,4 +17,6 @@ public interface AddressMapper {
     int insertNewAddress(@Param("new") WxAddressDetail wxAddressDetail,@Param("userId") int userId);
 
     int setOtherAddressNotDefault();
+
+    int deleteAddressById(@Param("id") int id);
 }

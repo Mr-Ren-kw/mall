@@ -55,4 +55,9 @@ public class WxAddressServiceImpl implements WxAddressService {
         addressMapper.insertNewAddress(wxAddressDetail,userId);
         return wxAddressDetail.getId();
     }
+
+    @Override
+    public int deleteAddressById(int id) {
+        return addressMapper.deleteAddressById(id);
+    }
 }

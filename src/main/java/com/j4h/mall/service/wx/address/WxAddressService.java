@@ -13,4 +13,6 @@ public interface WxAddressService {
     int updateAddressById(WxAddressDetail wxAddressDetail);
 
     int insertNewAddress(WxAddressDetail wxAddressDetail,int userId);
+
+    int deleteAddressById(int id);
 }
