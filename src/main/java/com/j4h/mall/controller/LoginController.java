@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.io.Serializable;
 import java.util.List;
 
@@ -26,7 +25,6 @@ public class LoginController {
 
     @RequestMapping("/login")
     public BaseRespVo login(@RequestBody(required = false) LoginVo loginVo) {
-//    public BaseRespVo login(String username, String password) {
         if(loginVo == null) {
             return new BaseRespVo(null, "请重新登陆", 500);
         }

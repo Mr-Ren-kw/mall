@@ -17,11 +17,20 @@ public class WxCommentPostRequest {
     int star;
     int type;
     String valueId;
+    int valueIdInt;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     Date addTime;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     Date updateTime;
     int userId;
+
+    public int getValueIdInt() {
+        return valueIdInt;
+    }
+
+    public void setValueIdInt(int valueIdInt) {
+        this.valueIdInt = valueIdInt;
+    }
 
     public int getId() {
         return id;

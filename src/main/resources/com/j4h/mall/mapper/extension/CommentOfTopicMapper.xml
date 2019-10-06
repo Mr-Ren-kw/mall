@@ -14,4 +14,18 @@
     <select id="countHasPicByValueIdAndType" resultType="int">
         select count(id) from cskaoyan_mall_comment where value_id = #{valueId} and type = #{type} and has_picture > 0
     </select>
+
+    <insert id="insertComment">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into cskaoyan_mall_comment (content,has_picture,pic_urls,star,type,value_id,add_time,update_time,user_id)
+        value (#{content},#{hasPicture},#{picUrls},#{star},#{type},#{valueIdInt},now(),now(),#{userId})
+    </insert>
+
+    <select id="queryCommentById" resultType="com.j4h.mall.model.wx.comment.WxCommentPostResponse">
+        select add_time as addTime,content,has_picture as hasPicture,`id`,pic_urls as picUrls,star,type,
+               update_time as updateTime, user_id as userId, value_id as valueId from cskaoyan_mall_comment
+                where `id` = #{id}
+    </select>
 </mapper>

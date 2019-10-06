@@ -2,6 +2,7 @@ package com.j4h.mall.controller.wx.comment;
 
 import com.j4h.mall.model.wx.comment.*;
 import com.j4h.mall.service.wx.comment.WxCommentService;
+import com.j4h.mall.util.LoginOrNotUtils;
 import com.j4h.mall.vo.BaseRespVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -36,6 +37,10 @@ public class WxCommentController {
      */
     @PostMapping("/post")
     public BaseRespVo postComment(@RequestBody WxCommentPostRequest wxCommentPostRequest){
+        Integer userId = LoginOrNotUtils.getUserId();
+        if (userId == null){
+            return BaseRespVo.fail(555,"请登录后重试");
+        }
         // 加一个登录验证
         String content = wxCommentPostRequest.getContent();
         int length = content.length();
@@ -46,6 +51,8 @@ public class WxCommentController {
             return baseRespVo;
         }
         // 查询出userId放进去
-
+        wxCommentPostRequest.setUserId(userId);
+        WxCommentPostResponse wxCommentPostResponse = wxCommentService.addComment(wxCommentPostRequest);
+        return BaseRespVo.ok(wxCommentPostResponse);
     }
 }

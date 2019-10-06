@@ -63,7 +63,11 @@ public class WxCommentServiceImpl implements WxCommentService{
 
     @Override
     public WxCommentPostResponse addComment(WxCommentPostRequest wxCommentPostRequest) {
-
-        return null;
+        String valueId = wxCommentPostRequest.getValueId();
+        int id = Integer.parseInt(valueId);
+        wxCommentPostRequest.setValueIdInt(id);
+        int returnId = commentOfTopiceMapper.insertComment(wxCommentPostRequest);
+        // 取出刚插入的数据，放到wxCommentPostResponse里，返回
+        return commentOfTopiceMapper.queryCommentById(returnId);
     }
 }

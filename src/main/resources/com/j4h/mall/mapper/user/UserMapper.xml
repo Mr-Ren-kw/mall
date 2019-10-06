@@ -18,6 +18,7 @@
         weixin_openid as weixinOpenid,status,add_time,update_time AS updateTime,deleted
         from cskaoyan_mall_user
         <where>
+            deleted = 0
             <trim prefixOverrides="and">
                 <if test="myPageHelper.username!=null and myPageHelper.username!=''">
                     and username like #{myPageHelper.username}
@@ -45,6 +46,7 @@
         address,mobile,`is_default` as `isDefault`,user_id as userId
         from cskaoyan_mall_address
         <where>
+            deleted = 0
             <trim prefixOverrides="and">
                 <if test="myPageHelper.name!=null and myPageHelper.name!='' ">
                     and `name` like #{myPageHelper.name}
@@ -71,6 +73,7 @@
         select id,user_id as userId,value_id as valueId,type,add_time as addTime,update_time as updateTime,deleted
         from cskaoyan_mall_collect
         <where>
+            deleted = 0
             <trim prefixOverrides="and">
                 <if test="myPageHelper.valueId!=0 and myPageHelper.valueId !=null and myPageHelper.valueId!=''">
                     and value_id = #{myPageHelper.valueId}
@@ -93,6 +96,7 @@
         select id,user_id as userId,goods_id as goodsId,add_time as addTime,update_time as updateTime,deleted
         from cskaoyan_mall_footprint
         <where>
+            deleted = 0
             <trim prefixOverrides="and">
 
                 <if test="myPageHelper.userId!=0 and myPageHelper.userId !=null and myPageHelper.userId!=''">
@@ -115,6 +119,7 @@
         select id,user_id as userId,keyword,`from`,add_time as addTime,update_time as updateTime,deleted
         from cskaoyan_mall_search_history
         <where>
+            deleted = 0
             <trim prefixOverrides="and">
                 <if test="myPageHelper.keyword!=null and myPageHelper.keyword!=''">
                     and keyword like #{myPageHelper.keyword}
@@ -140,6 +145,7 @@
         update_time as updateTime,deleted,pic_urls as picUrls
         from cskaoyan_mall_feedback
         <where>
+            deleted = 0
             <trim prefixOverrides="and">
                 <if test="myPageHelper.username!=null and myPageHelper.username!=''">
                     and username like #{myPageHelper.username}
@@ -155,7 +161,36 @@
         select avatar,nickname from cskaoyan_mall_user where id = #{id}
     </select>
 
+
     <select id="queryUserById2" resultType="com.j4h.mall.model.user.UserInfoForComment">
         select avatar as avatarUrl ,nickname as nickName from cskaoyan_mall_user where id = #{id}
     </select>
+
+    <!--微信端-->
+
+    <select id="queryCountSameUsername" resultType="_int">
+        select count(id) from cskaoyan_mall_user where username = #{username} and deleted = 0
+    </select>
+
+    <insert id="insertUserForRegister">
+        <selectKey resultType="_int" keyColumn="id" keyProperty="new.id" order="AFTER">
+            select last_insert_id() as id
+        </selectKey>
+        insert into cskaoyan_mall_user (username,password,mobile,nickname,add_time,update_time) values (#{new.username},#{new.password},#{new.mobile},#{new.username},now(),now())
+    </insert>
+
+    <resultMap id="userInfoMap" type="com.j4h.mall.util.UserInfo">
+        <result column="id" property="id"/>
+        <result column="nickname" property="nickName"/>
+        <result column="avatar" property="avatarUrl"/>
+    </resultMap>
+
+    <select id="getUserInfoByUsernameAndPassword" resultMap="userInfoMap">
+        select id, nickname, avatar from cskaoyan_mall_user where deleted = 0 and username = #{username} and password = #{password}
+    </select>
+
+    <select id="getPasswordByUsername" resultType="string">
+        select password from cskaoyan_mall_user where username = #{username} and deleted = 0
+    </select>
+
 </mapper>

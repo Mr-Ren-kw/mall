@@ -25,6 +25,13 @@ public class BaseRespVo<T> {
         this.errno = errno;
     }
 
+    public static BaseRespVo LoginFail() {
+        BaseRespVo<String> baseRespVo = new BaseRespVo<>();
+        baseRespVo.setErrmsg("用户帐号或密码不正确");
+        baseRespVo.setErrno(605);
+        return baseRespVo;
+    }
+
     @Override
     public String toString() {
         return "BaseRespVo{" +
@@ -79,7 +86,11 @@ public class BaseRespVo<T> {
         return fail(510, "创建数据失败");
     }
 
-    public static BaseRespVo badArgument() {
+    public static BaseRespVo badArgument401() {
+        return fail(401, "参数不对");
+    }
+
+    public static BaseRespVo badArgument402() {
         return fail(401, "参数不对");
     }
 }
