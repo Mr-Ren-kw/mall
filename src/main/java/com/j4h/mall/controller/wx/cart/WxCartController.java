@@ -1,8 +1,6 @@
 package com.j4h.mall.controller.wx.cart;
 
-import com.j4h.mall.model.wx.cart.AddCart;
-import com.j4h.mall.model.wx.cart.CheckedCart;
-import com.j4h.mall.model.wx.cart.IndexCart;
+import com.j4h.mall.model.wx.cart.*;
 import com.j4h.mall.service.wx.cart.WxCartService;
 import com.j4h.mall.vo.BaseRespVo;
 import org.apache.shiro.SecurityUtils;
@@ -63,9 +61,31 @@ public class WxCartController {
     public BaseRespVo<Integer> countCartGoods() {
         Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute("userId");
         if(userId == null) {
-            return BaseRespVo.fail(501, "请登录");
+            // 这里只需返回0即可，不然会强制跳转到登录界面
+            return BaseRespVo.ok(0);
         }
         Integer cnt = wxCartService.getAllCartGoodsCount(userId);
         return BaseRespVo.ok(cnt);
+    }
+
+    @RequestMapping("update")
+    public BaseRespVo updateCart(@RequestBody AddCart addCart) {
+        Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute("userId");
+        if(userId == null) {
+            return BaseRespVo.fail(501, "请登录");
+        }
+        wxCartService.updateCartProduct(userId, addCart);
+        return BaseRespVo.ok(null);
+    }
+
+    @RequestMapping("delete")
+    public BaseRespVo<IndexCart> deleteCart(@RequestBody DeleteCart cart) {
+        Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute("userId");
+        if(userId == null) {
+            return BaseRespVo.fail(501, "请登录");
+        }
+        wxCartService.deleteCart(userId, cart.getProductId());
+        IndexCart indexCart = wxCartService.getCartInfo(userId);
+        return BaseRespVo.ok(indexCart);
     }
 }

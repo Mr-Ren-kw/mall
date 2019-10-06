@@ -19,4 +19,9 @@ public interface CartMapper {
     int updateProductCheckedByUidAndPid(@Param("uid") Integer userId, @Param("checkedCart") CheckedCart checkedCart);
 
 
+    int updateCartNumberById(@Param("id") int id, @Param("uid") int userId, @Param("number") int number);
+
+    int getTotalNumber(@Param("uid") int userId);
+
+    void deleteCartByUidPid(@Param("uid") Integer userId, @Param("pids") int[] productId);
 }

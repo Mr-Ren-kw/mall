@@ -31,11 +31,11 @@
     </resultMap>
     <select id="getCartListByUid" resultMap="cartMap">
         select id, user_id, goods_id, goods_sn, goods_name, product_id, price, number, specifications, checked, pic_url, add_time, update_time, deleted from cskaoyan_mall_cart
-        where user_id = #{uid}
+        where user_id = #{uid} and deleted = 0
     </select>
 
     <update id="updateProductCheckedByUidAndPid">
-        update cskaoyan_mall_cart set checked = #{checkedCart.isChecked}
+        update cskaoyan_mall_cart set checked = #{checkedCart.isChecked}, update_time = now()
         <where>
             user_id = #{uid} and deleted = 0
             <if test="checkedCart.productIds.length != 0">
@@ -45,8 +45,27 @@
                 </foreach>
             </if>
         </where>
-
     </update>
 
+    <update id="updateCartNumberById">
+        update cskaoyan_mall_cart set
+        number = #{number},
+        update_time = now()
+        where id = #{id}
+        and deleted = 0
+    </update>
 
+    <select id="getTotalNumber" resultType="_int">
+        select sum(number) from cskaoyan_mall_cart where user_id = #{uid} and deleted = 0
+    </select>
+
+    <update id="deleteCartByUidPid">
+        update cskaoyan_mall_cart set deleted = 1
+        <where>
+            deleted = 0 and user_id = #{uid} and product_id in
+            <foreach collection="pids" item="pid" open="(" close=")" separator=",">
+                #{pid}
+            </foreach>
+        </where>
+    </update>
 </mapper>

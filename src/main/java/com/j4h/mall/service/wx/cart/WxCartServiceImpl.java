@@ -22,10 +22,22 @@ public class WxCartServiceImpl implements WxCartService {
     public int addCart(int userId, AddCart addCart) {
         GoodsProduct goodsProduct = goodsMapper.getGoodsProductByPid(addCart.getProductId());
         Goods goods = goodsMapper.getGoodsById(addCart.getGoodsId());
-        if(goodsProduct == null || goods == null) {
+        if (goodsProduct == null || goods == null) {
             // id有错，直接返回-1
             return -1;
         }
+        List<Cart> cartListByUid = cartMapper.getCartListByUid(userId);
+        // 否则cart不为空，然后根据
+        if (cartListByUid != null && cartListByUid.size() != 0) {
+            for (Cart cart : cartListByUid) {
+                if(cart.getProductId() == addCart.getProductId() && cart.getGoodsId() == addCart.getGoodsId()) {
+                    // 说明是同一个商品，直接更新cart表里这条记录
+                    cartMapper.updateCartNumberById(cart.getId(), userId, addCart.getNumber() + cart.getNumber());
+                    return cartMapper.getTotalNumber(userId);
+                }
+            }
+        }
+        // 说明cart是空的或者购物车里面没有新插入的这条记录，直接插入一条数据
         Cart cart = new Cart();
         cart.setGoodsId(addCart.getGoodsId());
         cart.setGoodsName(goods.getName());
@@ -43,9 +55,9 @@ public class WxCartServiceImpl implements WxCartService {
     public IndexCart getCartInfo(Integer userId) {
         List<Cart> cartList = cartMapper.getCartListByUid(userId);
         CartTotal cartTotal = new CartTotal();
-        if(cartList != null && cartList.size() != 0) {
+        if (cartList != null && cartList.size() != 0) {
             for (Cart cart : cartList) {
-                if(cart != null) {
+                if (cart != null) {
                     if (cart.getChecked()) {
                         cartTotal.setCheckedGoodsCount(cartTotal.getCheckedGoodsCount() + cart.getNumber());
                         cartTotal.setCheckedGoodsAmount(cartTotal.getCheckedGoodsAmount() + cart.getNumber() * cart.getPrice());
@@ -66,7 +78,7 @@ public class WxCartServiceImpl implements WxCartService {
     @Override
     public Integer getAllCartGoodsCount(Integer userId) {
         List<Cart> cartListByUid = cartMapper.getCartListByUid(userId);
-        if(cartListByUid == null || cartListByUid.size() == 0) {
+        if (cartListByUid == null || cartListByUid.size() == 0) {
             return 0;
         }
         Integer cnt = 0;
@@ -75,4 +87,16 @@ public class WxCartServiceImpl implements WxCartService {
         }
         return cnt;
     }
+
+    @Override
+    public void updateCartProduct(Integer userId, AddCart addCart) {
+        cartMapper.updateCartNumberById(addCart.getId(), userId, addCart.getNumber());
+    }
+
+    @Override
+    public void deleteCart(Integer userId, int[] productId) {
+        cartMapper.deleteCartByUidPid(userId, productId);
+    }
+
+
 }

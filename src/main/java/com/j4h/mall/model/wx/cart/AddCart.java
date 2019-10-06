@@ -4,6 +4,15 @@ public class AddCart {
     private int goodsId;
     private int number;
     private int productId;
+    private int id;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public int getGoodsId() {
         return goodsId;
