@@ -16,7 +16,6 @@ import com.j4h.mall.model.wx.goods.*;
 import com.j4h.mall.vo.goods.BeanForGoodsPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,9 +42,10 @@ public class WxGoodsServiceImpl implements WxGoodsService {
     public GoodsListData queryGoodsList(BeanForGoodsPage beanForGoodsPage) {
         int page = beanForGoodsPage.getPage();
         int size = beanForGoodsPage.getSize();
-        int categoryId = beanForGoodsPage.getCategoryId();
+        Integer categoryId = beanForGoodsPage.getCategoryId();
+        Integer brandId = beanForGoodsPage.getBrandId();
         PageHelper.startPage(page, size);
-        List<Goods> goodsList = goodsMapper.queryGoodsByCategoryId(categoryId);
+        List<Goods> goodsList = goodsMapper.queryGoodsByCondition(categoryId, brandId);
         List<CategoryInfo> allL2Category = categoryMapper.getAllL2CategoryInfo();
         GoodsListData goodsListData = new GoodsListData();
         goodsListData.setCount(goodsList.size());
@@ -116,6 +116,10 @@ public class WxGoodsServiceImpl implements WxGoodsService {
     @Override
     public GoodsList queryRelatedGoods(int goodsId) {
         GoodsList goodsList = new GoodsList();
+        Goods goods = goodsMapper.getGoodsById(goodsId);
+        int categoryId = goods.getCategoryId();
+        List<Goods> goodsList1 = goodsMapper.queryGoodsByCondition(categoryId,null);
+        goodsList1.removeIf(goods1 -> goods1.getId() == goodsId);
         return goodsList;
     }
 }

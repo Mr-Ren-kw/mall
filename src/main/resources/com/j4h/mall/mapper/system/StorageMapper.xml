@@ -18,4 +18,13 @@
     <update id="deleteStorage">
         update cskaoyan_mall_storage set deleted = true where `key` = #{key}
     </update>
+    <insert id="addImg">
+        <selectKey resultType="int" keyColumn="ids" keyProperty="storage.id" order="AFTER">
+            select last_insert_id() as ids
+        </selectKey>
+        insert into cskaoyan_mall_storage (`key`,`name`,type,size,url,add_time,update_time,deleted) value (#{storage.key},#{storage.name},#{storage.type},#{storage.size},#{storage.url},now(),now(),0)
+    </insert>
+    <select id="queryStorageById" resultType="com.j4h.mall.model.system.Storage">
+        select id,`key`,`name`,`type`,`size`,url,add_time as addTime,update_time as updateTime,deleted from cskaoyan_mall_storage where id = #{pId}
+    </select>
 </mapper>
