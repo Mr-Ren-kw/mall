@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 /*SearchIndex: WxApiRoot + 'search/index', //搜索关键字√
-  SearchResult: WxApiRoot + 'search/result', //搜索结果
+  SearchResult: WxApiRoot + 'search/result', //搜索结果 没找到
   SearchHelper: WxApiRoot + 'search/helper', //搜索帮助
-  SearchClearHistory: WxApiRoot + 'search/clearhistory', //搜索历史清楚
+  SearchClearHistory: WxApiRoot + 'search/clearhistory', //搜索历史清除
 */
 @RestController
 @CrossOrigin
@@ -27,5 +27,9 @@ public class WxSearchController {
         return BaseRespVo.ok(searchList);
     }
 
-
+    @GetMapping("/helper")
+    private BaseRespVo showSearchHelper(String keyword){
+        String[] strings = wxSearchService.showSearchHelper(keyword);
+        return BaseRespVo.ok(strings);
+    }
 }

@@ -13,4 +13,5 @@ public interface WxSearchMapper {
     KeywordOfSearch queryDefaultKeyword();
     String[] queryHistoryKeywordList(int UserId);
     List<KeywordOfSearch> hotKeywordList();
+    String[] showSearchHelper(String keyword);
 }

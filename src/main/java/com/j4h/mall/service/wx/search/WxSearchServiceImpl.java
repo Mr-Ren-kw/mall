@@ -30,4 +30,16 @@ public class WxSearchServiceImpl implements WxSearchService{
         searchResponseVo.setHotKeywordList(keywordOfSearches);
         return searchResponseVo;
     }
+
+    /**
+     * 根据输入的字符串搜索相关关键词
+     * @param keyword
+     * @return
+     */
+    @Override
+    public String[] showSearchHelper(String keyword) {
+        keyword = "%" + keyword + "%";
+        String[] strings = wxSearchMapper.showSearchHelper(keyword);
+        return strings;
+    }
 }

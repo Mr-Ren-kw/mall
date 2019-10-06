@@ -14,6 +14,10 @@ update_time as updateTime,url from cskaoyan_mall_keyword where is_default = 1 li
 
     <select id="hotKeywordList" resultType="com.j4h.mall.model.wx.search.KeywordOfSearch">
         select add_time as addTime,deleted,id,is_default as isDefalut,is_hot as isHot,keyword,sort_order as sortOrder,
-            update_time as updateTime,url from cskaoyan_mall_keyword where is_hot = 1
+            update_time as updateTime,url from cskaoyan_mall_keyword where is_hot = 1 order by sort_order desc
+    </select>
+
+    <select id="showSearchHelper" resultType="java.lang.String">
+        select keyword from cskaoyan_mall_keyword where keyword like #{keyword}
     </select>
 </mapper>
