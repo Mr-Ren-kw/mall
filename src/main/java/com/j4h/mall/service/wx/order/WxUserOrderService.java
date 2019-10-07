@@ -24,7 +24,5 @@ public interface WxUserOrderService {
 
     boolean orderRefund(int orderId);
 
-    OrderSubmit orderSubmitMany(SubmitOrder submitOrder);
-
-    OrderSubmit orderSubmitOne(SubmitOrder submitOrder);
+    OrderSubmit orderSubmit(SubmitOrder submitOrder,int userId);
 }

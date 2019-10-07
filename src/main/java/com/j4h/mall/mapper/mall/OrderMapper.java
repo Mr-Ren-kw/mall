@@ -2,6 +2,7 @@ package com.j4h.mall.mapper.mall;
 
 import com.j4h.mall.model.mall.order.Order;
 import com.j4h.mall.model.mall.order.OrderGoods;
+import com.j4h.mall.model.wx.cart.Cart;
 import com.j4h.mall.model.wx.user.GoodsList;
 import com.j4h.mall.model.wx.user.UserOrderDetailsList;
 import com.j4h.mall.vo.mall.order.ShipOrderVo;
@@ -61,4 +62,6 @@ public interface OrderMapper {
                        @Param("order")Order order,@Param("address")String address,
                          @Param("mobile")String mobile,@Param("name")String name,
                        @Param("goodsPrice")double goodsPrice,@Param("integralPrice")double integralPrice,@Param("grouponPrice")double grouponPrice);
+
+    int insertNewOrderGoods(@Param("orderId") int id,@Param("carts") List<Cart> carts);
 }

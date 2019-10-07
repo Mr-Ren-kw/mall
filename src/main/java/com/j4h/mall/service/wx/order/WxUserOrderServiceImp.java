@@ -29,10 +29,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class WxUserOrderServiceImp implements WxUserOrderService {
@@ -220,10 +217,16 @@ public class WxUserOrderServiceImp implements WxUserOrderService {
     }
 
     @Override
-    public OrderSubmit orderSubmitMany(SubmitOrder submitOrder) {
-        int userId = (int) SecurityUtils.getSubject().getSession().getAttribute("userId");
+    public OrderSubmit orderSubmit(SubmitOrder submitOrder,int userId) {
+        int cartId = submitOrder.getCartId();
         double sumPrice = 0;
-        List<Cart> carts = cartMapper.queryCartByUserIdWx(userId);
+        // 判断库存是否足够
+        List<Cart> carts = null;
+        if (cartId == 0) {
+            carts = cartMapper.queryCartByUserIdWx(userId);
+        } else {
+            carts = cartMapper.queryCartByCartId(cartId);
+        }
         for (Cart cart : carts) {
             int goodsNumber = goodsMapper.queryGoodsNumberByProductId(cart.getProductId());
             if (cart.getNumber() > goodsNumber) {
@@ -231,6 +234,7 @@ public class WxUserOrderServiceImp implements WxUserOrderService {
             }
             sumPrice = sumPrice + cart.getPrice() * cart.getNumber();
         }
+        // 修改库存
         for (Cart cart : carts) {
             int number = cart.getNumber();
             int productId = cart.getProductId();
@@ -239,41 +243,44 @@ public class WxUserOrderServiceImp implements WxUserOrderService {
                 return null;
             }
         }
-        int updateDeleted = cartMapper.updateDeletedByUserIdWx(userId);
-        if (updateDeleted > 0) {
-            double freightPrice = 8;
-            int couponId = submitOrder.getCouponId();
-            double discountMoney = 0;
-            if (couponId != 0) {
-                discountMoney = couponMapper.queryCouponById(couponId).getDiscount();
-            }
-            if (sumPrice > 88) {
-                freightPrice = 0;
-            }
-            double actualPrice = sumPrice - discountMoney + freightPrice;
-            int comment = carts.size();
-            Order order = new Order();
-            WxAddressDetail addressDetail = addressMapper.getAddressDetailById(submitOrder.getAddressId());
-            String address = addressDetail.getAddress();
-            String mobile = addressDetail.getMobile();
-            String name = addressDetail.getName();
-            double goodsPrice = sumPrice;
-            double integralPrice = 0.0;
-            double grouponPrice = 0.0;
-            double orderPrice = actualPrice;
-            orderMapper.insertNewOrder(userId, getOrderSn(), submitOrder.getMessage(), freightPrice, discountMoney, orderPrice, actualPrice
-                    , comment,order,address,mobile,name,goodsPrice,integralPrice,grouponPrice);
-            if (couponId != 0) {
-              int updateCouponStatus=  couUserMapper.updateCouponStatusByCouponId(couponId,order.getId(),userId);
-              if (updateCouponStatus<1){
-                  return null;
-              }
-            }
-            OrderSubmit orderSubmit = new OrderSubmit();
-            orderSubmit.setOrderId(order.getId());
-            return orderSubmit;
+        if (cartId == 0) {
+            cartMapper.updateDeletedByUserIdWx(userId);
         }
-        return null;
+        double freightPrice = 8;
+        int couponId = submitOrder.getCouponId();
+        double discountMoney = 0;
+        if (couponId != 0) {
+            discountMoney = couponMapper.queryCouponById(couponId).getDiscount();
+        }
+        if (sumPrice > 88) {
+            freightPrice = 0;
+        }
+        double actualPrice = sumPrice - discountMoney + freightPrice;
+        int comment = carts.size();
+
+        // 添加订单
+        Order order = new Order();
+        WxAddressDetail addressDetail = addressMapper.getAddressDetailById(submitOrder.getAddressId());
+        String address = addressDetail.getAddress();
+        String mobile = addressDetail.getMobile();
+        String name = addressDetail.getName();
+        double goodsPrice = sumPrice;
+        double integralPrice = 0.0;
+        double grouponPrice = 0.0;
+        double orderPrice = actualPrice;
+        orderMapper.insertNewOrder(userId, getOrderSn(), submitOrder.getMessage(), freightPrice, discountMoney, orderPrice, actualPrice
+                , comment,order,address,mobile,name,goodsPrice,integralPrice,grouponPrice);
+        if (couponId != 0) {
+          int updateCouponStatus=  couUserMapper.updateCouponStatusByCouponId(couponId,order.getId(),userId);
+          if (updateCouponStatus<1){
+              return null;
+          }
+        }
+        OrderSubmit orderSubmit = new OrderSubmit();
+        orderSubmit.setOrderId(order.getId());
+        // order_goods插入关联数据
+        orderMapper.insertNewOrderGoods(order.getId(), carts);
+        return orderSubmit;
     }
 
     public static String getOrderSn() {
@@ -284,10 +291,6 @@ public class WxUserOrderServiceImp implements WxUserOrderService {
         return orderSn;
     }
 
-    @Override
-    public OrderSubmit orderSubmitOne(SubmitOrder submitOrder) {
-        return null;
-    }
 
 
 }

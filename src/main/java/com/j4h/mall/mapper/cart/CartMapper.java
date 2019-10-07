@@ -39,4 +39,5 @@ public interface CartMapper {
 
     Cart getCheckedGoodsById(@Param("cartId") int cartId);
 
+    List<Cart> queryCartByCartId(@Param("cartId") int cartId);
 }

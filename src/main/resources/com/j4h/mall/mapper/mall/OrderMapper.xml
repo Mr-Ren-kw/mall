@@ -145,4 +145,13 @@
         (#{userId},#{orderSn},201,#{mobile},#{address},#{message},#{freightPrice},
         #{couponPrice},#{orderPrice},#{actualPrice},#{comment},now(),#{name},#{goodsPrice},#{integralPrice},#{grouponPrice})
     </insert>
+
+    <insert id="insertNewOrderGoods">
+        insert into cskaoyan_mall_order_goods (order_id, goods_id, goods_name, goods_sn, product_id, number, price, specifications, pic_url, add_time, update_time)
+        VALUES
+        <foreach collection="carts" item="cart" separator=",">
+            (#{orderId},#{cart.goodsId},#{cart.goodsName},#{cart.goodsSn},#{cart.productId},#{cart.number},
+            #{cart.price},#{cart.specifications},#{cart.picUrl},now(),now())
+        </foreach>
+    </insert>
 </mapper>

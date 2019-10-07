@@ -48,7 +48,7 @@ public class WxOrderController {
         }
         boolean flag = wxUserOrderService.orderPrepay(orderId.getOrderId());
         if (flag) {
-            return BaseRespVo.ok(null);
+            return BaseRespVo.ok("付款成功");
         }
         return null;
 
@@ -106,12 +106,7 @@ public class WxOrderController {
         if (userId == null) {
             return BaseRespVo.fail(501, "请登录后再访问");
         }
-        OrderSubmit order;
-        if (submitOrder.getCartId()==0){
-            order = wxUserOrderService.orderSubmitMany(submitOrder);
-        }else {
-            order = wxUserOrderService.orderSubmitOne(submitOrder);
-        }
+        OrderSubmit order = wxUserOrderService.orderSubmit(submitOrder,userId);
 
         if (order.getOrderId()==0){
             return BaseRespVo.fail(402,"参数错误");

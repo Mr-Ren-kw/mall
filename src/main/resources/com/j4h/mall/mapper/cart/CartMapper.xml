@@ -110,5 +110,10 @@
         where id = #{cartId}
     </select>
 
+    <select id="queryCartByCartId" resultType="com.j4h.mall.model.wx.cart.Cart">
+        select goods_id as goodsId,goods_name as goodsName,product_id as productId,user_id as userId,
+               price,`number`,specifications,pic_url as picUrl,goods_sn as goodsSn
+        from cskaoyan_mall_cart where id = #{cartId}
+    </select>
 </mapper>
 
