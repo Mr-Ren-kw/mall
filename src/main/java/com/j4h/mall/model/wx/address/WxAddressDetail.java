@@ -65,7 +65,7 @@ public class WxAddressDetail {
         return isDefault;
     }
 
-    public void setIdDefault(boolean aDefault) {
+    public void setIsDefault(boolean aDefault) {
         isDefault = aDefault;
     }
 

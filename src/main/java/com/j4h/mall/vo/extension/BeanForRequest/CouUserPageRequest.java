@@ -5,29 +5,9 @@ public class CouUserPageRequest {
     private int limit;
     private String sort;
     private String order;
-    private int couponId;
+    private Integer couponId;
     private String userId;
-    private int status;
-
-    public CouUserPageRequest() {
-        this.status = -1;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
+    private Integer status;
 
     public int getPage() {
         return page;
@@ -61,11 +41,27 @@ public class CouUserPageRequest {
         this.order = order;
     }
 
-    public int getCouponId() {
+    public Integer getCouponId() {
         return couponId;
     }
 
-    public void setCouponId(int couponId) {
+    public void setCouponId(Integer couponId) {
         this.couponId = couponId;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

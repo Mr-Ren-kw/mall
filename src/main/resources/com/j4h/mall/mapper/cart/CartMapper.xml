@@ -13,6 +13,72 @@
         values (null, #{cart.userId}, #{cart.goodsId}, #{cart.goodsSn}, #{cart.goodsName}, #{cart.productId}, #{cart.price}, #{cart.number}, #{cart.specifications}, 1, #{cart.picUrl}, now(), now(), 0)
     </insert>
 
+
+    <resultMap id="cartMap" type="com.j4h.mall.model.wx.cart.Cart">
+        <result column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="goods_id" property="goodsId"/>
+        <result column="goods_sn" property="goodsSn"/>
+        <result column="goods_name" property="goodsName"/>
+        <result column="product_id" property="productId"/>
+        <result column="price" property="price"/>
+        <result column="number" property="number"/>
+        <result column="specifications" property="specifications"/>
+        <result column="checked" property="checked"/>
+        <result column="pic_url" property="picUrl"/>
+        <result column="add_time" property="addTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="deleted" property="deleted"/>
+    </resultMap>
+    <select id="getCartListByUid" resultMap="cartMap">
+        select id, user_id, goods_id, goods_sn, goods_name, product_id, price, number, specifications, checked, pic_url, add_time, update_time, deleted from cskaoyan_mall_cart
+        where user_id = #{uid} and deleted = 0
+    </select>
+
+    <update id="updateProductCheckedByUidAndPid">
+        update cskaoyan_mall_cart set checked = #{checkedCart.isChecked}, update_time = now()
+        <where>
+            user_id = #{uid} and deleted = 0
+            <if test="checkedCart.productIds.length != 0">
+                and product_id in
+                <foreach collection="checkedCart.productIds" item="pid" separator="," open="(" close=")">
+                    #{pid}
+                </foreach>
+            </if>
+        </where>
+    </update>
+
+    <update id="updateCartNumberById">
+        update cskaoyan_mall_cart set
+        number = #{number},
+        update_time = now()
+        where id = #{id}
+        and deleted = 0
+    </update>
+
+    <select id="getTotalNumber" resultType="_int">
+        select sum(number) from cskaoyan_mall_cart where user_id = #{uid} and deleted = 0
+    </select>
+
+    <update id="deleteCartByUidPid">
+        update cskaoyan_mall_cart set deleted = 1
+        <where>
+            deleted = 0 and user_id = #{uid} and product_id in
+            <foreach collection="pids" item="pid" open="(" close=")" separator=",">
+                #{pid}
+            </foreach>
+        </where>
+    </update>
+
+    <insert id="addAnonCart">
+        <selectKey resultType="_int" order="AFTER" keyColumn="idz" keyProperty="cart.id">
+            select last_insert_id() as idz
+        </selectKey>
+        insert into cskaoyan_mall_cart (id, user_id, goods_id, goods_sn, goods_name, product_id, price, number, specifications, checked, pic_url, add_time, update_time, deleted)
+        values (null, #{cart.userId}, #{cart.goodsId}, #{cart.goodsSn}, #{cart.goodsName}, #{cart.productId}, #{cart.price}, #{cart.number}, #{cart.specifications}, 1, #{cart.picUrl}, now(), now(), 1)
+    </insert>
+
+
     <select id="queryCheckedTotalPriceByUserIdForWx" resultType="com.j4h.mall.model.wx.cart.CheckedTotalPrice">
         select number,price from cskaoyan_mall_cart where user_id = #{userId} and checked = 1 and deleted = 0
     </select>
@@ -21,4 +87,14 @@
         select number,price from cskaoyan_mall_cart where id = #{cartId}
     </select>
 
+    <select id="getCheckedGoodsListByUid" resultMap="cartMap">
+        select id, user_id, goods_id, goods_sn, goods_name, product_id, price, number, specifications, checked, pic_url, add_time, update_time, deleted from cskaoyan_mall_cart
+        where user_id = #{uid} and deleted = 0 and checked = 1
+    </select>
+
+    <select id="getCheckedGoodsById" resultMap="cartMap">
+        select id, user_id, goods_id, goods_sn, goods_name, product_id, price, number, specifications, checked, pic_url, add_time, update_time, deleted from cskaoyan_mall_cart
+        where id = #{cartId}
+    </select>
 </mapper>
+

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace要等于接口的全类名-->
+<mapper namespace="com.j4h.mall.mapper.feedback.FeedbackMapper">
+    <insert id="insertFeedback">
+        insert into cskaoyan_mall_feedback (id, user_id, username, mobile, feed_type, content, status, has_picture, pic_urls, add_time, update_time, deleted) VALUES
+        (null, #{uid}, #{username}, #{feedback.mobile}, #{feedback.feedType}, #{feedback.content}, 0, #{feedback.hasPicture}, #{feedback.picUrls}, now(), now(), 0)
+    </insert>
+</mapper>

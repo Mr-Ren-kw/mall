@@ -25,6 +25,8 @@ public interface UserMapper {
 
     OrderUser queryUserById(@Param("id")int id);
 
+    UserInfoForComment queryUserById2(@Param("id")int id);
+
     int queryCountSameUsername(@Param("username") String username);
 
     int insertUserForRegister(@Param("new") RegisterVo registerVo);
@@ -32,5 +34,7 @@ public interface UserMapper {
     UserInfo getUserInfoByUsernameAndPassword(@Param("username") String username, @Param("password") String password);
 
     String getPasswordByUsername(@Param("username") String principal);
+
+    String getUsernameById(@Param("uid") Integer userId);
 
 }

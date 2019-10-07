@@ -132,7 +132,7 @@ public class Cart {
         return picUrl;
     }
 
-    public boolean isDeleted() {
+    public boolean getDeleted() {
         return deleted;
     }
 
@@ -140,7 +140,7 @@ public class Cart {
         return price;
     }
 
-    public boolean isChecked() {
+    public boolean getChecked() {
         return checked;
     }
 

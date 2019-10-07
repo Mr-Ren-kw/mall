@@ -8,13 +8,13 @@
         select <include refid="queryItems"/> from cskaoyan_mall_coupon_user
         <where>
             deleted = 0
-            <if test="couponId != 0">
+            <if test="couponId != null">
                 and coupon_id = #{couponId}
             </if>
-            <if test="status != -1">
+            <if test="status != null">
                 and status = #{status}
             </if>
-            <if test="userId != 0">
+            <if test="userId != null">
                 and user_id = #{userId}
             </if>
         </where>
