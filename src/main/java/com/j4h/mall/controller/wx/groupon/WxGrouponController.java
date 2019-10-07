@@ -1,8 +1,10 @@
 package com.j4h.mall.controller.wx.groupon;
 
+import com.j4h.mall.model.wx.groupon.WxGrouponDetail;
 import com.j4h.mall.model.wx.groupon.WxGrouponPageBean;
 import com.j4h.mall.model.wx.groupon.WxGrouponRequestBean;
 import com.j4h.mall.service.wx.groupon.WxGrouponService;
+import com.j4h.mall.util.LoginOrNotUtils;
 import com.j4h.mall.vo.BaseRespVo;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
@@ -22,15 +24,17 @@ public class WxGrouponController {
     public BaseRespVo getWxGrouponList(WxGrouponRequestBean wxGrouponRequestBean){
         wxGrouponRequestBean.setSort("add_time");
         wxGrouponRequestBean.setOrder("desc");
+        wxGrouponRequestBean.setPage((wxGrouponRequestBean.getPage()-1)*10);
         WxGrouponPageBean pageBean = wxGrouponService.queryGroupon(wxGrouponRequestBean);
         return BaseRespVo.ok(pageBean);
     }
 
     @RequestMapping("my")
     public BaseRespVo getWxGrouponOfMy(int showType){
-        Subject subject = SecurityUtils.getSubject();
-        Session session = subject.getSession();
-        int userId = (Integer) session.getAttribute("userId");
+        Integer userId = LoginOrNotUtils.getUserId();
+        if (userId == null){
+            return BaseRespVo.fail(501,"请登入后再访问");
+        }
         WxGrouponPageBean pageBean = null;
         boolean isCreator = false;
         if (showType == 0){
@@ -40,6 +44,17 @@ public class WxGrouponController {
             pageBean = wxGrouponService.getMyJoinGroupOn(userId,isCreator);
         }
         return BaseRespVo.ok(pageBean);
+    }
+
+    @RequestMapping("detail")
+    public BaseRespVo getWxGrouponDetail(int grouponId) {
+        Integer userId = LoginOrNotUtils.getUserId();
+        if (userId == null) {
+            return BaseRespVo.fail(501, "请登入后再访问");
+        }
+        WxGrouponDetail data = wxGrouponService.getWxGrouponDetail(grouponId);
+
+        return BaseRespVo.ok(data);
     }
 
 }

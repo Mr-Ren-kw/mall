@@ -1,19 +1,19 @@
 package com.j4h.mall.model.wx.groupon;
 
 public class WxGrouponGoodsBean {
-    String brif;
+    String brief;
     double counterPrice;
     int id;
     String name;
     String picUrl;
     double retailPrice;
 
-    public String getBrif() {
-        return brif;
+    public String getBrief() {
+        return brief;
     }
 
-    public void setBrif(String brif) {
-        this.brif = brif;
+    public void setBrief(String brief) {
+        this.brief = brief;
     }
 
     public double getCounterPrice() {

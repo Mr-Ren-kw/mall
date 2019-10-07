@@ -2,6 +2,7 @@ package com.j4h.mall.controller;
 
 import com.j4h.mall.model.AdminInfo;
 import com.j4h.mall.service.admin.AdminService;
+import com.j4h.mall.shiro.CustomToken;
 import com.j4h.mall.vo.BaseRespVo;
 import com.j4h.mall.vo.LoginVo;
 import org.apache.shiro.SecurityUtils;
@@ -13,9 +14,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -27,13 +26,12 @@ public class LoginController {
 
     @RequestMapping("/login")
     public BaseRespVo login(@RequestBody(required = false) LoginVo loginVo) {
-//    public BaseRespVo login(String username, String password) {
         if(loginVo == null) {
             return new BaseRespVo(null, "请重新登陆", 500);
         }
         String username = loginVo.getUsername();
         String password = loginVo.getPassword();
-        UsernamePasswordToken token = new UsernamePasswordToken(username, password);
+        CustomToken token = new CustomToken(username, password,"admin");
         Subject subject = SecurityUtils.getSubject();
         try {
             subject.login(token);

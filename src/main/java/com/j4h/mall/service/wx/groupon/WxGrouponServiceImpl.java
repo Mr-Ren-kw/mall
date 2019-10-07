@@ -31,32 +31,35 @@ public class WxGrouponServiceImpl implements WxGrouponService {
 
     @Override
     public WxGrouponPageBean getMyGroupon(int userId, boolean isCreator) {
-        List<WxMyGrouponKeyId> idLists = grouponMapper.getUserInitGroupOnKeyId(userId);
-        WxGrouponPageBean userInitGropuonData = getGrouponMsgUtilMethod(idLists,userId,isCreator);
+        int[] orderIds = grouponMapper.getGrouponOrderIds(userId);
+        WxGrouponPageBean userInitGropuonData = getGrouponMsgUtilMethod(orderIds,userId,isCreator);
 
         return userInitGropuonData;
     }
 
-    private WxGrouponPageBean getGrouponMsgUtilMethod(List<WxMyGrouponKeyId> idLists, Integer userId, boolean isCreator) {
+    private WxGrouponPageBean getGrouponMsgUtilMethod(int[] orderIds, Integer userId, boolean isCreator) {
         List<WxMyGrouponData> data = new ArrayList<>();
-        for (WxMyGrouponKeyId Id : idLists) {
-            WxMyGrouponData wxMyGrouponData = new WxMyGrouponData();
-            WxMyGrouponOrderBean orderBean = grouponMapper.getGrouponOrderMsg(Id);
-            String text = grouponMapper.getOrderStatusText(orderBean.getOrderStatus());
-            List<WxMyGrouponGoodsBean> goodLists = grouponMapper.getGrouponGoods(Id);
-            WxMyGroupon groupon = grouponMapper.getGrouponMsg(Id);
-            WxMyHandleOption handleOption = getHandleOption(orderBean.getOrderStatus());
-            int joinerCount = grouponMapper.getJoinerCount(Id);
-            wxMyGrouponData.setActualPrice(orderBean.getActualPrice());
-            wxMyGrouponData.setCreator(isCreator);
+        for (int orderId : orderIds) {
+            int[] goodsIds = null;
+            if (isCreator){
+                goodsIds = grouponMapper.getGrouponGoodsIds(orderId,userId);
+            }else {
+                goodsIds = grouponMapper.getJoinGrouponGoodsIds(orderId,userId);
+            }
+            WxMyGrouponData wxMyGrouponData = grouponMapper.getTemp(orderId,userId);
+            List<WxMyGrouponGoodsBean> goodLists = grouponMapper.getGrouponGoods(goodsIds);
+            WxMyGroupon groupon = grouponMapper.getGrouponMsg(orderId,userId);
+            int orderStatus = grouponMapper.getGrouponOrderStatus(orderId);
+            WxMyHandleOption handleOption = getHandleOption(orderStatus);
+            WxMyRules rules = grouponMapper.getGrouponRules(groupon.getRulesId());
+
+            wxMyGrouponData.setIsCreator(isCreator);
             wxMyGrouponData.setGoodsList(goodLists);
             wxMyGrouponData.setGroupon(groupon);
             wxMyGrouponData.setHandleOption(handleOption);
-            wxMyGrouponData.setJoinerCount(joinerCount);
-            wxMyGrouponData.setOrderId(orderBean.getOrderId());
-            wxMyGrouponData.setOrderSn(orderBean.getOrderSn());
-            wxMyGrouponData.setOrderStatusText(text);
+            wxMyGrouponData.setRules(rules);
             data.add(wxMyGrouponData);
+
         }
 
         WxGrouponPageBean<WxMyGrouponData> gropuonData = new WxGrouponPageBean<>();
@@ -80,9 +83,54 @@ public class WxGrouponServiceImpl implements WxGrouponService {
 
     @Override
     public WxGrouponPageBean getMyJoinGroupOn(int userId, boolean isCreator) {
-        List<WxMyGrouponKeyId> idLists = grouponMapper.getUserJoinGroupOnKeyId(userId);
-        WxGrouponPageBean UserJoinGropuonData = getGrouponMsgUtilMethod(idLists,userId, isCreator);
+
+        int[] orderIds = grouponMapper.getJoinGrouponOrderIds(userId);
+
+        WxGrouponPageBean UserJoinGropuonData = getGrouponMsgUtilMethod(orderIds,userId, isCreator);
 
         return UserJoinGropuonData;
+    }
+
+    @Override
+    public WxGrouponDetail getWxGrouponDetail(int grouponId) {
+        WxGrouponDetail data = new WxGrouponDetail();
+
+        int userId = grouponMapper.getGrouponUserid(grouponId);
+
+        WxGrouponCreator creator = grouponMapper.getGrouponCreator(userId);
+
+        int orderid = grouponMapper.getGrouponOrderIdByGid(grouponId);
+
+        WxMyGroupon groupon = grouponMapper.getGrouponMsg(orderid,userId);
+
+        int[] joinersId = grouponMapper.getGrouponJoinerUserIds(grouponId);
+
+        List<WxGrouponJoiners> joiners = grouponMapper.getGrouponJoiners(joinersId);
+
+        List<WxGrouponOrderGoods> orderGoods = grouponMapper.getGrouponOrderGoods(orderid);
+        for (WxGrouponOrderGoods orderGood : orderGoods) {
+            int goodsId = orderGood.getGoodsId();
+            double retailPrice = grouponMapper.getGrouponGoodsRetailPrice(goodsId);
+            String[] spec = grouponMapper.getGrouponGoodsSpec(goodsId);
+            orderGood.setGoodsSpecificationsValues(spec);
+            orderGood.setRetailPrice(retailPrice);
+        }
+
+        WxGrouponOrderInfo orderInfo = grouponMapper.getGrouponOrderInfo(orderid);
+        int orderStatus = grouponMapper.getGrouponOrderStatus(orderid);
+        WxMyHandleOption handleOption = getHandleOption(orderStatus);
+        orderInfo.setHandleOption(handleOption);
+
+        WxMyRules rules = grouponMapper.getGrouponRules(groupon.getRulesId());
+
+        data.setCreator(creator);
+        data.setGroupon(groupon);
+        data.setJoiners(joiners);
+        data.setLinkGrouponId(grouponId);
+        data.setOrderGoods(orderGoods);
+        data.setOrderInfo(orderInfo);
+        data.setRules(rules);
+
+        return data;
     }
 }

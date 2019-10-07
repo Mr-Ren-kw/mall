@@ -1,7 +1,12 @@
 package com.j4h.mall.model.wx.groupon;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import java.util.Date;
+
 public class WxMyGroupon {
-    String addTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    Date addTime;
     int creatorUserId;
     boolean deleted;
     int grouponId;
@@ -10,15 +15,24 @@ public class WxMyGroupon {
     boolean payed;
     int rulesId;
     String shareUrl;
-    String updateTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    Date updateTime;
     int userId;
 
-    public String getAddTime() {
+    public Date getAddTime() {
         return addTime;
     }
 
-    public void setAddTime(String addTime) {
+    public void setAddTime(Date addTime) {
         this.addTime = addTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 
     public int getCreatorUserId() {
@@ -85,13 +99,6 @@ public class WxMyGroupon {
         this.shareUrl = shareUrl;
     }
 
-    public String getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(String updateTime) {
-        this.updateTime = updateTime;
-    }
 
     public int getUserId() {
         return userId;

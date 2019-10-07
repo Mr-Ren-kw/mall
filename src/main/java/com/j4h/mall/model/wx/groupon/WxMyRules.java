@@ -1,23 +1,47 @@
 package com.j4h.mall.model.wx.groupon;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import java.util.Date;
+
 public class WxMyRules {
-    String addTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    Date addTime;
     boolean deleted;
     int discount;
     int discountMember;
-    String expireTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    Date expireTime;
     int goodsId;
     String goodsName;
     int id;
     String picUrl;
-    String updateTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    Date updateTime;
 
-    public String getAddTime() {
+
+    public Date getAddTime() {
         return addTime;
     }
 
-    public void setAddTime(String addTime) {
+    public void setAddTime(Date addTime) {
         this.addTime = addTime;
+    }
+
+    public Date getExpireTime() {
+        return expireTime;
+    }
+
+    public void setExpireTime(Date expireTime) {
+        this.expireTime = expireTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 
     public boolean isDeleted() {
@@ -44,13 +68,6 @@ public class WxMyRules {
         this.discountMember = discountMember;
     }
 
-    public String getExpireTime() {
-        return expireTime;
-    }
-
-    public void setExpireTime(String expireTime) {
-        this.expireTime = expireTime;
-    }
 
     public int getGoodsId() {
         return goodsId;
@@ -84,11 +101,4 @@ public class WxMyRules {
         this.picUrl = picUrl;
     }
 
-    public String getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(String updateTime) {
-        this.updateTime = updateTime;
-    }
 }

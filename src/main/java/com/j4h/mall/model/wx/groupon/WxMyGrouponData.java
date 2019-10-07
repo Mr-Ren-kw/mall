@@ -16,6 +16,14 @@ public class WxMyGrouponData {
     String orderStatusText;
     WxMyRules rules;
 
+    public boolean getIsCreator() {
+        return isCreator;
+    }
+
+    public void setIsCreator(boolean creator) {
+        this.isCreator = creator;
+    }
+
     public double getActualPrice() {
         return actualPrice;
     }
@@ -64,13 +72,6 @@ public class WxMyGrouponData {
         this.id = id;
     }
 
-    public boolean isCreator() {
-        return isCreator;
-    }
-
-    public void setCreator(boolean creator) {
-        isCreator = creator;
-    }
 
     public int getJoinerCount() {
         return joinerCount;
