@@ -23,7 +23,7 @@ public class WxOrderController {
     public BaseRespVo orderList(UserOrderPage userOrderPage) {
         boolean login = LoginOrNotUtils.isLogin();
         if (!login) {
-            return null;
+            return BaseRespVo.fail(505,"请登录后再访问");
         }
         AllGoodsList allGoodsList = wxUserOrderService.queryAllOrderList(userOrderPage);
         BaseRespVo<AllGoodsList> ok = BaseRespVo.ok(allGoodsList);
@@ -32,6 +32,9 @@ public class WxOrderController {
 
     @RequestMapping("wx/order/detail")
     public BaseRespVo orderDetail(int orderId) {
+        if (!LoginOrNotUtils.isLogin()) {
+            return BaseRespVo.fail(504, "请登录后再访问");
+        }
         ResultOrder order = wxUserOrderService.querySingleOrderByOrderId(orderId);
         BaseRespVo<ResultOrder> ok = BaseRespVo.ok(order);
         return ok;
@@ -40,6 +43,9 @@ public class WxOrderController {
     //付款
     @RequestMapping("wx/order/prepay")
     public BaseRespVo orderPrepay(@RequestBody OrderId orderId) {
+        if (!LoginOrNotUtils.isLogin()) {
+            return BaseRespVo.fail(502, "请登录后再访问");
+        }
         boolean flag = wxUserOrderService.orderPrepay(orderId.getOrderId());
         if (flag) {
             return BaseRespVo.ok(null);
@@ -50,6 +56,9 @@ public class WxOrderController {
 
     @RequestMapping("wx/order/cancel")
     public BaseRespVo orderCancel(@RequestBody OrderId orderId) {
+        if (!LoginOrNotUtils.isLogin()) {
+            return BaseRespVo.fail(503, "请登录后再访问");
+        }
         boolean flag = wxUserOrderService.orderCancel(orderId.getOrderId());
         if (flag) {
             return BaseRespVo.ok(null);
@@ -59,6 +68,9 @@ public class WxOrderController {
 
     @RequestMapping("wx/order/confirm")
     public BaseRespVo orderConfirm(@RequestBody OrderId orderId) {
+        if (!LoginOrNotUtils.isLogin()) {
+            return BaseRespVo.fail(501, "请登录后再访问");
+        }
         boolean flag = wxUserOrderService.orderConfirm(orderId.getOrderId());
         if (flag) {
             return BaseRespVo.ok(null);
@@ -68,15 +80,19 @@ public class WxOrderController {
 
     @RequestMapping("wx/order/delete")
     public BaseRespVo orderDelete(@RequestBody OrderId orderId){
-        boolean flag = wxUserOrderService.orderDeleteByOid(orderId.getOrderId());
-        if (flag){
-            return BaseRespVo.ok(null);
+        Integer userId = LoginOrNotUtils.getUserId();
+        if (userId == null) {
+            return BaseRespVo.fail(501, "请登录后再访问");
         }
-        return null;
+        return wxUserOrderService.orderDeleteByOid(orderId.getOrderId()) ? BaseRespVo.ok(null) : BaseRespVo.fail();
     }
 
     @RequestMapping("wx/order/refund")
     public BaseRespVo orderRefund(@RequestBody OrderId orderId){
+        Integer userId = LoginOrNotUtils.getUserId();
+        if (userId == null) {
+            return BaseRespVo.fail(501, "请登录后再访问");
+        }
         boolean flag = wxUserOrderService.orderRefund(orderId.getOrderId());
         if (flag){
             return BaseRespVo.ok(null);
@@ -86,7 +102,11 @@ public class WxOrderController {
 
     @RequestMapping("wx/order/submit")
     public BaseRespVo orderSubmit(@RequestBody SubmitOrder submitOrder){
-        OrderSubmit order = new OrderSubmit();
+        Integer userId = LoginOrNotUtils.getUserId();
+        if (userId == null) {
+            return BaseRespVo.fail(501, "请登录后再访问");
+        }
+        OrderSubmit order;
         if (submitOrder.getCartId()==0){
             order = wxUserOrderService.orderSubmitMany(submitOrder);
         }else {
@@ -94,7 +114,7 @@ public class WxOrderController {
         }
 
         if (order.getOrderId()==0){
-            return null;
+            return BaseRespVo.fail(402,"参数错误");
         }
        return BaseRespVo.ok(order);
     }

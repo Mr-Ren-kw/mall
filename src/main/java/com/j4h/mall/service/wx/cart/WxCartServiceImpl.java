@@ -1,13 +1,22 @@
 package com.j4h.mall.service.wx.cart;
 
+import com.j4h.mall.mapper.address.AddressMapper;
 import com.j4h.mall.mapper.cart.CartMapper;
+import com.j4h.mall.mapper.configs.ConfigMapper;
+import com.j4h.mall.mapper.extension.CouUserMapper;
+import com.j4h.mall.mapper.extension.CouponMapper;
+import com.j4h.mall.mapper.extension.GrouponRulesMapper;
 import com.j4h.mall.mapper.goods.GoodsMapper;
+import com.j4h.mall.model.extension.coupon.BeanForDatabase.Coupon;
 import com.j4h.mall.model.goods.Goods;
 import com.j4h.mall.model.goods.GoodsProduct;
+import com.j4h.mall.model.wx.address.WxAddressDetail;
 import com.j4h.mall.model.wx.cart.*;
+import com.j4h.mall.service.wx.coupon.WxCouponService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -17,7 +26,16 @@ public class WxCartServiceImpl implements WxCartService {
 
     @Autowired
     GoodsMapper goodsMapper;
-
+    @Autowired
+    CouponMapper couponMapper;
+    @Autowired
+    WxCouponService wxCouponService;
+    @Autowired
+    ConfigMapper configMapper;
+    @Autowired
+    GrouponRulesMapper grouponRulesMapper;
+    @Autowired
+    AddressMapper addressMapper;
     @Override
     public int addCart(int userId, AddCart addCart) {
         GoodsProduct goodsProduct = goodsMapper.getGoodsProductByPid(addCart.getProductId());
@@ -30,7 +48,7 @@ public class WxCartServiceImpl implements WxCartService {
         // 否则cart不为空，然后根据
         if (cartListByUid != null && cartListByUid.size() != 0) {
             for (Cart cart : cartListByUid) {
-                if(cart.getProductId() == addCart.getProductId() && cart.getGoodsId() == addCart.getGoodsId()) {
+                if (cart.getProductId() == addCart.getProductId() && cart.getGoodsId() == addCart.getGoodsId()) {
                     // 说明是同一个商品，直接更新cart表里这条记录
                     cartMapper.updateCartNumberById(cart.getId(), userId, addCart.getNumber() + cart.getNumber());
                     return cartMapper.getTotalNumber(userId);
@@ -120,5 +138,66 @@ public class WxCartServiceImpl implements WxCartService {
         return cart.getId();
     }
 
+    @Override
+    public CartCheckout checkout(Integer userId, int cartId, int addressId, int couponId, int grouponRulesId) {
+        CartCheckout cartCheckout = new CartCheckout();
+        if(grouponRulesId != 0) {
+            double discountById = grouponRulesMapper.getDiscountById(grouponRulesId);
+            cartCheckout.setGrouponPrice(discountById);
+            cartCheckout.setGrouponRulesId(grouponRulesId);
+        }
+        Coupon coupon = null;
+        if (couponId > 0) {
+            cartCheckout.setCouponId(couponId);
+            coupon = couponMapper.queryCouponById(couponId);
+            cartCheckout.setCouponPrice(coupon.getDiscount());
+        }
+        cartCheckout.setAvailableCouponLength(wxCouponService.queryCouponCanUse(userId, cartId, 0).size());
+        WxAddressDetail addressDetailById = addressMapper.getAddressDetailById(addressId);
+        cartCheckout.setAddressId(addressId);
+        cartCheckout.setCheckedAddress(addressDetailById);
+        // 0说明是从购物车那里点击的
+        if (cartId == 0) {
+            // 如果couponId非0, 则要去查找该优惠券的减免金额, 否则就默认的0
+            List<Cart> cartList = cartMapper.getCheckedGoodsListByUid(userId);
+            cartCheckout.setCheckedGoodsList(cartList);
+        }
+        // 否则是点击商品直接购买的
+        else {
+            Cart cart = cartMapper.getCheckedGoodsById(cartId);
+            List<Cart> cartList = new ArrayList<>();
+            cartList.add(cart);
+            cartCheckout.setCheckedGoodsList(cartList);
+        }
+        String mallSystemExpressFreightMin = configMapper.getMallSystemExpressFreightMin();
+        String mallSystemExpressFreightValue = configMapper.getMallSystemExpressFreightValue();
+        // 默认满88才免运费, 运费8元
+        int freightMin = 88;
+        int freightValue = 8;
+        try {
+            freightMin = Integer.parseInt(mallSystemExpressFreightMin);
+            freightValue = Integer.parseInt(mallSystemExpressFreightValue);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        List<Cart> checkedGoodsList = cartCheckout.getCheckedGoodsList();
+        if(checkedGoodsList != null && checkedGoodsList.size() != 0) {
+            for (Cart cart : checkedGoodsList) {
+                cartCheckout.setGoodsTotalPrice(cartCheckout.getGoodsTotalPrice() + cart.getNumber() * cart.getPrice());
+            }
+        }
+        if(coupon != null && coupon.getMin() > cartCheckout.getGoodsTotalPrice()) {
+            cartCheckout.setCouponId(0);
+            cartCheckout.setCouponPrice(0);
+        }
+        if(cartCheckout.getGoodsTotalPrice() < freightMin) {
+            // 如果小于最小的运费要求，才设置
+            cartCheckout.setFreightPrice(freightValue);
+        }
+        cartCheckout.setOrderTotalPrice(cartCheckout.getGoodsTotalPrice() + cartCheckout.getFreightPrice() - cartCheckout.getCouponPrice());
+        // 这里本应该再减去积分减免的钱的，但是我没做
+        cartCheckout.setActualPrice(cartCheckout.getOrderTotalPrice());
+        return cartCheckout;
+    }
 
 }

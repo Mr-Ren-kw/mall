@@ -1,6 +1,7 @@
 package com.j4h.mall.service.wx.cart;
 
 import com.j4h.mall.model.wx.cart.AddCart;
+import com.j4h.mall.model.wx.cart.CartCheckout;
 import com.j4h.mall.model.wx.cart.CheckedCart;
 import com.j4h.mall.model.wx.cart.IndexCart;
 
@@ -18,4 +19,7 @@ public interface WxCartService {
     void deleteCart(Integer userId, int[] productId);
 
     int addAnonCart(Integer userId, AddCart addCart);
+
+    CartCheckout checkout(Integer userId, int cartId, int addressId, int couponId, int grouponRulesId);
+
 }

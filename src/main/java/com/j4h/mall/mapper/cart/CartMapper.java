@@ -31,7 +31,12 @@ public interface CartMapper {
     // 通过cartId查询该条目的商品数量和价格
     CheckedTotalPrice queryCheckedTotalPriceByCartId(@Param("cartId") int cartId);
 
-    List<Cart> queryCartByCidAndUserId(@Param("cartId") int cartId,@Param("userId") int userId);
+    List<Cart> queryCartByUserIdWx(@Param("userId") int userId);
 
-    int updateDeletedByCidAndUserId(@Param("cartId") int cartId,@Param("userId") int userId);
+    int updateDeletedByUserIdWx(@Param("userId") int userId);
+
+    List<Cart> getCheckedGoodsListByUid(@Param("uid") Integer userId);
+
+    Cart getCheckedGoodsById(@Param("cartId") int cartId);
+
 }

@@ -41,4 +41,12 @@ public interface OrderMapper {
     int updateDeleteInOrderGoodsByOid(@Param("id") int orderId);
 
     int orderRefundByOid(@Param("id") int orderId);
+
+    int insertNewOrder(@Param("userId") int userId, @Param("orderSn") String orderSn,
+                       @Param("message") String message,@Param("freightPrice") double freightPrice,
+                       @Param("couponPrice") double discountMoney, @Param("orderPrice") double actualPrice,
+                       @Param("actualPrice") double actualPrice1, @Param("comment") int comment,
+                       @Param("order")Order order,@Param("address")String address,
+                         @Param("mobile")String mobile,@Param("name")String name,
+                       @Param("goodsPrice")double goodsPrice,@Param("integralPrice")double integralPrice,@Param("grouponPrice")double grouponPrice);
 }

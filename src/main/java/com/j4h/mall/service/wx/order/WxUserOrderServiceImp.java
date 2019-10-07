@@ -1,11 +1,17 @@
 package com.j4h.mall.service.wx.order;
 
 import com.github.pagehelper.PageHelper;
+import com.j4h.mall.mapper.address.AddressMapper;
 import com.j4h.mall.mapper.cart.CartMapper;
+import com.j4h.mall.mapper.extension.CouUserMapper;
+import com.j4h.mall.mapper.extension.CouponMapper;
 import com.j4h.mall.mapper.goods.GoodsMapper;
 import com.j4h.mall.mapper.mall.OrderMapper;
 import com.j4h.mall.mapper.user.UserMapper;
+import com.j4h.mall.model.mall.order.Order;
 import com.j4h.mall.model.mall.order.OrderGoods;
+import com.j4h.mall.model.user.Address;
+import com.j4h.mall.model.wx.address.WxAddressDetail;
 import com.j4h.mall.model.wx.cart.Cart;
 import com.j4h.mall.model.wx.order.OrderSubmit;
 import com.j4h.mall.model.wx.user.AllGoodsList;
@@ -22,7 +28,9 @@ import org.apache.shiro.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -39,6 +47,15 @@ public class WxUserOrderServiceImp implements WxUserOrderService {
 
     @Autowired
     CartMapper cartMapper;
+
+    @Autowired
+    CouponMapper couponMapper;
+
+    @Autowired
+    AddressMapper addressMapper;
+
+    @Autowired
+    CouUserMapper couUserMapper;
 
     public static String getOrderStatusTest(int stat) {
         HashMap<Integer, String> orderStatu = new HashMap<>();
@@ -205,18 +222,66 @@ public class WxUserOrderServiceImp implements WxUserOrderService {
     @Override
     public OrderSubmit orderSubmitMany(SubmitOrder submitOrder) {
         int userId = (int) SecurityUtils.getSubject().getSession().getAttribute("userId");
-        List<Cart> carts =  cartMapper.queryCartByCidAndUserId(submitOrder.getCartId(),userId);
+        double sumPrice = 0;
+        List<Cart> carts = cartMapper.queryCartByUserIdWx(userId);
         for (Cart cart : carts) {
-           int goodsNumber =  goodsMapper.queryGoodsNumberByProductId(cart.getProductId());
-           if (cart.getNumber()>goodsNumber){
-               return null;
-           }
+            int goodsNumber = goodsMapper.queryGoodsNumberByProductId(cart.getProductId());
+            if (cart.getNumber() > goodsNumber) {
+                return null;
+            }
+            sumPrice = sumPrice + cart.getPrice() * cart.getNumber();
         }
-       int updateDeleted =  cartMapper.updateDeletedByCidAndUserId(submitOrder.getCartId(),userId);
-       if (updateDeleted>0){
-
-       }
+        for (Cart cart : carts) {
+            int number = cart.getNumber();
+            int productId = cart.getProductId();
+            int number1 = goodsMapper.updateGoodsNumberByGoodsIdWx(productId, -number);
+            if (number1<1){
+                return null;
+            }
+        }
+        int updateDeleted = cartMapper.updateDeletedByUserIdWx(userId);
+        if (updateDeleted > 0) {
+            double freightPrice = 8;
+            int couponId = submitOrder.getCouponId();
+            double discountMoney = 0;
+            if (couponId != 0) {
+                discountMoney = couponMapper.queryCouponById(couponId).getDiscount();
+            }
+            if (sumPrice > 88) {
+                freightPrice = 0;
+            }
+            double actualPrice = sumPrice - discountMoney + freightPrice;
+            int comment = carts.size();
+            Order order = new Order();
+            WxAddressDetail addressDetail = addressMapper.getAddressDetailById(submitOrder.getAddressId());
+            String address = addressDetail.getAddress();
+            String mobile = addressDetail.getMobile();
+            String name = addressDetail.getName();
+            double goodsPrice = sumPrice;
+            double integralPrice = 0.0;
+            double grouponPrice = 0.0;
+            double orderPrice = actualPrice;
+            orderMapper.insertNewOrder(userId, getOrderSn(), submitOrder.getMessage(), freightPrice, discountMoney, orderPrice, actualPrice
+                    , comment,order,address,mobile,name,goodsPrice,integralPrice,grouponPrice);
+            if (couponId != 0) {
+              int updateCouponStatus=  couUserMapper.updateCouponStatusByCouponId(couponId,order.getId(),userId);
+              if (updateCouponStatus<1){
+                  return null;
+              }
+            }
+            OrderSubmit orderSubmit = new OrderSubmit();
+            orderSubmit.setOrderId(order.getId());
+            return orderSubmit;
+        }
         return null;
+    }
+
+    public static String getOrderSn() {
+        Date date = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+        String orderSn = dateFormat.format(date);
+        orderSn = orderSn + (int) (Math.random() * 1000000 + 1);
+        return orderSn;
     }
 
     @Override

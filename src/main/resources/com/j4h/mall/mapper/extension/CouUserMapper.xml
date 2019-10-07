@@ -45,5 +45,9 @@
         update cskaoyan_mall_coupon_user set status = 2 where id = #{id}
     </update>
 
+    <update id="updateCouponStatusByCouponId">
+      update cskaoyan_mall_coupon_user set status = 1,used_time = now(),order_id = #{orderId}
+      where coupon_id = #{couponId} and user_id = #{userId} and deleted = 0
+    </update>
 
 </mapper>

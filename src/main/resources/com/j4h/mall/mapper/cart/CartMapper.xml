@@ -87,17 +87,28 @@
         select number,price from cskaoyan_mall_cart where id = #{cartId}
     </select>
 
-    <select id="queryCartByCidAndUserId" resultType="com.j4h.mall.model.wx.cart.Cart">
+    <select id="queryCartByUserIdWx" resultType="com.j4h.mall.model.wx.cart.Cart">
         select goods_id as goodsId,goods_name as goodsName,product_id as productId,user_id as userId,
         price,`number`,specifications,pic_url as picUrl,goods_sn as goodsSn
         from cskaoyan_mall_cart
         where checked=1 and user_id = #{userId} and deleted = 0
     </select>
 
-    <update id="updateDeletedByCidAndUserId">
+    <update id="updateDeletedByUserIdWx">
         update cskaoyan_mall_cart set deleted =1,update_time = now()
         where  checked=1 and user_id = #{userId}
     </update>
+
+
+    <select id="getCheckedGoodsListByUid" resultMap="cartMap">
+        select id, user_id, goods_id, goods_sn, goods_name, product_id, price, number, specifications, checked, pic_url, add_time, update_time, deleted from cskaoyan_mall_cart
+        where user_id = #{uid} and deleted = 0 and checked = 1
+    </select>
+
+    <select id="getCheckedGoodsById" resultMap="cartMap">
+        select id, user_id, goods_id, goods_sn, goods_name, product_id, price, number, specifications, checked, pic_url, add_time, update_time, deleted from cskaoyan_mall_cart
+        where id = #{cartId}
+    </select>
 
 </mapper>
 
