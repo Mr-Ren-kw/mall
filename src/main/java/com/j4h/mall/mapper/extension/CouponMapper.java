@@ -21,4 +21,10 @@ public interface CouponMapper {
     List<WxCoupon> queryCouponList();
     // 通过id查询并封装到传入的bean中--rkw
     WxCoupon queryCouponByIdForWx(@Param("id")int id);
+    // 更新优惠券的数量
+    int updateCouponCountById(@Param("id") int couponId,@Param("newTotal") int newTotal);
+    // 根据兑换码查询对应的优惠券
+    Coupon queryCouponByCode(@Param("code") String code);
+    //
+    Coupon queryCouponByIdAndMin(@Param("id") int couponId,@Param("count") double count);
 }

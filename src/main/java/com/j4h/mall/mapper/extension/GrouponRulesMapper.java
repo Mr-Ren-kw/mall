@@ -18,4 +18,5 @@ public interface GrouponRulesMapper {
 
     void deleteRulesById(@Param("rulesId") int rulesId);
 
+    double getDiscountById(@Param("id") int grouponRulesId);
 }

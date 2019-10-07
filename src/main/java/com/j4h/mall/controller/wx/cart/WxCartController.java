@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import sun.misc.BASE64Decoder;
 
 @RestController
 @RequestMapping("wx/cart")
@@ -87,5 +88,33 @@ public class WxCartController {
         wxCartService.deleteCart(userId, cart.getProductId());
         IndexCart indexCart = wxCartService.getCartInfo(userId);
         return BaseRespVo.ok(indexCart);
+    }
+
+    @RequestMapping("checkout")
+    public BaseRespVo<CartCheckout> checkout(int cartId, int addressId, int couponId, int grouponRulesId) {
+        Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute("userId");
+        if(userId == null) {
+            return BaseRespVo.fail(501, "请登录");
+        }
+        if(addressId <= 0) {
+            // 参数异常
+            return BaseRespVo.badArgument402();
+        }
+        CartCheckout cartCheckout = wxCartService.checkout(userId, cartId, addressId, couponId, grouponRulesId);
+        return BaseRespVo.ok(cartCheckout);
+    }
+
+    @RequestMapping("fastadd")
+    public BaseRespVo<Integer> addfast(@RequestBody AddCart addCart) {
+        Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute("userId");
+        if(userId == null) {
+            return BaseRespVo.fail(501, "请登录");
+        }
+        // 插入一条幽灵记录，他的delete=1,不会在购物车显示
+        int res = wxCartService.addAnonCart(userId, addCart);
+        if(res == -1) {
+            return BaseRespVo.badArgument402();
+        }
+        return BaseRespVo.ok(res);
     }
 }

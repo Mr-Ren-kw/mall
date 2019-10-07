@@ -39,4 +39,8 @@
         </selectKey>
         insert into cskaoyan_mall_topic (title,subtitle,content,price,read_count,pic_url,goods,add_time,update_time,deleted) values (#{topic.title},#{topic.subtitle},#{topic.content},#{topic.price},#{topic.readCount},#{topic.picUrl},#{topic.goods},now(),now(),0)
     </insert>
+
+    <select id="queryMaxId" resultType="int">
+        select `id` from cskaoyan_mall_topic order by id desc limit 1;
+    </select>
 </mapper>

@@ -74,6 +74,14 @@
         select pic_url from cskaoyan_mall_goods where id = #{id} and deleted = 0
     </select>
 
+  <update id="refundOrderMoney">
+    update cskaoyan_mall_order set order_status = 203 where id = #{id} and order_status = 202 and deleted = 0
+  </update>
+
+  <update id="shipOrderById">
+    update cskaoyan_mall_order set order_status = 301,ship_channel = #{ship.shipChannel},ship_sn = #{ship.shipSn},ship_time = now() where id = #{ship.orderId}
+  </update>
+
     <select id="queryOrderByIdWx" resultMap="OrderMapperWx">
         select consignee,address,add_time as addTime,order_sn as orderSn,actual_price as actualPrice,
         mobile,order_status as statu,goods_price as goodsPrice,id,coupon_price as couponPrice,
