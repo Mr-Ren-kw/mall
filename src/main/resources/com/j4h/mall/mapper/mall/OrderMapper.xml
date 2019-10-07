@@ -73,4 +73,62 @@
     <select id="queryPicUrlById" resultType="string">
         select pic_url from cskaoyan_mall_goods where id = #{id} and deleted = 0
     </select>
+
+    <select id="queryOrderByIdWx" resultMap="OrderMapperWx">
+        select consignee,address,add_time as addTime,order_sn as orderSn,actual_price as actualPrice,
+        mobile,order_status as statu,goods_price as goodsPrice,id,coupon_price as couponPrice,
+        freight_price as freightPrice
+        from cskaoyan_mall_order
+        where id = #{id} and deleted=0
+    </select>
+    <resultMap id="OrderMapperWx" type="com.j4h.mall.model.wx.order.WxOrder">
+        <result column="addTime" property="addTime"/>
+        <result column="orderSn" property="orderSn"/>
+        <result column="actualPrice" property="actualPrice"/>
+        <result column="statu" property="statu"/>
+        <result column="goodsPrice" property="goodsPrice"/>
+        <result column="couponPrice" property="couponPrice"/>
+        <result column="freightPrice" property="freightPrice"/>
+    </resultMap>
+
+    <select id="queryOrderGoodsListByOid" resultType="com.j4h.mall.model.mall.order.OrderGoods">
+            select id,order_id as orderId,goods_id as goodsId,goods_name as goodsName,goods_sn as goodsSn,product_id as productId,
+    number,price,specifications,pic_url as picUrl,comment,add_time as addTime,update_time as updateTime,deleted
+    from cskaoyan_mall_order_goods where order_id = #{oid} and deleted =0
+    </select>
+
+   <update id="updateOrderStatusByOidWx">
+       update cskaoyan_mall_order set order_status = #{status} where id = #{id} and deleted = 0
+   </update>
+
+    <update id="cancelOrderByOrderId">
+        update cskaoyan_mall_order set deleted = 1 where id = #{id}
+    </update>
+
+    <select id="queryGoodsDetailByOrderIdWx" resultType="com.j4h.mall.model.wx.order.OrderGoodsDetailWx">
+        select goods_id as goodsId,specifications,`number`
+        from cskaoyan_mall_order_goods where order_id = #{id} and deleted = 0
+    </select>
+
+    <update id="updateOrderGoodsDeletedByOid">
+        update cskaoyan_mall_order_goods set deleted = 1 where order_id = #{id}
+    </update>
+    <update id="updateGoodsNumberByGoodsIdWx">
+        update cskaoyan_mall_goods_product
+        set `number`=`number`+#{number}
+        where id = #{id} and deleted = 0
+    </update>
+
+    <update id="orderConfirmByOid">
+        update cskaoyan_mall_order set order_status = 401 where id = #{id} and deleted = 0
+    </update>
+
+    <update id="orderDeleteByOid">
+        update cskaoyan_mall_order set deleted = 1 where id = #{id}
+    </update>
+
+    <update id="updateDeleteInOrderGoodsByOid">
+        update cskaoyan_mall_order_goods set deleted = 1 where order_id = #{id}
+    </update>
+
 </mapper>
