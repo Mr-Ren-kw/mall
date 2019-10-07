@@ -75,4 +75,5 @@ public interface GoodsMapper {
 
     int updateGoodsNumberByGoodsIdWx(@Param("id") int productId,@Param("number")int number);
 
+    int queryGoodsNumberByProductId(@Param("productId") int productId);
 }

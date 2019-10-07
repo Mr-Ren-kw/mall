@@ -1,11 +1,13 @@
 package com.j4h.mall.controller.wx.order;
 
+import com.j4h.mall.model.wx.order.OrderSubmit;
 import com.j4h.mall.model.wx.user.AllGoodsList;
 import com.j4h.mall.model.wx.order.ResultOrder;
 import com.j4h.mall.service.wx.order.WxUserOrderService;
 import com.j4h.mall.util.LoginOrNotUtils;
 import com.j4h.mall.vo.BaseRespVo;
 import com.j4h.mall.vo.wx.order.OrderId;
+import com.j4h.mall.vo.wx.order.SubmitOrder;
 import com.j4h.mall.vo.wx.user.UserOrderPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -80,5 +82,20 @@ public class WxOrderController {
             return BaseRespVo.ok(null);
         }
         return null;
+    }
+
+    @RequestMapping("wx/order/submit")
+    public BaseRespVo orderSubmit(@RequestBody SubmitOrder submitOrder){
+        OrderSubmit order = new OrderSubmit();
+        if (submitOrder.getCartId()==0){
+            order = wxUserOrderService.orderSubmitMany(submitOrder);
+        }else {
+            order = wxUserOrderService.orderSubmitOne(submitOrder);
+        }
+
+        if (order.getOrderId()==0){
+            return null;
+        }
+       return BaseRespVo.ok(order);
     }
 }

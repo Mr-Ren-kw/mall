@@ -367,4 +367,7 @@
         where id = #{id} and deleted = 0
     </update>
 
+    <select id="queryGoodsNumberByProductId" resultType="int">
+        select `number` from cskaoyan_mall_goods_product where id = #{productId}
+    </select>
 </mapper>

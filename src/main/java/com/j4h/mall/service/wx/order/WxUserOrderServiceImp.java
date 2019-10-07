@@ -1,10 +1,13 @@
 package com.j4h.mall.service.wx.order;
 
 import com.github.pagehelper.PageHelper;
+import com.j4h.mall.mapper.cart.CartMapper;
 import com.j4h.mall.mapper.goods.GoodsMapper;
 import com.j4h.mall.mapper.mall.OrderMapper;
 import com.j4h.mall.mapper.user.UserMapper;
 import com.j4h.mall.model.mall.order.OrderGoods;
+import com.j4h.mall.model.wx.cart.Cart;
+import com.j4h.mall.model.wx.order.OrderSubmit;
 import com.j4h.mall.model.wx.user.AllGoodsList;
 import com.j4h.mall.model.wx.user.GoodsList;
 import com.j4h.mall.model.wx.user.HandleOption;
@@ -12,6 +15,7 @@ import com.j4h.mall.model.wx.user.UserOrderDetailsList;
 import com.j4h.mall.model.wx.order.OrderGoodsDetailWx;
 import com.j4h.mall.model.wx.order.WxOrder;
 import com.j4h.mall.model.wx.order.ResultOrder;
+import com.j4h.mall.vo.wx.order.SubmitOrder;
 import com.j4h.mall.vo.wx.user.UserOrderPage;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
@@ -33,9 +37,11 @@ public class WxUserOrderServiceImp implements WxUserOrderService {
     @Autowired
     GoodsMapper goodsMapper;
 
+    @Autowired
+    CartMapper cartMapper;
+
     public static String getOrderStatusTest(int stat) {
         HashMap<Integer, String> orderStatu = new HashMap<>();
-        String orderStatusText = null;
         orderStatu.put(301, "待收货");
         orderStatu.put(401, "待评价");
         orderStatu.put(402, "待评价");
@@ -194,6 +200,28 @@ public class WxUserOrderServiceImp implements WxUserOrderService {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public OrderSubmit orderSubmitMany(SubmitOrder submitOrder) {
+        int userId = (int) SecurityUtils.getSubject().getSession().getAttribute("userId");
+        List<Cart> carts =  cartMapper.queryCartByCidAndUserId(submitOrder.getCartId(),userId);
+        for (Cart cart : carts) {
+           int goodsNumber =  goodsMapper.queryGoodsNumberByProductId(cart.getProductId());
+           if (cart.getNumber()>goodsNumber){
+               return null;
+           }
+        }
+       int updateDeleted =  cartMapper.updateDeletedByCidAndUserId(submitOrder.getCartId(),userId);
+       if (updateDeleted>0){
+
+       }
+        return null;
+    }
+
+    @Override
+    public OrderSubmit orderSubmitOne(SubmitOrder submitOrder) {
+        return null;
     }
 
 

@@ -87,5 +87,17 @@
         select number,price from cskaoyan_mall_cart where id = #{cartId}
     </select>
 
+    <select id="queryCartByCidAndUserId" resultType="com.j4h.mall.model.wx.cart.Cart">
+        select goods_id as goodsId,goods_name as goodsName,product_id as productId,user_id as userId,
+        price,`number`,specifications,pic_url as picUrl,goods_sn as goodsSn
+        from cskaoyan_mall_cart
+        where checked=1 and user_id = #{userId} and deleted = 0
+    </select>
+
+    <update id="updateDeletedByCidAndUserId">
+        update cskaoyan_mall_cart set deleted =1,update_time = now()
+        where  checked=1 and user_id = #{userId}
+    </update>
+
 </mapper>
 
