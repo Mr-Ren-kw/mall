@@ -37,8 +37,7 @@ public class WxAuthController {
 
 
 	@RequestMapping("login")
-	@ResponseBody
-	public Object login(@RequestBody Login login, HttpServletRequest request) {
+	public BaseRespVo login(@RequestBody Login login, HttpServletRequest request) {
 		if(login == null) {
 			return BaseRespVo.badArgument402();
 		}
@@ -105,5 +104,12 @@ public class WxAuthController {
 		} else {
 			return BaseRespVo.fail(703, "验证码错误");
 		}
+	}
+
+	@PostMapping("/logout")
+	public BaseRespVo logout() {
+		Session session = SecurityUtils.getSubject().getSession();
+		session.setAttribute("userId",null);
+		return BaseRespVo.ok(null);
 	}
 }

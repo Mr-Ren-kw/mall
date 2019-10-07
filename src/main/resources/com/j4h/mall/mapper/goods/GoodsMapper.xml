@@ -344,11 +344,17 @@
         select <include refid="queryItems"/> from cskaoyan_mall_goods
         <where>
             deleted = 0
-            <if test="cId != null">
+            <if test="cId != null and cId != 0">
                 and category_id = #{cId}
             </if>
             <if test="bId != null">
                 and brand_id = #{bId}
+            </if>
+            <if test="isHot == true">
+                and is_hot = 1
+            </if>
+            <if test="isNew == true">
+                and is_new = 1
             </if>
         </where>
 </select>

@@ -27,7 +27,7 @@ public class CustomShiroConfig {
     public ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager){
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         //如果访问url没有通过认证，会重定向到loginUrl
-//        shiroFilterFactoryBean.setLoginUrl("/");
+        shiroFilterFactoryBean.setLoginUrl("/");
         //安全控制器
         shiroFilterFactoryBean.setSecurityManager(securityManager);
         //拦截器配置
@@ -64,7 +64,7 @@ public class CustomShiroConfig {
     @Bean
     public DefaultWebSessionManager sessionManager() {
         CustomSessionManager customSessionManager = new CustomSessionManager();
-        customSessionManager.setSessionIdUrlRewritingEnabled(false);
+//        customSessionManager.setSessionIdUrlRewritingEnabled(false);
 //        customSessionManager.setSessionValidationSchedulerEnabled(true);
         return customSessionManager;
     }

@@ -7,7 +7,6 @@ import com.j4h.mall.mapper.goods.GoodsMapper;
 import com.j4h.mall.mapper.mall.BrandMapper;
 import com.j4h.mall.mapper.mall.CategoryMapper;
 import com.j4h.mall.mapper.mall.IssueMapper;
-import com.j4h.mall.mapper.user.UserMapper;
 import com.j4h.mall.model.extension.groupon.BeanForDatabase.Groupon;
 import com.j4h.mall.model.extension.groupon.BeanForDatabase.GrouponRules;
 import com.j4h.mall.model.goods.*;
@@ -47,10 +46,19 @@ public class WxGoodsServiceImpl implements WxGoodsService {
     public GoodsListData queryGoodsList(BeanForGoodsPage beanForGoodsPage) {
         int page = beanForGoodsPage.getPage();
         int size = beanForGoodsPage.getSize();
+        boolean isHot = beanForGoodsPage.getIsHot();
+        boolean isNew = beanForGoodsPage.getIsNew();
+        String order = beanForGoodsPage.getOrder();
+        String sort = beanForGoodsPage.getSort();
+        if(order == null && sort == null) {
+            PageHelper.startPage(page, size);
+        }else {
+            String orderBy = sort + " " + order;
+            PageHelper.startPage(page, size, orderBy);
+        }
         Integer categoryId = beanForGoodsPage.getCategoryId();
         Integer brandId = beanForGoodsPage.getBrandId();
-        PageHelper.startPage(page, size);
-        List<Goods> goodsList = goodsMapper.queryGoodsByCondition(categoryId, brandId);
+        List<Goods> goodsList = goodsMapper.queryGoodsByCondition(categoryId, brandId, isHot, isNew);
         List<CategoryInfo> allL2Category = categoryMapper.getAllL2CategoryInfo();
         GoodsListData goodsListData = new GoodsListData();
         goodsListData.setCount(goodsList.size());
@@ -132,7 +140,7 @@ public class WxGoodsServiceImpl implements WxGoodsService {
         GoodsList goodsList = new GoodsList();
         Goods goods = goodsMapper.getGoodsById(goodsId);
         int categoryId = goods.getCategoryId();
-        List<Goods> goodsList1 = goodsMapper.queryGoodsByCondition(categoryId,null);
+        List<Goods> goodsList1 = goodsMapper.queryGoodsByCondition(categoryId,null, false, false);
         goodsList1.removeIf(goods1 -> goods1.getId() == goodsId);
         return goodsList;
     }
