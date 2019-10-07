@@ -2,11 +2,14 @@ package com.j4h.mall.service.wx.goods;
 
 import com.github.pagehelper.PageHelper;
 import com.j4h.mall.mapper.extension.GrouponMapper;
+import com.j4h.mall.mapper.extension.GrouponRulesMapper;
 import com.j4h.mall.mapper.goods.GoodsMapper;
 import com.j4h.mall.mapper.mall.BrandMapper;
 import com.j4h.mall.mapper.mall.CategoryMapper;
 import com.j4h.mall.mapper.mall.IssueMapper;
+import com.j4h.mall.mapper.user.UserMapper;
 import com.j4h.mall.model.extension.groupon.BeanForDatabase.Groupon;
+import com.j4h.mall.model.extension.groupon.BeanForDatabase.GrouponRules;
 import com.j4h.mall.model.goods.*;
 import com.j4h.mall.model.mall.brand.Brand;
 import com.j4h.mall.model.mall.category.CategoryInfo;
@@ -32,6 +35,8 @@ public class WxGoodsServiceImpl implements WxGoodsService {
     IssueMapper issueMapper;
     @Autowired
     BrandMapper brandMapper;
+    @Autowired
+    GrouponRulesMapper grouponRulesMapper;
 
     @Override
     public WxGoodsCount queryGoodsCountForWx() {
@@ -88,7 +93,15 @@ public class WxGoodsServiceImpl implements WxGoodsService {
         List<GoodsComment> commentList = goodsMapper.queryGoodsComment(goodsId);
         comment.setCount(commentList.size());
         comment.setData(commentList);
-        List<Groupon> groupon = grouponMapper.queryGrouponByCondition(goodsId);
+        List<GrouponRules> grouponRulesList = grouponRulesMapper.queryGrouponRulesByCondition(goodsId);
+        List<Groupon> grouponList = new ArrayList<>();
+        if(grouponRulesList.size() != 0) {
+            for (GrouponRules grouponRules : grouponRulesList) {
+                int rulesId = grouponRules.getId();
+                Groupon groupon = grouponMapper.queryGrouponByRuleId(rulesId);
+                grouponList.add(groupon);
+            }
+        }
         List<Issue> issue = issueMapper.queryIssueList(null);
         List<SpecificationItem> specificationItemList = new ArrayList<>();
         List<GoodsProduct> productList = goodsMapper.getGoodsProductByGid(goodsId);
@@ -101,10 +114,11 @@ public class WxGoodsServiceImpl implements WxGoodsService {
             specificationItem.setValueList(goodsSpecifications);
             specificationItemList.add(specificationItem);
         }
+
         goodsDetail.setAttributeList(goodsAttribute);
         goodsDetail.setBrand(brand);
         goodsDetail.setComment(comment);
-        goodsDetail.setGroupon(groupon);
+        goodsDetail.setGroupon(grouponList);
         goodsDetail.setInfo(goods);
         goodsDetail.setIssue(issue);
         goodsDetail.setProductList(productList);

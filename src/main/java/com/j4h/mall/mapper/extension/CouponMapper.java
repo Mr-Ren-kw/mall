@@ -5,7 +5,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface CouponMapper {
-    List<Coupon> queryCouponByCondition(@Param("name") String name, @Param("status") int status, @Param("type") int type);
+    List<Coupon> queryCouponByCondition(@Param("name") String name, @Param("status") Integer status, @Param("type") Integer type);
 
     void insertCoupon(@Param("coupon") Coupon coupon);
 

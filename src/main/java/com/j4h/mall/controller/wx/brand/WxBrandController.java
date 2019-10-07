@@ -17,8 +17,8 @@ public class WxBrandController {
     WxBrandService brandService;
 
     @RequestMapping("/list")
-    public BaseRespVo queryBrands(int page, int size, Integer brandId) {
-        BrandPage brandPage = brandService.queryBrandByPage(page, size, brandId);
+    public BaseRespVo queryBrands(int page, int size) {
+        BrandPage brandPage = brandService.queryBrandByPage(page, size);
         return BaseRespVo.ok(brandPage);
     }
     @GetMapping("/detail")

@@ -6,5 +6,5 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface CouUserMapper {
-    List<CouponUser> queryCouUserByCondition(@Param("couponId") int couponId, @Param("userId")int userId, @Param("status") int status);
+    List<CouponUser> queryCouUserByCondition(@Param("couponId") Integer couponId, @Param("userId")Integer userId, @Param("status") Integer status);
 }

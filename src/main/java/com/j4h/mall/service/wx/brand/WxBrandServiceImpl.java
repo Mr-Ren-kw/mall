@@ -18,11 +18,11 @@ public class WxBrandServiceImpl implements WxBrandService{
     BrandMapper brandMapper;
 
     @Override
-    public BrandPage queryBrandByPage(int page, int size, Integer brandId) {
+    public BrandPage queryBrandByPage(int page, int size) {
         BrandPage brandPage = new BrandPage();
         PageHelper.startPage(page, size);
-        List<Brand> brands = brandMapper.brandList(brandId,null);
-        PageInfo<Brand> brandPageInfo = new PageInfo<>();
+        List<Brand> brands = brandMapper.brandList(null,null);
+        PageInfo<Brand> brandPageInfo = new PageInfo<>(brands);
         int total = (int) brandPageInfo.getTotal();
         brandPage.setBrandList(brands);
         brandPage.setTotalPages(total/size + 1);

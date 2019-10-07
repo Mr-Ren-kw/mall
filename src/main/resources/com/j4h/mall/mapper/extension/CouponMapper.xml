@@ -11,10 +11,10 @@
             <if test="name != null">
                 and `name` like #{name}
             </if>
-            <if test="status != -1">
+            <if test="status != null">
                 and status = #{status}
             </if>
-            <if test="type != -1">
+            <if test="type != null">
                 and `type` = #{type}
             </if>
         </where>
@@ -48,6 +48,6 @@
         insert into cskaoyan_mall_coupon (`name`,`desc`,tag,total,discount,`min`,`limit`,`type`,status,goods_type,goods_value,code,time_type,days,start_time,end_time,add_time,update_time,deleted) values (#{coupon.name},#{coupon.desc},#{coupon.tag},#{coupon.total},#{coupon.discount},#{coupon.min},#{coupon.limit},#{coupon.type},#{coupon.status},#{coupon.goodsType},#{coupon.goodsValue},#{coupon.code},#{coupon.timeType},#{coupon.days},now(),#{coupon.endTime},#{coupon.addTime},now(),0)
     </insert>
     <select id="queryCouponById" resultType="com.j4h.mall.model.extension.coupon.BeanForDatabase.Coupon">
-        select <include refid="queryItems"/> from cskaoyan_mall_coupon where id = #{id}
+        select <include refid="queryItems"/> from cskaoyan_mall_coupon where id = #{id} and deleted = 0
     </select>
 </mapper>
