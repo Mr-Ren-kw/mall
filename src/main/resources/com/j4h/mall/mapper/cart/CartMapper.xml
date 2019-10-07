@@ -68,4 +68,12 @@
             </foreach>
         </where>
     </update>
+
+    <insert id="addAnonCart">
+        <selectKey resultType="_int" order="AFTER" keyColumn="idz" keyProperty="cart.id">
+            select last_insert_id() as idz
+        </selectKey>
+        insert into cskaoyan_mall_cart (id, user_id, goods_id, goods_sn, goods_name, product_id, price, number, specifications, checked, pic_url, add_time, update_time, deleted)
+        values (null, #{cart.userId}, #{cart.goodsId}, #{cart.goodsSn}, #{cart.goodsName}, #{cart.productId}, #{cart.price}, #{cart.number}, #{cart.specifications}, 1, #{cart.picUrl}, now(), now(), 1)
+    </insert>
 </mapper>

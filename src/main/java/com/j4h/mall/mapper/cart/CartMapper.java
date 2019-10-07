@@ -24,4 +24,7 @@ public interface CartMapper {
     int getTotalNumber(@Param("uid") int userId);
 
     void deleteCartByUidPid(@Param("uid") Integer userId, @Param("pids") int[] productId);
+
+    void addAnonCart(@Param("cart") Cart cart);
+
 }

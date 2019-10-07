@@ -88,4 +88,27 @@ public class WxCartController {
         IndexCart indexCart = wxCartService.getCartInfo(userId);
         return BaseRespVo.ok(indexCart);
     }
+
+    @RequestMapping("checkout")
+    public BaseRespVo checkout(int cartId, int addressId, int couponId, int grouponRulesId) {
+        Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute("userId");
+        if(userId == null) {
+            return BaseRespVo.fail(501, "请登录");
+        }
+        return BaseRespVo.fail(502, "系统内部错误");
+    }
+
+    @RequestMapping("fastadd")
+    public BaseRespVo<Integer> addfast(@RequestBody AddCart addCart) {
+        Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute("userId");
+        if(userId == null) {
+            return BaseRespVo.fail(501, "请登录");
+        }
+        // 插入一条幽灵记录，他的delete=1,不会在购物车显示
+        int res = wxCartService.addAnonCart(userId, addCart);
+        if(res == -1) {
+            return BaseRespVo.badArgument402();
+        }
+        return BaseRespVo.ok(res);
+    }
 }

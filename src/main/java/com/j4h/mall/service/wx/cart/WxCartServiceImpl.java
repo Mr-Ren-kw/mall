@@ -98,5 +98,27 @@ public class WxCartServiceImpl implements WxCartService {
         cartMapper.deleteCartByUidPid(userId, productId);
     }
 
+    @Override
+    public int addAnonCart(Integer userId, AddCart addCart) {
+        GoodsProduct goodsProduct = goodsMapper.getGoodsProductByPid(addCart.getProductId());
+        Goods goods = goodsMapper.getGoodsById(addCart.getGoodsId());
+        if (goodsProduct == null || goods == null) {
+            // id有错，直接返回-1
+            return -1;
+        }
+        Cart cart = new Cart();
+        cart.setGoodsId(addCart.getGoodsId());
+        cart.setGoodsName(goods.getName());
+        cart.setGoodsSn(goods.getGoodsSn());
+        cart.setNumber(addCart.getNumber());
+        cart.setPicUrl(goods.getPicUrl());
+        cart.setPrice(goodsProduct.getPrice());
+        cart.setProductId(addCart.getProductId());
+        cart.setSpecifications(goodsProduct.getSpecifications());
+        cart.setUserId(userId);
+        cartMapper.addAnonCart(cart);
+        return cart.getId();
+    }
+
 
 }

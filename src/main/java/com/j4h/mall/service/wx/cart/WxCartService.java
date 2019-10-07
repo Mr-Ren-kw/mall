@@ -17,4 +17,5 @@ public interface WxCartService {
 
     void deleteCart(Integer userId, int[] productId);
 
+    int addAnonCart(Integer userId, AddCart addCart);
 }

@@ -33,4 +33,6 @@ public interface UserMapper {
 
     String getPasswordByUsername(@Param("username") String principal);
 
+    String getUsernameById(@Param("uid") Integer userId);
+
 }
