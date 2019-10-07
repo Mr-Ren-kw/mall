@@ -8,9 +8,9 @@ import java.util.List;
  * @date 2019/10/6 20:50
  */
 public class SearchResponseVo {
-    KeywordOfSearch defaultKeyword;
-    List<HistoryKeyword> historyKeywordList;
-    List<KeywordOfSearch> hotKeywordList;
+    private KeywordOfSearch defaultKeyword;
+    private List<HistoryKeyword> historyKeywordList;
+    private List<KeywordOfSearch> hotKeywordList;
 
     public KeywordOfSearch getDefaultKeyword() {
         return defaultKeyword;

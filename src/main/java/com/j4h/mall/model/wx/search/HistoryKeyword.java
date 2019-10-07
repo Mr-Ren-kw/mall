@@ -6,7 +6,7 @@ package com.j4h.mall.model.wx.search;
  * @date 2019/10/6 22:46
  */
 public class HistoryKeyword {
-    String keyword;
+    private String keyword;
 
     public String getKeyword() {
         return keyword;

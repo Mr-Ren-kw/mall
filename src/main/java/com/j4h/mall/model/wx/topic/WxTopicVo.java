@@ -10,8 +10,8 @@ import java.util.List;
  * @date 2019/10/5 17:02
  */
 public class WxTopicVo {
-    long count;
-    List<Topic> data;
+    private long count;
+    private List<Topic> data;
 
     public long getCount() {
         return count;

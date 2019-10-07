@@ -6,11 +6,11 @@ package com.j4h.mall.model.wx.comment;
  * @date 2019/10/5 20:24
  */
 public class WxCommentListRequest {
-    int valueId;
-    int type;
-    int showType;
-    int page;
-    int size;
+    private int valueId;
+    private int type;
+    private int showType;
+    private int page;
+    private int size;
 
     public int getValueId() {
         return valueId;

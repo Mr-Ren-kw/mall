@@ -10,19 +10,19 @@ import java.util.Date;
  * @date 2019/10/5 23:00
  */
 public class WxCommentPostRequest {
-    int id;
-    String content;
-    boolean hasPicture;
-    String[] picUrls;
-    int star;
-    int type;
-    String valueId;
-    int valueIdInt;
+    private int id;
+    private String content;
+    private boolean hasPicture;
+    private String[] picUrls;
+    private int star;
+    private int type;
+    private String valueId;
+    private int valueIdInt;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    Date addTime;
+    private Date addTime;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    Date updateTime;
-    int userId;
+    private Date updateTime;
+    private int userId;
 
     public int getValueIdInt() {
         return valueIdInt;

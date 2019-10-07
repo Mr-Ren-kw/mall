@@ -8,9 +8,9 @@ import java.util.List;
  * @date 2019/10/5 20:01
  */
 public class WxCommentVo {
-    long count;
-    int currentPage;
-    List<WxCommentAndUserInfo> data;
+    private long count;
+    private int currentPage;
+    private List<WxCommentAndUserInfo> data;
 
     public long getCount() {
         return count;

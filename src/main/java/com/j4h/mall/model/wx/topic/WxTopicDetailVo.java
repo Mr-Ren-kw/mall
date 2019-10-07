@@ -11,8 +11,8 @@ import java.util.List;
  * @date 2019/10/5 17:29
  */
 public class WxTopicDetailVo {
-    String[] goods;
-    Topic topic;
+    private String[] goods;
+    private Topic topic;
 
     public String[] getGoods() {
         return goods;

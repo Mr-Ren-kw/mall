@@ -6,8 +6,8 @@ package com.j4h.mall.model.wx.comment;
  * @date 2019/10/5 22:20
  */
 public class WxCommentCount {
-    int allCount;
-    int hasPicCount;
+    private int allCount;
+    private int hasPicCount;
 
     public int getAllCount() {
         return allCount;
