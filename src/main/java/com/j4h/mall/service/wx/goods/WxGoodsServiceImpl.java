@@ -1,6 +1,7 @@
 package com.j4h.mall.service.wx.goods;
 
 import com.github.pagehelper.PageHelper;
+import com.j4h.mall.mapper.collect.CollectMapper;
 import com.j4h.mall.mapper.extension.GrouponMapper;
 import com.j4h.mall.mapper.extension.GrouponRulesMapper;
 import com.j4h.mall.mapper.goods.GoodsMapper;
@@ -36,6 +37,8 @@ public class WxGoodsServiceImpl implements WxGoodsService {
     BrandMapper brandMapper;
     @Autowired
     GrouponRulesMapper grouponRulesMapper;
+    @Autowired
+    CollectMapper collectMapper;
 
     @Override
     public WxGoodsCount queryGoodsCountForWx() {
@@ -122,7 +125,7 @@ public class WxGoodsServiceImpl implements WxGoodsService {
             specificationItem.setValueList(goodsSpecifications);
             specificationItemList.add(specificationItem);
         }
-
+        int num = collectMapper.queryHasCollectNum(goodsId);
         goodsDetail.setAttributeList(goodsAttribute);
         goodsDetail.setBrand(brand);
         goodsDetail.setComment(comment);
@@ -131,7 +134,7 @@ public class WxGoodsServiceImpl implements WxGoodsService {
         goodsDetail.setIssue(issue);
         goodsDetail.setProductList(productList);
         goodsDetail.setSpecificationList(specificationItemList);
-        goodsDetail.setUserHasCollect(10);
+        goodsDetail.setUserHasCollect(num);
         return goodsDetail;
     }
 
