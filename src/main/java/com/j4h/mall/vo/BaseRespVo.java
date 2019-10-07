@@ -91,6 +91,6 @@ public class BaseRespVo<T> {
     }
 
     public static BaseRespVo badArgument402() {
-        return fail(401, "参数不对");
+        return fail(402, "参数不对");
     }
 }

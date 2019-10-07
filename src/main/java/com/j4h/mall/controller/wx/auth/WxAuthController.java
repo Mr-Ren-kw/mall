@@ -37,7 +37,6 @@ public class WxAuthController {
 
 
 	@RequestMapping("login")
-	@ResponseBody
 	public Object login(@RequestBody Login login, HttpServletRequest request) {
 		if(login == null) {
 			return BaseRespVo.badArgument402();
