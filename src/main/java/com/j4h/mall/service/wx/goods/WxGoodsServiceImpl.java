@@ -1,12 +1,15 @@
 package com.j4h.mall.service.wx.goods;
 
 import com.github.pagehelper.PageHelper;
+import com.j4h.mall.mapper.collect.CollectMapper;
 import com.j4h.mall.mapper.extension.GrouponMapper;
+import com.j4h.mall.mapper.extension.GrouponRulesMapper;
 import com.j4h.mall.mapper.goods.GoodsMapper;
 import com.j4h.mall.mapper.mall.BrandMapper;
 import com.j4h.mall.mapper.mall.CategoryMapper;
 import com.j4h.mall.mapper.mall.IssueMapper;
 import com.j4h.mall.model.extension.groupon.BeanForDatabase.Groupon;
+import com.j4h.mall.model.extension.groupon.BeanForDatabase.GrouponRules;
 import com.j4h.mall.model.goods.*;
 import com.j4h.mall.model.mall.brand.Brand;
 import com.j4h.mall.model.mall.category.CategoryInfo;
@@ -16,7 +19,6 @@ import com.j4h.mall.model.wx.goods.*;
 import com.j4h.mall.vo.goods.BeanForGoodsPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +35,10 @@ public class WxGoodsServiceImpl implements WxGoodsService {
     IssueMapper issueMapper;
     @Autowired
     BrandMapper brandMapper;
+    @Autowired
+    GrouponRulesMapper grouponRulesMapper;
+    @Autowired
+    CollectMapper collectMapper;
 
     @Override
     public WxGoodsCount queryGoodsCountForWx() {
@@ -43,9 +49,19 @@ public class WxGoodsServiceImpl implements WxGoodsService {
     public GoodsListData queryGoodsList(BeanForGoodsPage beanForGoodsPage) {
         int page = beanForGoodsPage.getPage();
         int size = beanForGoodsPage.getSize();
-        int categoryId = beanForGoodsPage.getCategoryId();
-        PageHelper.startPage(page, size);
-        List<Goods> goodsList = goodsMapper.queryGoodsByCategoryId(categoryId);
+        boolean isHot = beanForGoodsPage.getIsHot();
+        boolean isNew = beanForGoodsPage.getIsNew();
+        String order = beanForGoodsPage.getOrder();
+        String sort = beanForGoodsPage.getSort();
+        if(order == null && sort == null) {
+            PageHelper.startPage(page, size);
+        }else {
+            String orderBy = sort + " " + order;
+            PageHelper.startPage(page, size, orderBy);
+        }
+        Integer categoryId = beanForGoodsPage.getCategoryId();
+        Integer brandId = beanForGoodsPage.getBrandId();
+        List<Goods> goodsList = goodsMapper.queryGoodsByCondition(categoryId, brandId, isHot, isNew);
         List<CategoryInfo> allL2Category = categoryMapper.getAllL2CategoryInfo();
         GoodsListData goodsListData = new GoodsListData();
         goodsListData.setCount(goodsList.size());
@@ -88,7 +104,15 @@ public class WxGoodsServiceImpl implements WxGoodsService {
         List<GoodsComment> commentList = goodsMapper.queryGoodsComment(goodsId);
         comment.setCount(commentList.size());
         comment.setData(commentList);
-        List<Groupon> groupon = grouponMapper.queryGrouponByCondition(goodsId);
+        List<GrouponRules> grouponRulesList = grouponRulesMapper.queryGrouponRulesByCondition(goodsId);
+        List<Groupon> grouponList = new ArrayList<>();
+        if(grouponRulesList.size() != 0) {
+            for (GrouponRules grouponRules : grouponRulesList) {
+                int rulesId = grouponRules.getId();
+                Groupon groupon = grouponMapper.queryGrouponByRuleId(rulesId);
+                grouponList.add(groupon);
+            }
+        }
         List<Issue> issue = issueMapper.queryIssueList(null);
         List<SpecificationItem> specificationItemList = new ArrayList<>();
         List<GoodsProduct> productList = goodsMapper.getGoodsProductByGid(goodsId);
@@ -101,21 +125,26 @@ public class WxGoodsServiceImpl implements WxGoodsService {
             specificationItem.setValueList(goodsSpecifications);
             specificationItemList.add(specificationItem);
         }
+        int num = collectMapper.queryHasCollectNum(goodsId);
         goodsDetail.setAttributeList(goodsAttribute);
         goodsDetail.setBrand(brand);
         goodsDetail.setComment(comment);
-        goodsDetail.setGroupon(groupon);
+        goodsDetail.setGroupon(grouponList);
         goodsDetail.setInfo(goods);
         goodsDetail.setIssue(issue);
         goodsDetail.setProductList(productList);
         goodsDetail.setSpecificationList(specificationItemList);
-        goodsDetail.setUserHasCollect(10);
+        goodsDetail.setUserHasCollect(num);
         return goodsDetail;
     }
 
     @Override
     public GoodsList queryRelatedGoods(int goodsId) {
         GoodsList goodsList = new GoodsList();
+        Goods goods = goodsMapper.getGoodsById(goodsId);
+        int categoryId = goods.getCategoryId();
+        List<Goods> goodsList1 = goodsMapper.queryGoodsByCondition(categoryId,null, false, false);
+        goodsList1.removeIf(goods1 -> goods1.getId() == goodsId);
         return goodsList;
     }
 }

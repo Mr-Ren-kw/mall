@@ -161,6 +161,11 @@
         select avatar,nickname from cskaoyan_mall_user where id = #{id}
     </select>
 
+
+    <select id="queryUserById2" resultType="com.j4h.mall.model.user.UserInfoForComment">
+        select avatar as avatarUrl ,nickname as nickName from cskaoyan_mall_user where id = #{id}
+    </select>
+
     <!--微信端-->
 
     <select id="queryCountSameUsername" resultType="_int">

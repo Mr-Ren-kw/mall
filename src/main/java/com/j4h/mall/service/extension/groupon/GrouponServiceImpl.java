@@ -31,14 +31,15 @@ public class GrouponServiceImpl implements GrouponService {
 
     @Override
     public PageData queryGrouponRulesByPage(GrouponRulesPageRequest grouponRulesPageRequest) {
-        int goodsId;
-        String goodsId1 = grouponRulesPageRequest.getGoodsId();
-        if(goodsId1 == null || "".equals(goodsId1)) {
-            goodsId = 0;
-        }else {
-            goodsId = Integer.parseInt(goodsId1);
-        }
         PageData grouponRulesPageData = new PageData<GrouponRules>();
+        Integer goodsId = null;
+        if(grouponRulesPageRequest.getGoodsId() != null && !"".equals(grouponRulesPageRequest.getGoodsId())) {
+            try {
+                goodsId = Integer.parseInt(grouponRulesPageRequest.getGoodsId());
+            } catch (NumberFormatException e) {
+                return grouponRulesPageData;
+            }
+        }
         String orderBy = grouponRulesPageRequest.getSort() + " " + grouponRulesPageRequest.getOrder();
         PageHelper.startPage(grouponRulesPageRequest.getPage(), grouponRulesPageRequest.getLimit(), orderBy);
         List<GrouponRules> grouponRulesList = grouponRulesMapper.queryGrouponRulesByCondition(goodsId);
@@ -52,10 +53,13 @@ public class GrouponServiceImpl implements GrouponService {
     @Override
     public GrouponRules addGrouponRules(GrouponRules grouponRules) {
         Goods goods = goodsMapper.getGoodsById(grouponRules.getGoodsId());
-        grouponRules.setPicUrl(goods.getPicUrl());
-        grouponRules.setGoodsName(goods.getName());
-        grouponRulesMapper.insertGrouponRules(grouponRules);
-        return grouponRulesMapper.queryGrouponRulesById(grouponRules.getId());
+        if(goods != null) {
+            grouponRules.setPicUrl(goods.getPicUrl());
+            grouponRules.setGoodsName(goods.getName());
+            grouponRulesMapper.insertGrouponRules(grouponRules);
+            return grouponRulesMapper.queryGrouponRulesById(grouponRules.getId());
+        }
+        return null;
     }
 
     @Override
@@ -82,24 +86,33 @@ public class GrouponServiceImpl implements GrouponService {
     public PageData queryGrouponByPage(GrouponPageRequest grouponPageRequest) {
         List<GrouponItem> grouponItems = new ArrayList<>();
         PageData grouponPageData = new PageData<Groupon>();
-        int goodsId;
-        String goodsId1 = grouponPageRequest.getGoodsId();
-        if(goodsId1 == null || "".equals(goodsId1)) {
-            goodsId = 0;
-        }else {
-            goodsId = Integer.parseInt(goodsId1);
+        Integer goodsId = null;
+        if(grouponPageRequest.getGoodsId() != null && !"".equals(grouponPageRequest.getGoodsId())) {
+            try {
+                goodsId = Integer.parseInt(grouponPageRequest.getGoodsId());
+            } catch (NumberFormatException e) {
+                return grouponPageData;
+            }
         }
         String orderBy = grouponPageRequest.getSort() + " " + grouponPageRequest.getOrder();
         PageHelper.startPage(grouponPageRequest.getPage(), grouponPageRequest.getLimit(), orderBy);
-        List<Groupon> grouponList = grouponMapper.queryGrouponByCondition(goodsId);
+        List<GrouponRules> grouponRulesList = grouponRulesMapper.queryGrouponRulesByCondition(goodsId);
+        List<Groupon> grouponList = new ArrayList<>();
+        if(grouponRulesList.size() != 0) {
+            for (GrouponRules grouponRules : grouponRulesList) {
+                int rulesId = grouponRules.getId();
+                Groupon groupon = grouponMapper.queryGrouponByRuleId(rulesId);
+                grouponList.add(groupon);
+            }
+        }
         PageInfo<Groupon> grouponPageInfo = new PageInfo<>(grouponList);
         long total = grouponPageInfo.getTotal();
         for (Groupon groupon : grouponList) {
             GrouponItem grouponItem = new GrouponItem();
             int creatorUserId = groupon.getCreatorUserId();
             GrouponUser[] grouponUsers = grouponMapper.queryParticipanter(creatorUserId);
-            Goods goods = goodsMapper.getGoodsById(groupon.getGoodsId());
             GrouponRules rules = grouponRulesMapper.queryGrouponRulesById(groupon.getRulesId());
+            Goods goods = goodsMapper.getGoodsById(rules.getGoodsId());
             grouponItem.setGoods(goods);
             grouponItem.setGroupon(groupon);
             grouponItem.setRules(rules);

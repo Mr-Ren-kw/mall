@@ -38,11 +38,23 @@ public class GrouponController {
     @RequestMapping("/create")
     public BaseRespVo createGrouponRules(@RequestBody GrouponRules grouponRules) {
         GrouponRules grouponRules1 = grouponService.addGrouponRules(grouponRules);
-        return BaseRespVo.ok(grouponRules1);
+        if(grouponRules1 != null) {
+            return BaseRespVo.ok(grouponRules1);
+        }else {
+            return BaseRespVo.fail(402, "参数值不对");
+        }
     }
     @RequestMapping("/listRecord")
     public BaseRespVo queryGrouponsByPage(GrouponPageRequest grouponPageRequest) {
         PageData grouponPageData = grouponService.queryGrouponByPage(grouponPageRequest);
         return BaseRespVo.ok(grouponPageData);
+        /*Integer goodsId;
+        try {
+            goodsId = Integer.parseInt(grouponPageRequest.getGoodsId());
+        } catch (NumberFormatException e) {
+            return BaseRespVo.fail(402, "参数值不对");
+        }
+        PageData grouponPageData = grouponService.queryGrouponByPage(grouponPageRequest,goodsId);
+        return BaseRespVo.ok(grouponPageData);*/
     }
 }

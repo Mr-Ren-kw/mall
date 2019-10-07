@@ -25,6 +25,8 @@ public interface UserMapper {
 
     OrderUser queryUserById(@Param("id")int id);
 
+    UserInfoForComment queryUserById2(@Param("id")int id);
+
     int queryCountSameUsername(@Param("username") String username);
 
     int insertUserForRegister(@Param("new") RegisterVo registerVo);

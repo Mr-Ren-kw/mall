@@ -4,9 +4,9 @@ import com.j4h.mall.model.mall.order.Order;
 import com.j4h.mall.model.mall.order.OrderGoods;
 import com.j4h.mall.model.wx.user.GoodsList;
 import com.j4h.mall.model.wx.user.UserOrderDetailsList;
+import com.j4h.mall.vo.mall.order.ShipOrderVo;
 import com.j4h.mall.model.wx.order.OrderGoodsDetailWx;
 import com.j4h.mall.model.wx.order.WxOrder;
-import com.j4h.mall.vo.wx.order.OrderId;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.ArrayList;
@@ -24,6 +24,17 @@ public interface OrderMapper {
 
     List<UserOrderDetailsList> queryGoodsListByUserIdAndStatus(@Param("id")int userId, @Param("status")ArrayList<Integer> status);
 
+    List<GoodsList> queryGoodsByOrderId(@Param("id") int id);
+
+    String queryPicUrlById(@Param("id")int id);
+
+
+    // 退款
+    int refundOrderMoney(@Param("id") int orderId);
+
+    int shipOrderById(@Param("ship") ShipOrderVo shipOrderVo);
+
+
     WxOrder queryOrderByIdWx(@Param("id") int orderId);
 
     List<OrderGoods> queryOrderGoodsListByOid(@Param("oid") int orderId);
@@ -39,6 +50,7 @@ public interface OrderMapper {
     int orderDeleteByOid(@Param("id") int orderId);
 
     int updateDeleteInOrderGoodsByOid(@Param("id") int orderId);
+
 
     int orderRefundByOid(@Param("id") int orderId);
 

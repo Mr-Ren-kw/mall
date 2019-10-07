@@ -1,5 +1,7 @@
 package com.j4h.mall.service.wx.home;
 
+import com.github.pagehelper.PageHelper;
+import com.j4h.mall.mapper.configs.ConfigMapper;
 import com.j4h.mall.mapper.extension.*;
 import com.j4h.mall.mapper.goods.GoodsMapper;
 import com.j4h.mall.mapper.mall.BrandMapper;
@@ -38,11 +40,20 @@ public class HomeServiceImpl implements HomeService {
     GrouponRulesMapper grouponRulesMapper;
     @Autowired
     TopicMapper topicMapper;
+    @Autowired
+    ConfigMapper configMapper;
 
     @Override
     public HomeData queryHomeData() {
         HomeData homeData = new HomeData();
+        int newGoodsNum = Integer.parseInt(configMapper.getMallSystemWxCatlogGoods());
+        int hotGoodsNum = Integer.parseInt(configMapper.getMallSystemWxIndexHot());
+        int brandNum = Integer.parseInt(configMapper.getMallSystemWxIndexBrand());
+        int topicNum = Integer.parseInt(configMapper.getMallSystemWxIndexTopic());
+        int categoryNum = Integer.parseInt(configMapper.getMallSystemWxCatlogList());
+        int cateGoodsNum = Integer.parseInt(configMapper.getMallSystemWxCatlogGoods());
         List<Advertise> advertises = adMapper.queryAdsByCondition(null, null);
+        PageHelper.startPage(1, brandNum);
         List<Brand> brandList = brandMapper.brandList(null, null);
         List<L1Categories> channel = new ArrayList<>();
         List<Coupon> couponList = couponMapper.queryCouponByCondition(null, -1, -1);
@@ -57,10 +68,14 @@ public class HomeServiceImpl implements HomeService {
             grouponGoods.setGoods(goods);
             grouponList.add(grouponGoods);
         }
+        PageHelper.startPage(1, hotGoodsNum);
         List<Goods> hotGoodsList = goodsMapper.queryHotGoods();
+        PageHelper.startPage(1, newGoodsNum);
         List<Goods> newGoodsList = goodsMapper.queryNewGoods();
+        PageHelper.startPage(1, topicNum);
         List<Topic> topicList = topicMapper.queryTopicByCondition(null, null);
         List<FloorGoods> floorGoodsList = new ArrayList<>();
+        PageHelper.startPage(1, categoryNum);
         List<L1Category> l1Categories = categoryMapper.queryAllCategory();
         for (L1Category l1Category : l1Categories) {
             L1Categories category = new L1Categories();
@@ -72,6 +87,7 @@ public class HomeServiceImpl implements HomeService {
             floorGoods.setId(l1Category.getId());
             floorGoods.setName(l1Category.getName());
             int l1Id = l1Category.getId();
+            PageHelper.startPage(1, cateGoodsNum);
             List<Goods> goodsList = goodsMapper.queryGoodsByL1Id(l1Id);
             floorGoods.setGoodsList(goodsList);
             floorGoodsList.add(floorGoods);

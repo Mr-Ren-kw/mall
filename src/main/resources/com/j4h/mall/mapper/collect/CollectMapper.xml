@@ -32,4 +32,7 @@
         from cskaoyan_mall_collect cmc left outer join cskaoyan_mall_goods cmg on
         cmc.value_id = cmg.id where cmc.user_id = #{uid} and cmc.type = #{type} and cmc.deleted = 0 and cmg.deleted = 0
     </select>
+    <select id="queryHasCollectNum" resultType="int">
+        select count(user_id) from cskaoyan_mall_collect where type = 0 and deleted = 0 and value_id = #{id}
+    </select>
 </mapper>

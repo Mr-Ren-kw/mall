@@ -7,7 +7,7 @@ import java.util.Date;
 public class Groupon {
     private int id;
     private int orderId;
-    private int goodsId;
+    private int grouponId;
     private int rulesId;
     private int userId;
     private int creatorUserId;
@@ -35,12 +35,12 @@ public class Groupon {
         this.orderId = orderId;
     }
 
-    public int getGoodsId() {
-        return goodsId;
+    public int getGrouponId() {
+        return grouponId;
     }
 
-    public void setGoodsId(int goodsId) {
-        this.goodsId = goodsId;
+    public void setGrouponId(int grouponId) {
+        this.grouponId = grouponId;
     }
 
     public int getRulesId() {
