@@ -8,4 +8,6 @@ public interface WxCouponService {
     WxCouponList queryUserCouponList(int page, int size, int userId, int status);
 
     int receiveCoupon(int userId, int couponId);
+
+    int exchangeCoupon(int userId, String code);
 }

@@ -90,6 +90,10 @@ public class WxCouponServiceImpl implements WxCouponService {
     public int receiveCoupon(int userId, int couponId) {
         // 首先判断该优惠劵数量是否为零
         Coupon coupon = couponMapper.queryCouponById(couponId);
+        // 如果优惠券类型不是0，则不可以直接领取
+        if (coupon.getType() != 0) {
+            return 4;
+        }
         if (coupon.getTotal() <= 0) {
             return 2;
         }
@@ -101,7 +105,49 @@ public class WxCouponServiceImpl implements WxCouponService {
             }
         }
         // 领取
-        int newTotal = coupon.getTotal() - 1;
+        int result = getCouponForUser(userId, couponId, coupon.getTotal() - 1, coupon.getTimeType(), coupon.getDays(),
+                coupon.getStartTime(), coupon.getEndTime());
+        return result == 1 ? 0 : 3;
+    }
+
+    @Override
+    public int exchangeCoupon(int userId, String code) {
+        // 先去查找该兑换码对应的优惠券是否存在
+        Coupon coupon = couponMapper.queryCouponByCode(code);
+        if (coupon == null) {
+            return 3;
+        }
+        // 判断是否领完
+        if (coupon.getTotal() <= 0) {
+            return 2;
+        }
+        // 判断是否有领取限制
+        int couponId = coupon.getId();
+        if (coupon.getLimit() == 1) {
+            // 判断是否领取过
+            int num = couUserMapper.queryCouCountByUserIdAndCouId(userId, coupon.getId());
+            if (num != 0) {
+                return 1;
+            }
+        }
+        // 可以领取
+        int result = getCouponForUser(userId, couponId, coupon.getTotal() - 1, coupon.getTimeType(), coupon.getDays(),
+                coupon.getStartTime(), coupon.getEndTime());
+        return result == 1 ? 0 : 4;
+    }
+
+    /**
+     * 为用户领取优惠券
+     * @param userId 用户id
+     * @param couponId 优惠券id
+     * @param newTotal 新的优惠券数量
+     * @param timeType 优惠券时限类型
+     * @param days 优惠券有效期
+     * @param startTimeDate 优惠券开始时间
+     * @param endTimeDate 优惠券结束时间
+     * @return 领取结果，成功返回1，失败返回其他数字
+     */
+    private int getCouponForUser(int userId, int couponId,int newTotal,int timeType,int days,Date startTimeDate,Date endTimeDate) {
         // 设置新的优惠券数量
         int result = couponMapper.updateCouponCountById(couponId, newTotal);
         if (result == 1) {
@@ -109,19 +155,18 @@ public class WxCouponServiceImpl implements WxCouponService {
             String startTime;
             String endTime;
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            if (coupon.getTimeType() == 0) {
-                int days = coupon.getDays();
+            if (timeType == 0) {
                 SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("yyyy-MM-dd");
                 startTime = simpleDateFormat.format(new Date());
                 Calendar calendar = Calendar.getInstance();
                 calendar.add(Calendar.DATE,days);
                 endTime = simpleDateFormat2.format(calendar.getTime()) + startTime.substring(10);
             }else {
-                startTime = simpleDateFormat.format(coupon.getStartTime());
-                endTime = simpleDateFormat.format(coupon.getEndTime());
+                startTime = simpleDateFormat.format(startTimeDate);
+                endTime = simpleDateFormat.format(endTimeDate);
             }
             result = couUserMapper.addCouponForUser(userId,couponId, startTime, endTime);
         }
-        return result == 1 ? 0 : 3;
+        return result;
     }
 }

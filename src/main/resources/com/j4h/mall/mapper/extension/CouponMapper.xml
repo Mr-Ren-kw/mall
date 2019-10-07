@@ -62,4 +62,9 @@
     <update id="updateCouponCountById">
         update cskaoyan_mall_coupon set total = #{newTotal} where id = #{id}
     </update>
+
+    <select id="queryCouponByCode" resultType="com.j4h.mall.model.extension.coupon.BeanForDatabase.Coupon">
+        select id,total,`limit`,time_type as timeType, days,start_time as startTime,end_time as endTime
+        from cskaoyan_mall_coupon where code = #{code} and status = 0 and deleted = 0
+    </select>
 </mapper>
