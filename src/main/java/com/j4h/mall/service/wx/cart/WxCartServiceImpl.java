@@ -147,7 +147,7 @@ public class WxCartServiceImpl implements WxCartService {
             cartCheckout.setGrouponRulesId(grouponRulesId);
         }
         Coupon coupon = null;
-        if (couponId != 0) {
+        if (couponId > 0) {
             cartCheckout.setCouponId(couponId);
             coupon = couponMapper.queryCouponById(couponId);
             cartCheckout.setCouponPrice(coupon.getDiscount());
@@ -186,7 +186,7 @@ public class WxCartServiceImpl implements WxCartService {
                 cartCheckout.setGoodsTotalPrice(cartCheckout.getGoodsTotalPrice() + cart.getNumber() * cart.getPrice());
             }
         }
-        if(coupon.getMin() > cartCheckout.getGoodsTotalPrice()) {
+        if(coupon != null && coupon.getMin() > cartCheckout.getGoodsTotalPrice()) {
             cartCheckout.setCouponId(0);
             cartCheckout.setCouponPrice(0);
         }
