@@ -87,5 +87,14 @@
         select number,price from cskaoyan_mall_cart where id = #{cartId}
     </select>
 
+    <select id="getCheckedGoodsListByUid" resultMap="cartMap">
+        select id, user_id, goods_id, goods_sn, goods_name, product_id, price, number, specifications, checked, pic_url, add_time, update_time, deleted from cskaoyan_mall_cart
+        where user_id = #{uid} and deleted = 0 and checked = 1
+    </select>
+
+    <select id="getCheckedGoodsById" resultMap="cartMap">
+        select id, user_id, goods_id, goods_sn, goods_name, product_id, price, number, specifications, checked, pic_url, add_time, update_time, deleted from cskaoyan_mall_cart
+        where id = #{cartId}
+    </select>
 </mapper>
 

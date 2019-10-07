@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import sun.misc.BASE64Decoder;
 
 @RestController
 @RequestMapping("wx/cart")
@@ -90,12 +91,17 @@ public class WxCartController {
     }
 
     @RequestMapping("checkout")
-    public BaseRespVo checkout(int cartId, int addressId, int couponId, int grouponRulesId) {
+    public BaseRespVo<CartCheckout> checkout(int cartId, int addressId, int couponId, int grouponRulesId) {
         Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute("userId");
         if(userId == null) {
             return BaseRespVo.fail(501, "请登录");
         }
-        return BaseRespVo.fail(502, "系统内部错误");
+        if(addressId <= 0) {
+            // 参数异常
+            return BaseRespVo.badArgument402();
+        }
+        CartCheckout cartCheckout = wxCartService.checkout(userId, cartId, addressId, couponId, grouponRulesId);
+        return BaseRespVo.ok(cartCheckout);
     }
 
     @RequestMapping("fastadd")
