@@ -24,10 +24,6 @@ public interface OrderMapper {
 
     List<UserOrderDetailsList> queryGoodsListByUserIdAndStatus(@Param("id")int userId, @Param("status")ArrayList<Integer> status);
 
-    List<GoodsList> queryGoodsByOrderId(@Param("id") int id);
-
-    String queryPicUrlById(@Param("id")int id);
-
     WxOrder queryOrderByIdWx(@Param("id") int orderId);
 
     List<OrderGoods> queryOrderGoodsListByOid(@Param("oid") int orderId);
@@ -37,8 +33,6 @@ public interface OrderMapper {
     int cancelOrderByOrderId(@Param("id") int orderId);
 
     OrderGoodsDetailWx queryGoodsDetailByOrderIdWx(@Param("id") int orderId);
-
-    int updateGoodsNumberByGoodsIdWx(@Param("id") int productId,@Param("number")int number);
 
     int orderConfirmByOid(@Param("id") int orderId);
 

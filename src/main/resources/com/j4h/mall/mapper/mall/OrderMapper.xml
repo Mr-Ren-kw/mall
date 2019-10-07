@@ -60,20 +60,6 @@
         <result column="statu" property="statu"/>
     </resultMap>
 
-    <select id="queryGoodsByOrderId" resultMap="queryGoodsByOidMapper">
-        select `number`,goods_id as id ,goods_name as goodsName
-        from cskaoyan_mall_order_goods
-        where  order_id = #{id} and deleted = 0
-    </select>
-    <resultMap id="queryGoodsByOidMapper" type="com.j4h.mall.model.wx.user.GoodsList">
-        <result column="id" property="id"/>
-        <result column="goodsName" property="goodsName"/>
-    </resultMap>
-
-    <select id="queryPicUrlById" resultType="string">
-        select pic_url from cskaoyan_mall_goods where id = #{id} and deleted = 0
-    </select>
-
     <select id="queryOrderByIdWx" resultMap="OrderMapperWx">
         select consignee,address,add_time as addTime,order_sn as orderSn,actual_price as actualPrice,
         mobile,order_status as statu,goods_price as goodsPrice,id,coupon_price as couponPrice,
@@ -98,7 +84,7 @@
     </select>
 
    <update id="updateOrderStatusByOidWx">
-       update cskaoyan_mall_order set order_status = #{status} where id = #{id} and deleted = 0
+       update cskaoyan_mall_order set order_status = #{status},pay_time = now()  where id = #{id} and deleted = 0
    </update>
 
     <update id="cancelOrderByOrderId">
@@ -110,14 +96,8 @@
         from cskaoyan_mall_order_goods where order_id = #{id} and deleted = 0
     </select>
 
-    <update id="updateGoodsNumberByGoodsIdWx">
-        update cskaoyan_mall_goods_product
-        set `number`=`number`+#{number}
-        where id = #{id} and deleted = 0
-    </update>
-
     <update id="orderConfirmByOid">
-        update cskaoyan_mall_order set order_status = 401 where id = #{id} and deleted = 0
+        update cskaoyan_mall_order set order_status = 401,confirm_time = now() where id = #{id} and deleted = 0
     </update>
 
     <update id="orderDeleteByOid">

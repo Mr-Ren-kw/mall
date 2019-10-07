@@ -1,6 +1,7 @@
 package com.j4h.mall.service.wx.order;
 
 import com.github.pagehelper.PageHelper;
+import com.j4h.mall.mapper.goods.GoodsMapper;
 import com.j4h.mall.mapper.mall.OrderMapper;
 import com.j4h.mall.mapper.user.UserMapper;
 import com.j4h.mall.model.mall.order.OrderGoods;
@@ -28,6 +29,9 @@ public class WxUserOrderServiceImp implements WxUserOrderService {
     UserMapper userMapper;
     @Autowired
     OrderMapper orderMapper;
+
+    @Autowired
+    GoodsMapper goodsMapper;
 
     public static String getOrderStatusTest(int stat) {
         HashMap<Integer, String> orderStatu = new HashMap<>();
@@ -105,10 +109,10 @@ public class WxUserOrderServiceImp implements WxUserOrderService {
             int stat = datum.getStatu();
             String orderStatusText = getOrderStatusTest(stat);
             datum.setOrderStatusText(orderStatusText);
-            List<GoodsList> goodsList = orderMapper.queryGoodsByOrderId(id);
+            List<GoodsList> goodsList = goodsMapper.queryGoodsByOrderId(id);
             for (GoodsList list : goodsList) {
                 int id1 = list.getId();
-                String picUrl = orderMapper.queryPicUrlById(id1);
+                String picUrl = goodsMapper.queryPicUrlById(id1);
                 list.setPicUrl(picUrl);
             }
             datum.setGoodsList(goodsList);
@@ -133,7 +137,7 @@ public class WxUserOrderServiceImp implements WxUserOrderService {
         List<OrderGoods> orderGoods = orderMapper.queryOrderGoodsListByOid(orderId);
         for (OrderGoods orderGood : orderGoods) {
             int goodsId = orderGood.getGoodsId();
-            String picUrl = orderMapper.queryPicUrlById(goodsId);
+            String picUrl = goodsMapper.queryPicUrlById(goodsId);
             orderGood.setPicUrl(picUrl);
         }
         resultOrder.setOrderInfo(order);
@@ -156,10 +160,10 @@ public class WxUserOrderServiceImp implements WxUserOrderService {
         int i = orderMapper.cancelOrderByOrderId(orderId);
         if (i > 0) {
             OrderGoodsDetailWx goods = orderMapper.queryGoodsDetailByOrderIdWx(orderId);
-                int updateGoodsNumber = orderMapper.updateGoodsNumberByGoodsIdWx(goods.getProductId(),goods.getNumber());
-                if (updateGoodsNumber > 0) {
-                    return true;
-                }
+            int updateGoodsNumber = goodsMapper.updateGoodsNumberByGoodsIdWx(goods.getProductId(), goods.getNumber());
+            if (updateGoodsNumber > 0) {
+                return true;
+            }
         }
         return false;
     }
@@ -167,7 +171,7 @@ public class WxUserOrderServiceImp implements WxUserOrderService {
     @Override
     public boolean orderConfirm(int orderId) {
         int i = orderMapper.orderConfirmByOid(orderId);
-        if (i>0){
+        if (i > 0) {
             return true;
         }
         return false;
@@ -177,7 +181,7 @@ public class WxUserOrderServiceImp implements WxUserOrderService {
     public boolean orderDeleteByOid(int orderId) {
         int UpdateOrder = orderMapper.orderDeleteByOid(orderId);
         int updateOrderGoodsDeleted = orderMapper.updateDeleteInOrderGoodsByOid(orderId);
-        if (UpdateOrder >0 && updateOrderGoodsDeleted>0){
+        if (UpdateOrder > 0 && updateOrderGoodsDeleted > 0) {
             return true;
         }
         return false;
@@ -186,7 +190,7 @@ public class WxUserOrderServiceImp implements WxUserOrderService {
     @Override
     public boolean orderRefund(int orderId) {
         int update = orderMapper.orderRefundByOid(orderId);
-        if (update>0){
+        if (update > 0) {
             return true;
         }
         return false;
