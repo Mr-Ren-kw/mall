@@ -11,7 +11,6 @@ import com.j4h.mall.model.wx.user.UserOrderDetailsList;
 import com.j4h.mall.model.wx.order.OrderGoodsDetailWx;
 import com.j4h.mall.model.wx.order.WxOrder;
 import com.j4h.mall.model.wx.order.ResultOrder;
-import com.j4h.mall.vo.wx.order.OrderId;
 import com.j4h.mall.vo.wx.user.UserOrderPage;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
@@ -157,13 +156,10 @@ public class WxUserOrderServiceImp implements WxUserOrderService {
         int i = orderMapper.cancelOrderByOrderId(orderId);
         if (i > 0) {
             OrderGoodsDetailWx goods = orderMapper.queryGoodsDetailByOrderIdWx(orderId);
-            int update = orderMapper.updateOrderGoodsDeletedByOid(orderId);
-            if (update > 0) {
                 int updateGoodsNumber = orderMapper.updateGoodsNumberByGoodsIdWx(goods.getProductId(),goods.getNumber());
                 if (updateGoodsNumber > 0) {
                     return true;
                 }
-            }
         }
         return false;
     }
@@ -182,6 +178,15 @@ public class WxUserOrderServiceImp implements WxUserOrderService {
         int UpdateOrder = orderMapper.orderDeleteByOid(orderId);
         int updateOrderGoodsDeleted = orderMapper.updateDeleteInOrderGoodsByOid(orderId);
         if (UpdateOrder >0 && updateOrderGoodsDeleted>0){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean orderRefund(int orderId) {
+        int update = orderMapper.orderRefundByOid(orderId);
+        if (update>0){
             return true;
         }
         return false;

@@ -72,4 +72,13 @@ public class WxOrderController {
         }
         return null;
     }
+
+    @RequestMapping("wx/order/refund")
+    public BaseRespVo orderRefund(@RequestBody OrderId orderId){
+        boolean flag = wxUserOrderService.orderRefund(orderId.getOrderId());
+        if (flag){
+            return BaseRespVo.ok(null);
+        }
+        return null;
+    }
 }

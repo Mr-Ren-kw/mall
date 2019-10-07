@@ -40,11 +40,11 @@ public interface OrderMapper {
 
     int updateGoodsNumberByGoodsIdWx(@Param("id") int productId,@Param("number")int number);
 
-    int updateOrderGoodsDeletedByOid(@Param("id") int orderId);
-
     int orderConfirmByOid(@Param("id") int orderId);
 
     int orderDeleteByOid(@Param("id") int orderId);
 
     int updateDeleteInOrderGoodsByOid(@Param("id") int orderId);
+
+    int orderRefundByOid(@Param("id") int orderId);
 }

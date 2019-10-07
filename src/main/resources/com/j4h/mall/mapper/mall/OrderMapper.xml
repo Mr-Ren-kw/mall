@@ -102,7 +102,7 @@
    </update>
 
     <update id="cancelOrderByOrderId">
-        update cskaoyan_mall_order set deleted = 1 where id = #{id}
+        update cskaoyan_mall_order set order_status = 102 where id = #{id} and deleted = 0
     </update>
 
     <select id="queryGoodsDetailByOrderIdWx" resultType="com.j4h.mall.model.wx.order.OrderGoodsDetailWx">
@@ -110,9 +110,6 @@
         from cskaoyan_mall_order_goods where order_id = #{id} and deleted = 0
     </select>
 
-    <update id="updateOrderGoodsDeletedByOid">
-        update cskaoyan_mall_order_goods set deleted = 1 where order_id = #{id}
-    </update>
     <update id="updateGoodsNumberByGoodsIdWx">
         update cskaoyan_mall_goods_product
         set `number`=`number`+#{number}
@@ -131,4 +128,7 @@
         update cskaoyan_mall_order_goods set deleted = 1 where order_id = #{id}
     </update>
 
+    <update id="orderRefundByOid">
+        update cskaoyan_mall_order set order_status = 202 where id = #{id} and deleted = 0
+    </update>
 </mapper>

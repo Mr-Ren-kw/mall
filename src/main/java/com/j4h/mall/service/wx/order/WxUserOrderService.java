@@ -19,4 +19,6 @@ public interface WxUserOrderService {
     boolean orderConfirm(int orderId);
 
     boolean orderDeleteByOid(int orderId);
+
+    boolean orderRefund(int orderId);
 }
