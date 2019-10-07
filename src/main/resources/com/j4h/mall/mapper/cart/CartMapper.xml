@@ -13,5 +13,12 @@
         values (null, #{cart.userId}, #{cart.goodsId}, #{cart.goodsSn}, #{cart.goodsName}, #{cart.productId}, #{cart.price}, #{cart.number}, #{cart.specifications}, 1, #{cart.picUrl}, now(), now(), 0)
     </insert>
 
+    <select id="queryCheckedTotalPriceByUserIdForWx" resultType="com.j4h.mall.model.wx.cart.CheckedTotalPrice">
+        select number,price from cskaoyan_mall_cart where user_id = #{userId} and checked = 1 and deleted = 0
+    </select>
+
+    <select id="queryCheckedTotalPriceByCartId" resultType="com.j4h.mall.model.wx.cart.CheckedTotalPrice">
+        select number,price from cskaoyan_mall_cart where id = #{cartId}
+    </select>
 
 </mapper>

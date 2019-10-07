@@ -24,5 +24,7 @@ public interface CouponMapper {
     // 更新优惠券的数量
     int updateCouponCountById(@Param("id") int couponId,@Param("newTotal") int newTotal);
     // 根据兑换码查询对应的优惠券
-    Coupon queryCouponByCode(String code);
+    Coupon queryCouponByCode(@Param("code") String code);
+    //
+    Coupon queryCouponByIdAndMin(@Param("id") int couponId,@Param("count") double count);
 }

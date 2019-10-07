@@ -71,4 +71,13 @@ public class WxCouponController {
             return BaseRespVo.fail(742, "系统错误，请稍后再试");
         }
     }
+
+    @GetMapping("/selectlist")
+    public BaseRespVo selectCouponCanUse(int cartId,int grouponRulesId) {
+        Integer userId = LoginOrNotUtils.getUserId();
+        if (userId == null) {
+            return BaseRespVo.fail(501, "请登录后再访问！");
+        }
+        return BaseRespVo.ok(wxCouponService.queryCouponCanUse(userId,cartId, grouponRulesId));
+    }
 }

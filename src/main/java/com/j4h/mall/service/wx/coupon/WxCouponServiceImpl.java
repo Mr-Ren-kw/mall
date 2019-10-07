@@ -2,9 +2,11 @@ package com.j4h.mall.service.wx.coupon;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.j4h.mall.mapper.cart.CartMapper;
 import com.j4h.mall.mapper.extension.CouUserMapper;
 import com.j4h.mall.mapper.extension.CouponMapper;
 import com.j4h.mall.model.extension.coupon.BeanForDatabase.Coupon;
+import com.j4h.mall.model.wx.cart.CheckedTotalPrice;
 import com.j4h.mall.model.wx.coupon.WxCoupon;
 import com.j4h.mall.model.wx.coupon.WxCouponList;
 import com.j4h.mall.model.wx.coupon.WxMyCouChangeStatus;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -25,6 +28,9 @@ public class WxCouponServiceImpl implements WxCouponService {
 
     @Autowired
     CouUserMapper couUserMapper;
+
+    @Autowired
+    CartMapper cartMapper;
 
     /**
      * 查询未被删除的优惠劵信息
@@ -55,12 +61,7 @@ public class WxCouponServiceImpl implements WxCouponService {
     @Override
     public WxCouponList queryUserCouponList(int page, int size, int userId, int status) {
         // 在查询前先将过期的优惠劵修改状态
-        List<WxMyCouChangeStatus> myCouChangeStatusList = couUserMapper.queryCouUserForCheckStatus(userId);
-        for (WxMyCouChangeStatus wxMyCouChangeStatus : myCouChangeStatusList) {
-            if (wxMyCouChangeStatus.getEndTime().before(new Date())) {
-                couUserMapper.updateCouUserStatusToLater(wxMyCouChangeStatus.getId());
-            }
-        }
+        updateCouponStatusForLaterByUserId(userId);
         // 开始查询
         PageHelper.startPage(page, size);
         List<WxMyCoupon> wxMyCoupons = couUserMapper.queryCouUserByUserIdAndStatus(userId,status);
@@ -91,7 +92,7 @@ public class WxCouponServiceImpl implements WxCouponService {
         // 首先判断该优惠劵数量是否为零
         Coupon coupon = couponMapper.queryCouponById(couponId);
         // 如果优惠券类型不是0，则不可以直接领取
-        if (coupon.getType() != 0) {
+        if (coupon.getType() == 2) {
             return 4;
         }
         if (coupon.getTotal() <= 0) {
@@ -136,6 +137,39 @@ public class WxCouponServiceImpl implements WxCouponService {
         return result == 1 ? 0 : 4;
     }
 
+    @Override
+    public List<Coupon> queryCouponCanUse(int userId, int cartId, int grouponRulesId) {
+        // 先将过期的优惠券设置状态码
+        updateCouponStatusForLaterByUserId(userId);
+        // 根据cartId是否为0判断是结算某一个商品还是该用户选中的所有商品
+        double count = 0;
+        if (cartId == 0) {
+            // 计算选中的商品总价
+            List<CheckedTotalPrice> totalPrices = cartMapper.queryCheckedTotalPriceByUserIdForWx(userId);
+            for (CheckedTotalPrice totalPrice : totalPrices) {
+                count += totalPrice.getNumber() * totalPrice.getPrice();
+            }
+
+        } else {
+            // 计算该商品的总价
+            CheckedTotalPrice totalPrice = cartMapper.queryCheckedTotalPriceByCartId(cartId);
+            count = totalPrice.getNumber() * totalPrice.getPrice();
+        }
+        // 查询该用户的优惠券列表
+        List<WxMyCoupon> wxMyCouponList = couUserMapper.queryCouUserByUserIdAndStatus(userId, 0);
+        // 查询可用的优惠券列表
+        List<Coupon> couponList = new LinkedList<>();
+        for (WxMyCoupon wxMyCoupon : wxMyCouponList) {
+            int couponId = wxMyCoupon.getCouponId();
+            // 查询该优惠券是否可用
+            Coupon coupon = couponMapper.queryCouponByIdAndMin(couponId, count);
+            if (coupon != null) {
+                couponList.add(coupon);
+            }
+        }
+        return couponList;
+    }
+
     /**
      * 为用户领取优惠券
      * @param userId 用户id
@@ -168,5 +202,18 @@ public class WxCouponServiceImpl implements WxCouponService {
             result = couUserMapper.addCouponForUser(userId,couponId, startTime, endTime);
         }
         return result;
+    }
+
+    /**
+     * 在查询用户的优惠券之前将过期的优惠券修改状态码
+     * @param userId
+     */
+    private void updateCouponStatusForLaterByUserId(int userId) {
+        List<WxMyCouChangeStatus> myCouChangeStatusList = couUserMapper.queryCouUserForCheckStatus(userId);
+        for (WxMyCouChangeStatus wxMyCouChangeStatus : myCouChangeStatusList) {
+            if (wxMyCouChangeStatus.getEndTime().before(new Date())) {
+                couUserMapper.updateCouUserStatusToLater(wxMyCouChangeStatus.getId());
+            }
+        }
     }
 }
