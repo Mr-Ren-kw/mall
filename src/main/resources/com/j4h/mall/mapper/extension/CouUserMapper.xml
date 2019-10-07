@@ -19,4 +19,12 @@
             </if>
         </where>
     </select>
+    <select id="queryCouUserByUserIdAndStatus" resultMap="couUserMap">
+        select id,coupon_id,start_time,end_time from cskaoyan_mall_coupon_user where user_id = #{userId} and status = #{status} and deleted = 0
+    </select>
+    <resultMap id="couUserMap" type="com.j4h.mall.model.wx.coupon.WxMyCoupon">
+        <result column="start_time" property="startTime"/>
+        <result column="end_time" property="endTime"/>
+        <result column="coupon_id" property="couponId"/>
+    </resultMap>
 </mapper>
