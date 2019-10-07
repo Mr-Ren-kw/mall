@@ -188,4 +188,7 @@
         select password from cskaoyan_mall_user where username = #{username} and deleted = 0
     </select>
 
+    <select id="getUsernameById" resultType="string">
+        select username from cskaoyan_mall_user where id = #{uid} and deleted = 0
+    </select>
 </mapper>
