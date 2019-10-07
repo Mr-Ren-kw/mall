@@ -6,13 +6,8 @@ public class CouponPageRequest {
     private String sort;
     private String order;
     private String name;
-    private int type;
-    private int status;
-
-    public CouponPageRequest() {
-        this.status = -1;
-        this.type = -1;
-    }
+    private Integer type;
+    private Integer status;
 
     public int getPage() {
         return page;
@@ -54,19 +49,19 @@ public class CouponPageRequest {
         this.name = name;
     }
 
-    public int getType() {
+    public Integer getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 
-    public int getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 }

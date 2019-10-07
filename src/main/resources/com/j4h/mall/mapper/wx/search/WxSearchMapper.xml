@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.j4h.mall.mapper.wx.search.WxSearchMapper">
+    <select id="queryDefaultKeyword" resultType="com.j4h.mall.model.wx.search.KeywordOfSearch">
+        select add_time as addTime,deleted,id,is_default as isDefalut,is_hot as isHot,keyword,sort_order as sortOrder,
+update_time as updateTime,url from cskaoyan_mall_keyword where is_default = 1 limit 1
+    </select>
+
+    <select id="queryHistoryKeywordList" resultType="com.j4h.mall.model.wx.search.HistoryKeyword">
+        select keyword from cskaoyan_mall_search_history where user_id = #{userId}
+    </select>
+
+    <select id="hotKeywordList" resultType="com.j4h.mall.model.wx.search.KeywordOfSearch">
+        select add_time as addTime,deleted,id,is_default as isDefalut,is_hot as isHot,keyword,sort_order as sortOrder,
+            update_time as updateTime,url from cskaoyan_mall_keyword where is_hot = 1 order by sort_order desc
+    </select>
+
+    <select id="showSearchHelper" resultType="java.lang.String">
+        select keyword from cskaoyan_mall_keyword where keyword like #{keyword}
+    </select>
+
+    <delete id="deleteSearchHistoryByUserId">
+        delete from cskaoyan_mall_search_history where user_id = #{userId}
+    </delete>
+</mapper>

@@ -11,10 +11,10 @@
             <if test="name != null">
                 and `name` like #{name}
             </if>
-            <if test="status != -1">
+            <if test="status != null">
                 and status = #{status}
             </if>
-            <if test="type != -1">
+            <if test="type != null">
                 and `type` = #{type}
             </if>
         </where>
