@@ -32,6 +32,9 @@ public class AdController {
     }
     @RequestMapping("/create")
     public BaseRespVo createAd(@RequestBody Advertise advertise) {
+        if(advertise.getName() == null || advertise.getLink() == null) {
+            return BaseRespVo.fail(402, "参数值不对");
+        }
         Advertise advertise1 = adService.addAd(advertise);
         return BaseRespVo.ok(advertise1);
     }

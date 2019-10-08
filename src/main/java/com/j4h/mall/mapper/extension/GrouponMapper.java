@@ -76,4 +76,5 @@ public interface GrouponMapper {
 
     Groupon queryGrouponByRuleId(@Param("id") Integer rulesId);
 
+    List<Groupon> queryAllGroupon();
 }
