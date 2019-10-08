@@ -4,11 +4,12 @@ import com.j4h.mall.model.extension.groupon.BeanForDatabase.Groupon;
 import com.j4h.mall.model.extension.groupon.BeanForDatabase.GrouponRules;
 import com.j4h.mall.model.extension.groupon.BeanForDatabase.GrouponUser;
 import com.j4h.mall.model.goods.Goods;
+import com.j4h.mall.model.wx.groupon.WxMyRules;
 
 public class GrouponItem {
     private Goods goods;
     private Groupon groupon;
-    private GrouponRules rules;
+    private WxMyRules rules;
     private GrouponUser[] subGroupons;
 
     public Goods getGoods() {
@@ -27,11 +28,11 @@ public class GrouponItem {
         this.groupon = groupon;
     }
 
-    public GrouponRules getRules() {
+    public WxMyRules getRules() {
         return rules;
     }
 
-    public void setRules(GrouponRules rules) {
+    public void setRules(WxMyRules rules) {
         this.rules = rules;
     }
 
