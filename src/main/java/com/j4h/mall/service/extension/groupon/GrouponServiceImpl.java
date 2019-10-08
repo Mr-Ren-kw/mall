@@ -10,6 +10,7 @@ import com.j4h.mall.model.extension.groupon.BeanForDatabase.GrouponRules;
 import com.j4h.mall.model.extension.groupon.BeanForDatabase.GrouponUser;
 import com.j4h.mall.model.extension.groupon.BeanForItems.GrouponItem;
 import com.j4h.mall.model.goods.Goods;
+import com.j4h.mall.model.wx.groupon.WxMyRules;
 import com.j4h.mall.vo.extension.BeanForData.PageData;
 import com.j4h.mall.vo.extension.BeanForRequest.GrouponPageRequest;
 import com.j4h.mall.vo.extension.BeanForRequest.GrouponRulesPageRequest;
@@ -96,31 +97,20 @@ public class GrouponServiceImpl implements GrouponService {
         }
         String orderBy = grouponPageRequest.getSort() + " " + grouponPageRequest.getOrder();
         PageHelper.startPage(grouponPageRequest.getPage(), grouponPageRequest.getLimit(), orderBy);
-        List<GrouponRules> grouponRulesList = grouponRulesMapper.queryGrouponRulesByCondition(goodsId);
-        List<Groupon> grouponList = new ArrayList<>();
-        if(grouponRulesList.size() != 0) {
-            for (GrouponRules grouponRules : grouponRulesList) {
-                int rulesId = grouponRules.getId();
-                Groupon groupon = grouponMapper.queryGrouponByRuleId(rulesId);
-                grouponList.add(groupon);
-            }
-        }
-        PageInfo<Groupon> grouponPageInfo = new PageInfo<>(grouponList);
-        long total = grouponPageInfo.getTotal();
+        List<Groupon> grouponList = grouponMapper.queryAllGroupon();
         for (Groupon groupon : grouponList) {
             GrouponItem grouponItem = new GrouponItem();
-            int creatorUserId = groupon.getCreatorUserId();
-            GrouponUser[] grouponUsers = grouponMapper.queryParticipanter(creatorUserId);
-            GrouponRules rules = grouponRulesMapper.queryGrouponRulesById(groupon.getRulesId());
-            Goods goods = goodsMapper.getGoodsById(rules.getGoodsId());
-            grouponItem.setGoods(goods);
-            grouponItem.setGroupon(groupon);
-            grouponItem.setRules(rules);
+            WxMyRules wxMyRules = grouponMapper.getGrouponRules(groupon.getRulesId());
+            Goods goods = goodsMapper.getGoodsById(wxMyRules.getGoodsId());
+            GrouponUser[] grouponUsers = grouponMapper.queryParticipanter(groupon.getCreatorUserId());
             grouponItem.setSubGroupons(grouponUsers);
+            grouponItem.setRules(wxMyRules);
+            grouponItem.setGroupon(groupon);
+            grouponItem.setGoods(goods);
             grouponItems.add(grouponItem);
         }
         grouponPageData.setItems(grouponItems);
-        grouponPageData.setTotal((int)total);
+        grouponPageData.setTotal(grouponList.size());
         return grouponPageData;
     }
 }
