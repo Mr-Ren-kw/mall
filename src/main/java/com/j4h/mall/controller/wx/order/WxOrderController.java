@@ -1,5 +1,8 @@
 package com.j4h.mall.controller.wx.order;
 
+import com.j4h.mall.model.mall.order.OrderGoods;
+import com.j4h.mall.model.wx.goods.GoodsDetail;
+import com.j4h.mall.model.wx.order.OrderComment;
 import com.j4h.mall.model.wx.order.OrderSubmit;
 import com.j4h.mall.model.wx.user.AllGoodsList;
 import com.j4h.mall.model.wx.order.ResultOrder;
@@ -12,6 +15,7 @@ import com.j4h.mall.vo.wx.user.UserOrderPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -142,5 +146,25 @@ public class WxOrderController {
             return BaseRespVo.fail(402,"参数错误");
         }
        return BaseRespVo.ok(order);
+    }
+
+    @RequestMapping("wx/order/goods")
+    public BaseRespVo<OrderGoods> getGoods(int orderId, int goodsId) {
+        Integer userId = LoginOrNotUtils.getUserId();
+        if (userId == null) {
+            return BaseRespVo.fail(501, "请登录后再访问");
+        }
+        OrderGoods orderGoods = wxUserOrderService.queryGoods(userId, orderId, goodsId);
+        return BaseRespVo.ok(orderGoods);
+    }
+
+    @RequestMapping("wx/order/comment")
+    public BaseRespVo comment(@RequestBody OrderComment orderComment) {
+        Integer userId = LoginOrNotUtils.getUserId();
+        if (userId == null) {
+            return BaseRespVo.fail(501, "请登录后再访问");
+        }
+        wxUserOrderService.comment(userId, orderComment);
+        return BaseRespVo.ok(null);
     }
 }

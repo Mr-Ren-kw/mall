@@ -19,14 +19,12 @@
         from cskaoyan_mall_user
         <where>
             deleted = 0
-            <trim prefixOverrides="and">
                 <if test="myPageHelper.username!=null and myPageHelper.username!=''">
                     and username like #{myPageHelper.username}
                 </if>
                 <if test="myPageHelper.mobile!=null and myPageHelper.mobile!=''">
                     and mobile like #{myPageHelper.mobile}
                 </if>
-            </trim>
         </where>
     </select>
 
@@ -47,14 +45,12 @@
         from cskaoyan_mall_address
         <where>
             deleted = 0
-            <trim prefixOverrides="and">
                 <if test="myPageHelper.name!=null and myPageHelper.name!='' ">
                     and `name` like #{myPageHelper.name}
                 </if>
                 <if test="myPageHelper.userId!=0 and myPageHelper.userId !=null and myPageHelper.userId!=''">
                     and user_id = #{myPageHelper.userId}
                 </if>
-            </trim>
         </where>
     </select>
     <select id="queryArea" resultType="string">
@@ -74,14 +70,12 @@
         from cskaoyan_mall_collect
         <where>
             deleted = 0
-            <trim prefixOverrides="and">
                 <if test="myPageHelper.valueId!=0 and myPageHelper.valueId !=null and myPageHelper.valueId!=''">
                     and value_id = #{myPageHelper.valueId}
                 </if>
                 <if test="myPageHelper.userId!=0 and myPageHelper.userId !=null and myPageHelper.userId!=''">
                     and user_id = #{myPageHelper.userId}
                 </if>
-            </trim>
         </where>
     </select>
 
@@ -97,15 +91,12 @@
         from cskaoyan_mall_footprint
         <where>
             deleted = 0
-            <trim prefixOverrides="and">
-
                 <if test="myPageHelper.userId!=0 and myPageHelper.userId !=null and myPageHelper.userId!=''">
                     and user_id = #{myPageHelper.userId}
                 </if>
                 <if test="myPageHelper.goodsId!=0 and myPageHelper.goodsId !=null and myPageHelper.goodsId!=''">
                     and goods_id = #{myPageHelper.goodsId}
                 </if>
-            </trim>
         </where>
     </select>
 
@@ -120,14 +111,12 @@
         from cskaoyan_mall_search_history
         <where>
             deleted = 0
-            <trim prefixOverrides="and">
                 <if test="myPageHelper.keyword!=null and myPageHelper.keyword!=''">
                     and keyword like #{myPageHelper.keyword}
                 </if>
                 <if test="myPageHelper.userId!=0 and myPageHelper.userId !=null and myPageHelper.userId!=''">
                     and user_id = #{myPageHelper.userId}
                 </if>
-            </trim>
         </where>
     </select>
 
@@ -146,14 +135,12 @@
         from cskaoyan_mall_feedback
         <where>
             deleted = 0
-            <trim prefixOverrides="and">
                 <if test="myPageHelper.username!=null and myPageHelper.username!=''">
                     and username like #{myPageHelper.username}
                 </if>
                 <if test="myPageHelper.id!=0 and myPageHelper.id!=null and myPageHelper.id!=''">
                     and id = #{myPageHelper.id}
                 </if>
-            </trim>
         </where>
     </select>
 
