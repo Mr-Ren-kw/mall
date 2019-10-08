@@ -343,7 +343,7 @@
     <select id="queryGoodsByCondition" resultType="com.j4h.mall.model.goods.Goods">
         select <include refid="queryItems"/> from cskaoyan_mall_goods
         <where>
-            deleted = 0 and `name` like #{key}
+            deleted = 0 and keywords like #{key}
             <if test="cId != null and cId != 0">
                 and category_id = #{cId}
             </if>
