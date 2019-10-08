@@ -110,14 +110,6 @@ public class WxGoodsServiceImpl implements WxGoodsService {
         comment.setCount(commentList.size());
         comment.setData(commentList);
         List<GrouponRules> grouponRulesList = grouponRulesMapper.queryGrouponRulesByCondition(goodsId);
-        List<Groupon> grouponList = new ArrayList<>();
-        if(grouponRulesList.size() != 0) {
-            for (GrouponRules grouponRules : grouponRulesList) {
-                int rulesId = grouponRules.getId();
-                Groupon groupon = grouponMapper.queryGrouponByRuleId(rulesId);
-                grouponList.add(groupon);
-            }
-        }
         List<Issue> issue = issueMapper.queryIssueList(null);
         List<SpecificationItem> specificationItemList = new ArrayList<>();
         List<GoodsProduct> productList = goodsMapper.getGoodsProductByGid(goodsId);
@@ -134,7 +126,7 @@ public class WxGoodsServiceImpl implements WxGoodsService {
         goodsDetail.setAttributeList(goodsAttribute);
         goodsDetail.setBrand(brand);
         goodsDetail.setComment(comment);
-        goodsDetail.setGroupon(grouponList);
+        goodsDetail.setGroupon(grouponRulesList);
         goodsDetail.setInfo(goods);
         goodsDetail.setIssue(issue);
         goodsDetail.setProductList(productList);
