@@ -36,6 +36,8 @@ public class WxCartServiceImpl implements WxCartService {
     GrouponRulesMapper grouponRulesMapper;
     @Autowired
     AddressMapper addressMapper;
+    @Autowired
+    CouUserMapper couUserMapper;
     @Override
     public int addCart(int userId, AddCart addCart) {
         GoodsProduct goodsProduct = goodsMapper.getGoodsProductByPid(addCart.getProductId());
@@ -141,21 +143,26 @@ public class WxCartServiceImpl implements WxCartService {
     @Override
     public CartCheckout checkout(Integer userId, int cartId, int addressId, int couponId, int grouponRulesId) {
         CartCheckout cartCheckout = new CartCheckout();
-        if(grouponRulesId != 0) {
+        if (grouponRulesId != 0) {
             double discountById = grouponRulesMapper.getDiscountById(grouponRulesId);
             cartCheckout.setGrouponPrice(discountById);
             cartCheckout.setGrouponRulesId(grouponRulesId);
         }
         Coupon coupon = null;
         if (couponId > 0) {
-            cartCheckout.setCouponId(couponId);
-            coupon = couponMapper.queryCouponById(couponId);
-            cartCheckout.setCouponPrice(coupon.getDiscount());
+            if(couUserMapper.getCouExistsByUidCouId(userId, couponId) == 1) {
+                coupon = couponMapper.queryCouponById(couponId);
+                cartCheckout.setCouponId(couponId);
+                cartCheckout.setCouponPrice(coupon.getDiscount());
+            }
         }
         cartCheckout.setAvailableCouponLength(wxCouponService.queryCouponCanUse(userId, cartId, 0).size());
-        WxAddressDetail addressDetailById = addressMapper.getAddressDetailById(addressId);
+        // 这里要做addressId的校验，因为小程序缓存的原因，会把上次登陆的addressId缓存起来
+        if (addressId != 0 && addressMapper.getUserIdById(addressId) == userId) {
+            WxAddressDetail addressDetailById = addressMapper.getAddressDetailById(addressId);
+            cartCheckout.setCheckedAddress(addressDetailById);
+        }
         cartCheckout.setAddressId(addressId);
-        cartCheckout.setCheckedAddress(addressDetailById);
         // 0说明是从购物车那里点击的
         if (cartId == 0) {
             // 如果couponId非0, 则要去查找该优惠券的减免金额, 否则就默认的0
@@ -181,16 +188,16 @@ public class WxCartServiceImpl implements WxCartService {
             e.printStackTrace();
         }
         List<Cart> checkedGoodsList = cartCheckout.getCheckedGoodsList();
-        if(checkedGoodsList != null && checkedGoodsList.size() != 0) {
+        if (checkedGoodsList != null && checkedGoodsList.size() != 0) {
             for (Cart cart : checkedGoodsList) {
                 cartCheckout.setGoodsTotalPrice(cartCheckout.getGoodsTotalPrice() + cart.getNumber() * cart.getPrice());
             }
         }
-        if(coupon != null && coupon.getMin() > cartCheckout.getGoodsTotalPrice()) {
+        if (coupon != null && coupon.getMin() > cartCheckout.getGoodsTotalPrice()) {
             cartCheckout.setCouponId(0);
             cartCheckout.setCouponPrice(0);
         }
-        if(cartCheckout.getGoodsTotalPrice() < freightMin) {
+        if (cartCheckout.getGoodsTotalPrice() < freightMin) {
             // 如果小于最小的运费要求，才设置
             cartCheckout.setFreightPrice(freightValue);
         }

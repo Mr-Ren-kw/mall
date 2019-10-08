@@ -3,6 +3,7 @@ package com.j4h.mall.service.wx.order;
 import com.github.pagehelper.PageHelper;
 import com.j4h.mall.mapper.address.AddressMapper;
 import com.j4h.mall.mapper.cart.CartMapper;
+import com.j4h.mall.mapper.comment.WxComment;
 import com.j4h.mall.mapper.extension.CouUserMapper;
 import com.j4h.mall.mapper.extension.CouponMapper;
 import com.j4h.mall.mapper.goods.GoodsMapper;
@@ -13,14 +14,11 @@ import com.j4h.mall.model.mall.order.OrderGoods;
 import com.j4h.mall.model.user.Address;
 import com.j4h.mall.model.wx.address.WxAddressDetail;
 import com.j4h.mall.model.wx.cart.Cart;
-import com.j4h.mall.model.wx.order.OrderSubmit;
+import com.j4h.mall.model.wx.order.*;
 import com.j4h.mall.model.wx.user.AllGoodsList;
 import com.j4h.mall.model.wx.user.GoodsList;
 import com.j4h.mall.model.wx.user.HandleOption;
 import com.j4h.mall.model.wx.user.UserOrderDetailsList;
-import com.j4h.mall.model.wx.order.OrderGoodsDetailWx;
-import com.j4h.mall.model.wx.order.WxOrder;
-import com.j4h.mall.model.wx.order.ResultOrder;
 import com.j4h.mall.vo.wx.order.SubmitOrder;
 import com.j4h.mall.vo.wx.user.UserOrderPage;
 import org.apache.shiro.SecurityUtils;
@@ -54,6 +52,8 @@ public class WxUserOrderServiceImp implements WxUserOrderService {
     @Autowired
     CouUserMapper couUserMapper;
 
+    @Autowired
+    WxComment wxComment;
     public static String getOrderStatusTest(int stat) {
         HashMap<Integer, String> orderStatu = new HashMap<>();
         orderStatu.put(301, "待收货");
@@ -289,6 +289,20 @@ public class WxUserOrderServiceImp implements WxUserOrderService {
         // order_goods插入关联数据
         orderMapper.insertNewOrderGoods(order.getId(), carts);
         return orderSubmit;
+    }
+
+    @Override
+    public OrderGoods queryGoods(Integer userId, int orderId, int goodsId) {
+        return orderMapper.queryOrderGoodsByOidGid(orderId, goodsId);
+    }
+
+    @Override
+    public void comment(Integer userId, OrderComment orderComment) {
+        wxComment.commentOrder(userId, orderComment);
+        int id = orderComment.getId();
+        orderMapper.updateOrderGoodsComment(orderComment.getOrderGoodsId(), id);
+        int orderId = orderMapper.queryOrderIdByOrderGoodsId(orderComment.getOrderGoodsId());
+        orderMapper.updateOrderCommentsByOrderId(orderId);
     }
 
     public static String getOrderSn() {

@@ -1,5 +1,7 @@
 package com.j4h.mall.service.wx.order;
 
+import com.j4h.mall.model.mall.order.OrderGoods;
+import com.j4h.mall.model.wx.order.OrderComment;
 import com.j4h.mall.model.wx.order.OrderSubmit;
 import com.j4h.mall.model.wx.user.AllGoodsList;
 import com.j4h.mall.model.wx.order.ResultOrder;
@@ -25,4 +27,9 @@ public interface WxUserOrderService {
     boolean orderRefund(int orderId);
 
     OrderSubmit orderSubmit(SubmitOrder submitOrder,int userId);
+
+    OrderGoods queryGoods(Integer userId, int orderId, int goodsId);
+
+    void comment(Integer userId, OrderComment orderComment);
+
 }

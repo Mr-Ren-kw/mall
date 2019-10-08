@@ -2,13 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.j4h.mall.mapper.extension.GrouponMapper">
     <sql id="queryItems">
-        id,order_id as orderId,groupon_id as goodsId,rules_id as rulesId,user_id as userId,creator_user_id as creatorUserId,add_time as addTime,update_time as updateTime,share_url as shareUrl,payed,deleted
+        id,order_id as orderId,groupon_id as grouponId,rules_id as rulesId,user_id as userId,creator_user_id as creatorUserId,add_time as addTime,update_time as updateTime,share_url as shareUrl,payed,deleted
     </sql>
     <select id="queryGrouponByRuleId" resultType="com.j4h.mall.model.extension.groupon.BeanForDatabase.Groupon">
         select <include refid="queryItems"/> from cskaoyan_mall_groupon where deleted = 0 and creator_user_id = user_id and rules_id = #{id}
     </select>
     <select id="queryParticipanter" resultType="com.j4h.mall.model.extension.groupon.BeanForDatabase.GrouponUser">
-        select user_id as userId,order_id as orderId from cskaoyan_mall_groupon where creator_user_id = #{id} and deleted = 0
+        select user_id as userId,order_id as orderId from cskaoyan_mall_groupon where creator_user_id = #{id}  and deleted = 0
     </select>
 
     <!--从数据库获取小程序团购数据-->
@@ -28,7 +28,7 @@
         select (g.retail_price - gr.discount) as groupon_price,gr.discount_member as groupon_member,g.brief,g.counter_price as counterPrice,
         g.id,g.name,g.pic_url as picUrl,g.retail_price as retailPrice from cskaoyan_mall_groupon gon
         left join cskaoyan_mall_groupon_rules gr on gon.rules_id = gr.id
-        left join cskaoyan_mall_goods g on gr.goods_id = g.id limit #{wxGrouponBean.size} offset #{wxGrouponBean.page}
+        left join cskaoyan_mall_goods g on gr.goods_id = g.id
     </select>
 
 
@@ -141,5 +141,8 @@
         left join cskaoyan_mall_user u on gon.user_id = u.id
         left join cskaoyan_mall_order_status os on os.order_status = o.order_status
         where gon.order_id = #{orderId} and gon.creator_user_id = #{userId}
+    </select>
+    <select id="queryAllGroupon" resultType="com.j4h.mall.model.extension.groupon.BeanForDatabase.Groupon">
+        select <include refid="queryItems"/> from cskaoyan_mall_groupon where creator_user_id = user_id and deleted = 0
     </select>
 </mapper>
