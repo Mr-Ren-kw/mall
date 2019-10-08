@@ -68,6 +68,6 @@ public class WxCommentServiceImpl implements WxCommentService{
         wxCommentPostRequest.setValueIdInt(id);
         int returnId = commentOfTopiceMapper.insertComment(wxCommentPostRequest);
         // 取出刚插入的数据，放到wxCommentPostResponse里，返回
-        return commentOfTopiceMapper.queryCommentById(returnId);
+        return commentOfTopiceMapper.queryCommentById(wxCommentPostRequest.getId());
     }
 }
