@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import static com.j4h.mall.util.LoginOrNotUtils.*;
 
 import java.util.List;
 
@@ -37,7 +38,8 @@ public class WxGoodsController {
     }
     @GetMapping("/detail")
     public BaseRespVo queryGoodsDetail(int id) {
-        GoodsDetail goodsDetail = wxGoodsService.queryGoodsDetail(id);
+        Integer userId = getUserId();
+        GoodsDetail goodsDetail = wxGoodsService.queryGoodsDetail(userId, id);
         return BaseRespVo.ok(goodsDetail);
     }
     @GetMapping("/related")
