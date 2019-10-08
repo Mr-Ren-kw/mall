@@ -14,7 +14,7 @@ public interface GrouponMapper {
 
 
     //查询，显示首页团购专区中的商品 author：lisen
-    List<WxGrouponPageBean2> getIndexGrouponGoods(@Param("wxGrouponBean") WxGrouponRequestBean wxGrouponRequestBean);
+    List<WxGrouponPageBean2> getIndexGrouponGoods();
 
     //根据userID查询用户发起的团购次数 author：lisen
     int getMyGroupOnCount(@Param("userId") int userId);

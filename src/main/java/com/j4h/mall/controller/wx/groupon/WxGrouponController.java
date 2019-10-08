@@ -22,9 +22,6 @@ public class WxGrouponController {
 
     @RequestMapping("list")
     public BaseRespVo getWxGrouponList(WxGrouponRequestBean wxGrouponRequestBean){
-        wxGrouponRequestBean.setSort("add_time");
-        wxGrouponRequestBean.setOrder("desc");
-        wxGrouponRequestBean.setPage((wxGrouponRequestBean.getPage()-1)*10);
         WxGrouponPageBean pageBean = wxGrouponService.queryGroupon(wxGrouponRequestBean);
         return BaseRespVo.ok(pageBean);
     }

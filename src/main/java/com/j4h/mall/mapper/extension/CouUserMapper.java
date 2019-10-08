@@ -23,7 +23,11 @@ public interface CouUserMapper {
     // 将用户过期的优惠券状态码同步
     int updateCouUserStatusToLater(@Param("id") int id);
 
+
+    int getCouExistsByUidCouId(@Param("uid") Integer userId, @Param("cid") int couponId);
+
     int updateCouponStatusByCouponId(@Param("couponId") int couponId,
                                      @Param("orderId")int orderId,
                                      @Param("userId")int userId);
+
 }

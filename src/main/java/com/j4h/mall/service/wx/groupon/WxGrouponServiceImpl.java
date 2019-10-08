@@ -1,7 +1,10 @@
 package com.j4h.mall.service.wx.groupon;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.j4h.mall.mapper.extension.GrouponMapper;
 import com.j4h.mall.mapper.goods.GoodsMapper;
+import com.j4h.mall.model.wx.footprint.FootprintList;
 import com.j4h.mall.model.wx.groupon.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,10 +23,13 @@ public class WxGrouponServiceImpl implements WxGrouponService {
 
     @Override
     public WxGrouponPageBean queryGroupon(WxGrouponRequestBean wxGrouponRequestBean) {
-        List<WxGrouponPageBean2> pageBean2List = grouponMapper.getIndexGrouponGoods(wxGrouponRequestBean);
+        int page = wxGrouponRequestBean.getPage();
+        int size = wxGrouponRequestBean.getSize();
+        PageHelper.startPage(page,size);
+        List<WxGrouponPageBean2> pageBean2List = grouponMapper.getIndexGrouponGoods();
+        PageInfo<WxGrouponPageBean2> pageInfo = new PageInfo<>(pageBean2List);
         WxGrouponPageBean<WxGrouponPageBean2> pageBean = new WxGrouponPageBean<>();
         pageBean.setData(pageBean2List);
-        int size = wxGrouponRequestBean.getSize();
         pageBean.setCount(size);
 
         return pageBean;
