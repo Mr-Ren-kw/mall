@@ -18,10 +18,8 @@ public class WxFootprintServiceImpl implements WxFootprintService{
 
     @Override
     public FootprintDataBean getFootprintList(int page, int size, Integer userId) {
-        String sort = "add_time";
-        String order = "desc";
-        PageHelper.startPage(page,size,sort + " " + order);
         int[] goodsIds = userMapper.getUserFootprintGoodsIds(userId);
+        PageHelper.startPage(page,size);
         List<FootprintList> footprintLists = userMapper.getFootprintList(goodsIds);
         PageInfo<FootprintList> pageInfo = new PageInfo<>(footprintLists);
         long totalPages = pageInfo.getTotal();
