@@ -1,13 +1,13 @@
 package com.j4h.mall.vo.wx.order;
 
 public class OrderId {
-    int OrderId;
+    String OrderId;
 
-    public int getOrderId() {
+    public String getOrderId() {
         return OrderId;
     }
 
-    public void setOrderId(int orderId) {
+    public void setOrderId(String orderId) {
         OrderId = orderId;
     }
 }

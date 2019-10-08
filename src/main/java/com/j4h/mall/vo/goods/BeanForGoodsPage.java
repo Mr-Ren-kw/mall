@@ -7,8 +7,17 @@ public class BeanForGoodsPage {
     private int size;
     private boolean isNew;
     private boolean isHot;
+    private String keyword;
     private String order;
     private String sort;
+
+    public String getKeyword() {
+        return keyword;
+    }
+
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
+    }
 
     public Integer getCategoryId() {
         return categoryId;

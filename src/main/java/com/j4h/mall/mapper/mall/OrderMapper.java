@@ -2,6 +2,7 @@ package com.j4h.mall.mapper.mall;
 
 import com.j4h.mall.model.mall.order.Order;
 import com.j4h.mall.model.mall.order.OrderGoods;
+import com.j4h.mall.model.wx.cart.Cart;
 import com.j4h.mall.model.wx.user.GoodsList;
 import com.j4h.mall.model.wx.user.UserOrderDetailsList;
 import com.j4h.mall.vo.mall.order.ShipOrderVo;
@@ -34,6 +35,7 @@ public interface OrderMapper {
 
     int shipOrderById(@Param("ship") ShipOrderVo shipOrderVo);
 
+
     WxOrder queryOrderByIdWx(@Param("id") int orderId);
 
     List<OrderGoods> queryOrderGoodsListByOid(@Param("oid") int orderId);
@@ -44,14 +46,22 @@ public interface OrderMapper {
 
     OrderGoodsDetailWx queryGoodsDetailByOrderIdWx(@Param("id") int orderId);
 
-    int updateGoodsNumberByGoodsIdWx(@Param("id") int productId,@Param("number")int number);
-
-    int updateOrderGoodsDeletedByOid(@Param("id") int orderId);
-
     int orderConfirmByOid(@Param("id") int orderId);
 
     int orderDeleteByOid(@Param("id") int orderId);
 
     int updateDeleteInOrderGoodsByOid(@Param("id") int orderId);
 
+
+    int orderRefundByOid(@Param("id") int orderId);
+
+    int insertNewOrder(@Param("userId") int userId, @Param("orderSn") String orderSn,
+                       @Param("message") String message,@Param("freightPrice") double freightPrice,
+                       @Param("couponPrice") double discountMoney, @Param("orderPrice") double actualPrice,
+                       @Param("actualPrice") double actualPrice1, @Param("comment") int comment,
+                       @Param("order")Order order,@Param("address")String address,
+                         @Param("mobile")String mobile,@Param("name")String name,
+                       @Param("goodsPrice")double goodsPrice,@Param("integralPrice")double integralPrice,@Param("grouponPrice")double grouponPrice);
+
+    int insertNewOrderGoods(@Param("orderId") int id,@Param("carts") List<Cart> carts);
 }
