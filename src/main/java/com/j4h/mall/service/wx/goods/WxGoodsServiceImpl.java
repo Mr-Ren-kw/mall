@@ -51,6 +51,7 @@ public class WxGoodsServiceImpl implements WxGoodsService {
         int size = beanForGoodsPage.getSize();
         boolean isHot = beanForGoodsPage.getIsHot();
         boolean isNew = beanForGoodsPage.getIsNew();
+        String keyword = beanForGoodsPage.getKeyword();
         String order = beanForGoodsPage.getOrder();
         String sort = beanForGoodsPage.getSort();
         if(order == null && sort == null) {
@@ -59,9 +60,13 @@ public class WxGoodsServiceImpl implements WxGoodsService {
             String orderBy = sort + " " + order;
             PageHelper.startPage(page, size, orderBy);
         }
+        if(keyword == null) {
+            keyword = "";
+        }
+        keyword = "%" + keyword + "%";
         Integer categoryId = beanForGoodsPage.getCategoryId();
         Integer brandId = beanForGoodsPage.getBrandId();
-        List<Goods> goodsList = goodsMapper.queryGoodsByCondition(categoryId, brandId, isHot, isNew);
+        List<Goods> goodsList = goodsMapper.queryGoodsByCondition(categoryId, brandId, isHot, isNew, keyword);
         List<CategoryInfo> allL2Category = categoryMapper.getAllL2CategoryInfo();
         GoodsListData goodsListData = new GoodsListData();
         goodsListData.setCount(goodsList.size());
@@ -143,7 +148,7 @@ public class WxGoodsServiceImpl implements WxGoodsService {
         GoodsList goodsList = new GoodsList();
         Goods goods = goodsMapper.getGoodsById(goodsId);
         int categoryId = goods.getCategoryId();
-        List<Goods> goodsList1 = goodsMapper.queryGoodsByCondition(categoryId,null, false, false);
+        List<Goods> goodsList1 = goodsMapper.queryGoodsByCondition(categoryId,null, false, false, "%%");
         goodsList1.removeIf(goods1 -> goods1.getId() == goodsId);
         return goodsList;
     }

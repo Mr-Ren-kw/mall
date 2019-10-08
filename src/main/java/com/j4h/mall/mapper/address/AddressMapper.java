@@ -19,4 +19,6 @@ public interface AddressMapper {
     int setOtherAddressNotDefault();
 
     int deleteAddressById(@Param("id") int id);
+
+    int getUserIdById(@Param("id") int id);
 }
