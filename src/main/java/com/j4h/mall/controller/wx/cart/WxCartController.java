@@ -96,10 +96,6 @@ public class WxCartController {
         if(userId == null) {
             return BaseRespVo.fail(501, "请登录");
         }
-        if(addressId <= 0) {
-            // 参数异常
-            return BaseRespVo.badArgument402();
-        }
         CartCheckout cartCheckout = wxCartService.checkout(userId, cartId, addressId, couponId, grouponRulesId);
         return BaseRespVo.ok(cartCheckout);
     }

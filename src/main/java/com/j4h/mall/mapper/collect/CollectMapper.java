@@ -16,4 +16,5 @@ public interface CollectMapper {
 
     List<CollectInfo> getCollectsByUidType(@Param("uid") Integer userId, @Param("type") int type);
 
+    int queryHasCollectNum(@Param("id") int goodsId);
 }

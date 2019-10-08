@@ -158,7 +158,7 @@ public class WxCartServiceImpl implements WxCartService {
         }
         cartCheckout.setAvailableCouponLength(wxCouponService.queryCouponCanUse(userId, cartId, 0).size());
         // 这里要做addressId的校验，因为小程序缓存的原因，会把上次登陆的addressId缓存起来
-        if (addressMapper.getUserIdById(addressId) == userId) {
+        if (addressId != 0 && addressMapper.getUserIdById(addressId) == userId) {
             WxAddressDetail addressDetailById = addressMapper.getAddressDetailById(addressId);
             cartCheckout.setCheckedAddress(addressDetailById);
         }

@@ -56,9 +56,11 @@ public class HomeServiceImpl implements HomeService {
         PageHelper.startPage(1, brandNum);
         List<Brand> brandList = brandMapper.brandList(null, null);
         List<L1Categories> channel = new ArrayList<>();
-        List<Coupon> couponList = couponMapper.queryCouponByCondition(null, -1, -1);
+        PageHelper.startPage(1, 3);
+        List<Coupon> couponList = couponMapper.queryCouponByCondition(null, 0, null);
         List<GrouponGoods> grouponList = new ArrayList<>();
-        List<GrouponRules> grouponRules = grouponRulesMapper.queryGrouponRulesByCondition(0);
+        PageHelper.startPage(1, 5);
+        List<GrouponRules> grouponRules = grouponRulesMapper.queryGrouponRulesByCondition(null);
         for (GrouponRules grouponRule : grouponRules) {
             GrouponGoods grouponGoods = new GrouponGoods();
             int goodsId = grouponRule.getGoodsId();

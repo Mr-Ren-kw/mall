@@ -7,6 +7,7 @@ import com.j4h.mall.mapper.user.UserMapper;
 import com.j4h.mall.model.PageBean;
 import com.j4h.mall.model.mall.order.Order;
 import com.j4h.mall.model.mall.order.OrderDetail;
+import com.j4h.mall.vo.mall.order.ShipOrderVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,5 +43,15 @@ public class OrderServiceImpl implements OrderService {
         // 查询user表
         orderDetail.setOrderGoods(orderMapper.queryOrderGoodsByOid(order.getId()));
         return orderDetail;
+    }
+
+    @Override
+    public int refundOrderMoney(int orderId) {
+        return orderMapper.refundOrderMoney(orderId);
+    }
+
+    @Override
+    public int shipOrder(ShipOrderVo shipOrderVo) {
+        return orderMapper.shipOrderById(shipOrderVo);
     }
 }
