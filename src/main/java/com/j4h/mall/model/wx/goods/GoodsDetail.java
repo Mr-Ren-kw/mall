@@ -1,6 +1,7 @@
 package com.j4h.mall.model.wx.goods;
 
 import com.j4h.mall.model.extension.groupon.BeanForDatabase.Groupon;
+import com.j4h.mall.model.extension.groupon.BeanForDatabase.GrouponRules;
 import com.j4h.mall.model.goods.Goods;
 import com.j4h.mall.model.goods.GoodsAttribute;
 import com.j4h.mall.model.goods.GoodsProduct;
@@ -12,7 +13,7 @@ public class GoodsDetail {
     private List<GoodsAttribute> attributeList;
     private Brand brand;
     private CommentData comment;
-    private List<Groupon> groupon;
+    private List<GrouponRules> groupon;
     private Goods info;
     private List<Issue> issue;
     private List<GoodsProduct> productList;
@@ -43,11 +44,11 @@ public class GoodsDetail {
         this.comment = comment;
     }
 
-    public List<Groupon> getGroupon() {
+    public List<GrouponRules> getGroupon() {
         return groupon;
     }
 
-    public void setGroupon(List<Groupon> groupon) {
+    public void setGroupon(List<GrouponRules> groupon) {
         this.groupon = groupon;
     }
 
