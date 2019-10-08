@@ -39,7 +39,7 @@
    <!-- 微信端-->
     <!--根据userId和status查询用户对应的订单的数量-->
     <select id="queryDetailOrderNumByUserId" resultType="_int">
-        select count(id) from cskaoyan_mall_order where  deleted=0 and  user_id = #{id}  and order_status in
+        select count(id) from cskaoyan_mall_order where  deleted=0  and comments != 0 and  user_id = #{id}  and order_status in
         <foreach collection="status" item="statu" separator="," open="(" close=")">
             #{statu}
         </foreach>
@@ -48,10 +48,13 @@
     <select id="queryGoodsListByUserIdAndStatus" resultMap="queryGoodsListByUserIdAndStatusMapper">
       select order_status as orderStatusText,order_sn as orderSn,actual_price as actualPrice,id,order_status as statu
       from cskaoyan_mall_order
-      where  deleted=0 and  user_id = #{id}  and order_status in
+      <where>  deleted=0 and  user_id = #{id}
+          and comments != 0
+          and order_status in
         <foreach collection="status" item="statu" separator="," open="(" close=")">
             #{statu}
         </foreach>
+      </where>
     </select>
     <resultMap id="queryGoodsListByUserIdAndStatusMapper" type="com.j4h.mall.model.wx.user.UserOrderDetailsList">
         <result column="orderStatusText" property="orderStatusText"/>
@@ -154,4 +157,22 @@
             #{cart.price},#{cart.specifications},#{cart.picUrl},now(),now())
         </foreach>
     </insert>
+
+    <select id="queryOrderGoodsByOidGid" resultType="com.j4h.mall.model.mall.order.OrderGoods">
+        select id,order_id as orderId,goods_id as goodsId,goods_name as goodsName,goods_sn as goodsSn,product_id as productId,
+               number,price,specifications,pic_url as picUrl,comment,add_time as addTime,update_time as updateTime,deleted from cskaoyan_mall_order_goods
+        where order_id = #{oid} and goods_id = #{gid} and deleted = 0
+    </select>
+
+    <update id="updateOrderGoodsComment">
+        update cskaoyan_mall_order_goods set comment = #{cid}, update_time = now() where id = #{ogid}
+    </update>
+
+    <select id="queryOrderIdByOrderGoodsId" resultType="_int">
+        select order_id from cskaoyan_mall_order_goods where id = #{ogid}
+    </select>
+
+    <update id="updateOrderCommentsByOrderId">
+        update cskaoyan_mall_order set comments = comments - 1 where id = #{oid}
+    </update>
 </mapper>
