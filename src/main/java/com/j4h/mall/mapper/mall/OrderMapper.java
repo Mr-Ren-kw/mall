@@ -64,4 +64,13 @@ public interface OrderMapper {
                        @Param("goodsPrice")double goodsPrice,@Param("integralPrice")double integralPrice,@Param("grouponPrice")double grouponPrice);
 
     int insertNewOrderGoods(@Param("orderId") int id,@Param("carts") List<Cart> carts);
+
+    OrderGoods queryOrderGoodsByOidGid(@Param("oid") int orderId, @Param("gid") int goodsId);
+
+    void updateOrderGoodsComment(@Param("ogid") int orderGoodsId, @Param("cid") int id);
+
+    int queryOrderIdByOrderGoodsId(@Param("ogid") int orderGoodsId);
+
+    void updateOrderCommentsByOrderId(@Param("oid") int orderId);
+
 }

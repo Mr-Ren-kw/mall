@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace要等于接口的全类名-->
+<mapper namespace="com.j4h.mall.mapper.comment.WxComment">
+
+    <insert id="commentOrder">
+        <selectKey keyColumn="id" keyProperty="comment.id" resultType="_int" order="AFTER">
+            select last_insert_id() as id
+        </selectKey>
+        insert into cskaoyan_mall_comment (id, value_id, type, content, user_id, has_picture, pic_urls, star, add_time, update_time, deleted) VALUES
+        (null, 0, 3, #{comment.content}, #{uid}, #{comment.hasPicture}, #{comment.picUrls}, #{comment.star}, now(), now(), 0)
+    </insert>
+</mapper>

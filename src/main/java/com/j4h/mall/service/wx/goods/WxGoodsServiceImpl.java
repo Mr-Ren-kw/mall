@@ -4,11 +4,11 @@ import com.github.pagehelper.PageHelper;
 import com.j4h.mall.mapper.collect.CollectMapper;
 import com.j4h.mall.mapper.extension.GrouponMapper;
 import com.j4h.mall.mapper.extension.GrouponRulesMapper;
+import com.j4h.mall.mapper.footprint.FootprintMapper;
 import com.j4h.mall.mapper.goods.GoodsMapper;
 import com.j4h.mall.mapper.mall.BrandMapper;
 import com.j4h.mall.mapper.mall.CategoryMapper;
 import com.j4h.mall.mapper.mall.IssueMapper;
-import com.j4h.mall.model.extension.groupon.BeanForDatabase.Groupon;
 import com.j4h.mall.model.extension.groupon.BeanForDatabase.GrouponRules;
 import com.j4h.mall.model.goods.*;
 import com.j4h.mall.model.mall.brand.Brand;
@@ -39,7 +39,8 @@ public class WxGoodsServiceImpl implements WxGoodsService {
     GrouponRulesMapper grouponRulesMapper;
     @Autowired
     CollectMapper collectMapper;
-
+    @Autowired
+    FootprintMapper footprintMapper;
     @Override
     public WxGoodsCount queryGoodsCountForWx() {
         return goodsMapper.queryGoodsCountForWx();
@@ -100,7 +101,11 @@ public class WxGoodsServiceImpl implements WxGoodsService {
     }
 
     @Override
-    public GoodsDetail queryGoodsDetail(int goodsId) {
+    public GoodsDetail queryGoodsDetail(Integer userId, int goodsId) {
+        if(userId != null) {
+            // 说明有用户登录了
+            footprintMapper.insertFootprint(userId, goodsId);
+        }
         GoodsDetail goodsDetail = new GoodsDetail();
         List<GoodsAttribute> goodsAttribute = goodsMapper.getGoodsAttributeByGid(goodsId);
         Goods goods = goodsMapper.getGoodsById(goodsId);
