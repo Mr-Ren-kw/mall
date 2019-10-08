@@ -2,6 +2,7 @@ package com.j4h.mall.mapper.goods;
 
 import com.j4h.mall.model.goods.*;
 import com.j4h.mall.model.wx.goods.WxGoodsCount;
+import com.j4h.mall.model.wx.user.GoodsList;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -68,4 +69,11 @@ public interface GoodsMapper {
 
     GoodsProduct getGoodsProductByPid(@Param("pid") int productId);
 
+    List<GoodsList> queryGoodsByOrderId(@Param("id") int id);
+
+    String queryPicUrlById(@Param("id")int id);
+
+    int updateGoodsNumberByGoodsIdWx(@Param("id") int productId,@Param("number")int number);
+
+    int queryGoodsNumberByProductId(@Param("productId") int productId);
 }

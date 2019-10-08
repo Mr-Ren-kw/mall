@@ -38,7 +38,7 @@
 
    <!-- 微信端-->
     <!--根据userId和status查询用户对应的订单的数量-->
-    <select id="queryDetailOrderNumByUserId" resultType="int">
+    <select id="queryDetailOrderNumByUserId" resultType="_int">
         select count(id) from cskaoyan_mall_order where  deleted=0 and  user_id = #{id}  and order_status in
         <foreach collection="status" item="statu" separator="," open="(" close=")">
             #{statu}
@@ -106,11 +106,11 @@
     </select>
 
    <update id="updateOrderStatusByOidWx">
-       update cskaoyan_mall_order set order_status = #{status} where id = #{id} and deleted = 0
+       update cskaoyan_mall_order set order_status = #{status},pay_time = now()  where id = #{id} and deleted = 0
    </update>
 
     <update id="cancelOrderByOrderId">
-        update cskaoyan_mall_order set deleted = 1 where id = #{id}
+        update cskaoyan_mall_order set order_status = 102 where id = #{id} and deleted = 0
     </update>
 
     <select id="queryGoodsDetailByOrderIdWx" resultType="com.j4h.mall.model.wx.order.OrderGoodsDetailWx">
@@ -118,17 +118,8 @@
         from cskaoyan_mall_order_goods where order_id = #{id} and deleted = 0
     </select>
 
-    <update id="updateOrderGoodsDeletedByOid">
-        update cskaoyan_mall_order_goods set deleted = 1 where order_id = #{id}
-    </update>
-    <update id="updateGoodsNumberByGoodsIdWx">
-        update cskaoyan_mall_goods_product
-        set `number`=`number`+#{number}
-        where id = #{id} and deleted = 0
-    </update>
-
     <update id="orderConfirmByOid">
-        update cskaoyan_mall_order set order_status = 401 where id = #{id} and deleted = 0
+        update cskaoyan_mall_order set order_status = 401,confirm_time = now() where id = #{id} and deleted = 0
     </update>
 
     <update id="orderDeleteByOid">
@@ -139,4 +130,28 @@
         update cskaoyan_mall_order_goods set deleted = 1 where order_id = #{id}
     </update>
 
+    <update id="orderRefundByOid">
+        update cskaoyan_mall_order set order_status = 202 where id = #{id} and deleted = 0
+    </update>
+
+    <insert id="insertNewOrder">
+        <selectKey resultType="int" keyProperty="order.id" keyColumn="idz" order="AFTER">
+            select last_insert_id() as idz
+        </selectKey>
+        insert into
+        cskaoyan_mall_order (user_id,order_sn,order_status,mobile,address,message,freight_price,
+        coupon_price,order_price,actual_price,comments,add_time,consignee,goods_price,integral_price,groupon_price)
+        value
+        (#{userId},#{orderSn},201,#{mobile},#{address},#{message},#{freightPrice},
+        #{couponPrice},#{orderPrice},#{actualPrice},#{comment},now(),#{name},#{goodsPrice},#{integralPrice},#{grouponPrice})
+    </insert>
+
+    <insert id="insertNewOrderGoods">
+        insert into cskaoyan_mall_order_goods (order_id, goods_id, goods_name, goods_sn, product_id, number, price, specifications, pic_url, add_time, update_time)
+        VALUES
+        <foreach collection="carts" item="cart" separator=",">
+            (#{orderId},#{cart.goodsId},#{cart.goodsName},#{cart.goodsSn},#{cart.productId},#{cart.number},
+            #{cart.price},#{cart.specifications},#{cart.picUrl},now(),now())
+        </foreach>
+    </insert>
 </mapper>

@@ -22,4 +22,8 @@ public interface CouUserMapper {
     List<WxMyCouChangeStatus> queryCouUserForCheckStatus(@Param("userId") int userId);
     // 将用户过期的优惠券状态码同步
     int updateCouUserStatusToLater(@Param("id") int id);
+
+    int updateCouponStatusByCouponId(@Param("couponId") int couponId,
+                                     @Param("orderId")int orderId,
+                                     @Param("userId")int userId);
 }

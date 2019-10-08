@@ -361,4 +361,28 @@
     <select id="queryGoodsComment" resultMap="commentMap">
         select <include refid="comment"/> from cskaoyan_mall_comment where deleted = 0 and type = 0 and value_id = #{vId}
     </select>
+
+    <select id="queryGoodsByOrderId" resultMap="queryGoodsByOidMapper">
+        select `number`,goods_id as id ,goods_name as goodsName
+        from cskaoyan_mall_order_goods
+        where  order_id = #{id} and deleted = 0
+    </select>
+    <resultMap id="queryGoodsByOidMapper" type="com.j4h.mall.model.wx.user.GoodsList">
+        <result column="id" property="id"/>
+        <result column="goodsName" property="goodsName"/>
+    </resultMap>
+
+    <select id="queryPicUrlById" resultType="string">
+        select pic_url from cskaoyan_mall_goods where id = #{id} and deleted = 0
+    </select>
+
+    <update id="updateGoodsNumberByGoodsIdWx">
+        update cskaoyan_mall_goods_product
+        set `number`=`number`+#{number}
+        where id = #{id} and deleted = 0
+    </update>
+
+    <select id="queryGoodsNumberByProductId" resultType="int">
+        select `number` from cskaoyan_mall_goods_product where id = #{productId}
+    </select>
 </mapper>
