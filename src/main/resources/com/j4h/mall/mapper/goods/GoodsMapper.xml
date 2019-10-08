@@ -340,10 +340,49 @@
     <select id="queryGoodsCountForWx" resultType="com.j4h.mall.model.wx.goods.WxGoodsCount">
         select count(id) as goodsCount from cskaoyan_mall_goods where deleted = 0
     </select>
-    <select id="queryGoodsByCategoryId" resultType="com.j4h.mall.model.goods.Goods">
-        select <include refid="queryItems"/> from cskaoyan_mall_goods where deleted = 0 and category_id = #{id}
-    </select>
+    <select id="queryGoodsByCondition" resultType="com.j4h.mall.model.goods.Goods">
+        select <include refid="queryItems"/> from cskaoyan_mall_goods
+        <where>
+            deleted = 0
+            <if test="cId != null and cId != 0">
+                and category_id = #{cId}
+            </if>
+            <if test="bId != null">
+                and brand_id = #{bId}
+            </if>
+            <if test="isHot == true">
+                and is_hot = 1
+            </if>
+            <if test="isNew == true">
+                and is_new = 1
+            </if>
+        </where>
+</select>
     <select id="queryGoodsComment" resultMap="commentMap">
         select <include refid="comment"/> from cskaoyan_mall_comment where deleted = 0 and type = 0 and value_id = #{vId}
+    </select>
+
+    <select id="queryGoodsByOrderId" resultMap="queryGoodsByOidMapper">
+        select `number`,goods_id as id ,goods_name as goodsName
+        from cskaoyan_mall_order_goods
+        where  order_id = #{id} and deleted = 0
+    </select>
+    <resultMap id="queryGoodsByOidMapper" type="com.j4h.mall.model.wx.user.GoodsList">
+        <result column="id" property="id"/>
+        <result column="goodsName" property="goodsName"/>
+    </resultMap>
+
+    <select id="queryPicUrlById" resultType="string">
+        select pic_url from cskaoyan_mall_goods where id = #{id} and deleted = 0
+    </select>
+
+    <update id="updateGoodsNumberByGoodsIdWx">
+        update cskaoyan_mall_goods_product
+        set `number`=`number`+#{number}
+        where id = #{id} and deleted = 0
+    </update>
+
+    <select id="queryGoodsNumberByProductId" resultType="int">
+        select `number` from cskaoyan_mall_goods_product where id = #{productId}
     </select>
 </mapper>

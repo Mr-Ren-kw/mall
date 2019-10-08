@@ -26,6 +26,8 @@ public interface UserMapper {
 
     OrderUser queryUserById(@Param("id")int id);
 
+    UserInfoForComment queryUserById2(@Param("id")int id);
+
     int queryCountSameUsername(@Param("username") String username);
 
     int insertUserForRegister(@Param("new") RegisterVo registerVo);
@@ -34,10 +36,14 @@ public interface UserMapper {
 
     String getPasswordByUsername(@Param("username") String principal);
 
+
     //根据用户id 查询用户浏览的商品的id数组 author：lisen
     int[] getUserFootprintGoodsIds(@Param("userId") Integer userId);
 
     //根据用户浏览的商品id的数组，查询对应商品信息 author：lisen
     List<FootprintList> getFootprintList(@Param("goodsIds") int[] goodsIds);
+
+    String getUsernameById(@Param("uid") Integer userId);
+
 
 }

@@ -8,13 +8,13 @@
         select <include refid="queryItems"/> from cskaoyan_mall_coupon_user
         <where>
             deleted = 0
-            <if test="couponId != 0">
+            <if test="couponId != null">
                 and coupon_id = #{couponId}
             </if>
-            <if test="status != -1">
+            <if test="status != null">
                 and status = #{status}
             </if>
-            <if test="userId != 0">
+            <if test="userId != null">
                 and user_id = #{userId}
             </if>
         </where>
@@ -27,4 +27,27 @@
         <result column="end_time" property="endTime"/>
         <result column="coupon_id" property="couponId"/>
     </resultMap>
+
+    <select id="queryCouCountByUserIdAndCouId" resultType="_int">
+        select count(id) from cskaoyan_mall_coupon_user where user_id = #{userId} and coupon_id = #{couponId} and deleted = 0
+    </select>
+
+    <insert id="addCouponForUser">
+        insert into cskaoyan_mall_coupon_user (user_id, coupon_id, start_time, end_time, add_time, update_time)
+        values (#{userId},#{couponId},#{start},#{end},now(),now())
+    </insert>
+
+    <select id="queryCouUserForCheckStatus" resultType="com.j4h.mall.model.wx.coupon.WxMyCouChangeStatus">
+        select id,end_time as endTime from cskaoyan_mall_coupon_user where user_id = #{userId} and deleted = 0 and status = 0
+    </select>
+
+    <update id="updateCouUserStatusToLater">
+        update cskaoyan_mall_coupon_user set status = 2 where id = #{id}
+    </update>
+
+    <update id="updateCouponStatusByCouponId">
+      update cskaoyan_mall_coupon_user set status = 1,used_time = now(),order_id = #{orderId}
+      where coupon_id = #{couponId} and user_id = #{userId} and deleted = 0
+    </update>
+
 </mapper>

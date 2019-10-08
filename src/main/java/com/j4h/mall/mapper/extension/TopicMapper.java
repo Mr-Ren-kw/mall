@@ -15,4 +15,6 @@ public interface TopicMapper {
     void updateTopic(@Param("topic") Topic topic);
 
     void deleteTopicById(int topicId);
+
+    int queryMaxId();
 }

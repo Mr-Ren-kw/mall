@@ -2,19 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.j4h.mall.mapper.extension.GrouponMapper">
     <sql id="queryItems">
-        id,order_id as orderId,goods_id as goodsId,rules_id as rulesId,user_id as userId,creator_user_id as creatorUserId,add_time as addTime,update_time as updateTime,share_url as shareUrl,payed,deleted
+        id,order_id as orderId,groupon_id as goodsId,rules_id as rulesId,user_id as userId,creator_user_id as creatorUserId,add_time as addTime,update_time as updateTime,share_url as shareUrl,payed,deleted
     </sql>
-    <select id="queryGrouponByCondition" resultType="com.j4h.mall.model.extension.groupon.BeanForDatabase.Groupon">
-        select <include refid="queryItems"/> from cskaoyan_mall_groupon
-        <where>
-            deleted = 0 and creator_user_id = user_id
-            <if test="goodsId != 0">
-                and goods_id = #{goodsId}
-            </if>
-        </where>
+    <select id="queryGrouponByRuleId" resultType="com.j4h.mall.model.extension.groupon.BeanForDatabase.Groupon">
+        select <include refid="queryItems"/> from cskaoyan_mall_groupon where deleted = 0 and creator_user_id = user_id and rules_id = #{id}
     </select>
     <select id="queryParticipanter" resultType="com.j4h.mall.model.extension.groupon.BeanForDatabase.GrouponUser">
-        select user_id as userId,order_id as orderId from cskaoyan_mall_groupon where creator_user_id = #{id} and creator_user_id != user_id
+        select user_id as userId,order_id as orderId from cskaoyan_mall_groupon where creator_user_id = #{id} and deleted = 0
     </select>
 
     <!--从数据库获取小程序团购数据-->

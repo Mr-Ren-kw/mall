@@ -2,10 +2,10 @@ package com.j4h.mall.controller.mall;
 
 import com.j4h.mall.service.mall.OrderService;
 import com.j4h.mall.vo.BaseRespVo;
+import com.j4h.mall.vo.mall.order.RefundOrderVo;
+import com.j4h.mall.vo.mall.order.ShipOrderVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/admin/order")
@@ -44,5 +44,22 @@ public class OrderController {
     @GetMapping("/detail")
     public BaseRespVo queryOrderDetail(int id) {
         return BaseRespVo.ok(orderService.queryOrderDetail(id));
+    }
+
+    @PostMapping("/refund")
+    public BaseRespVo refundOrderMoney(@RequestBody RefundOrderVo refundOrderVo) {
+        int orderId = refundOrderVo.getOrderId();
+        int result = orderService.refundOrderMoney(orderId);
+        if (result == 1) {
+            return BaseRespVo.ok(null);
+        } else {
+            return BaseRespVo.fail(621, "订单退款失败");
+        }
+    }
+
+    @PostMapping("/ship")
+    public BaseRespVo shipOrder(@RequestBody ShipOrderVo shipOrderVo) {
+        int result = orderService.shipOrder(shipOrderVo);
+        return result == 1 ? BaseRespVo.ok(null) : BaseRespVo.fail(621, "修改失败");
     }
 }

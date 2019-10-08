@@ -6,16 +6,17 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface GrouponRulesMapper {
-    List<GrouponRules> queryGrouponRulesByCondition(@Param("goodsId") int goodsId);
+    List<GrouponRules> queryGrouponRulesByCondition(@Param("goodsId") Integer goodsId);
 
     void insertGrouponRules(@Param("rules") GrouponRules grouponRules);
 
-    GrouponRules queryGrouponRulesById(@Param("id") int rulesId);
+    GrouponRules queryGrouponRulesById(@Param("id") Integer rulesId);
 
-    int getGoodsIdById(@Param("rulesId") int rulesId);
+    int getGoodsIdById(@Param("rulesId") Integer rulesId);
 
     void updateGrouponRules(@Param("rules") GrouponRules grouponRules);
 
     void deleteRulesById(@Param("rulesId") int rulesId);
 
+    double getDiscountById(@Param("id") int grouponRulesId);
 }

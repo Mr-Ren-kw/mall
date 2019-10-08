@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace要等于接口的全类名-->
+<mapper namespace="com.j4h.mall.mapper.collect.CollectMapper">
+    <resultMap id="collectMap" type="com.j4h.mall.model.wx.collect.Collect">
+        <result column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="value_id" property="valueId"/>
+        <result column="type" property="type"/>
+        <result column="add_time" property="addTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="deleted" property="deleted"/>
+    </resultMap>
+    <select id="getCollectByUidValueIdType" resultMap="collectMap">
+        select id, user_id, value_id, type, add_time, update_time, deleted from cskaoyan_mall_collect
+        where user_id = #{uid} and value_id = #{gid} and type = #{type} and deleted = 0
+    </select>
+
+    <insert id="insertCollect">
+        insert into cskaoyan_mall_collect (id, user_id, value_id, type, add_time, update_time, deleted) VALUES
+        (null, #{uid}, #{gid}, #{type}, now(), now(), 0)
+    </insert>
+
+    <update id="deleteCollect">
+        update cskaoyan_mall_collect set deleted = 1 where user_id = #{uid} and value_id = #{gid} and type = #{type} and deleted = 0
+    </update>
+
+    <select id="getCollectsByUidType" resultType="com.j4h.mall.model.wx.collect.CollectInfo">
+        select cmc.id as id, cmc.type as type, cmc.value_id as valueId, cmg.brief as brief, cmg.name as name, cmg.pic_url as picUrl, cmg.retail_price as retailPrice
+        from cskaoyan_mall_collect cmc left outer join cskaoyan_mall_goods cmg on
+        cmc.value_id = cmg.id where cmc.user_id = #{uid} and cmc.type = #{type} and cmc.deleted = 0 and cmg.deleted = 0
+    </select>
+    <select id="queryHasCollectNum" resultType="int">
+        select count(user_id) from cskaoyan_mall_collect where type = 0 and deleted = 0 and value_id = #{id}
+    </select>
+</mapper>

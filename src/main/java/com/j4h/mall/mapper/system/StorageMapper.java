@@ -1,7 +1,9 @@
 package com.j4h.mall.mapper.system;
 
+import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import com.j4h.mall.model.system.Storage;
 import com.j4h.mall.model.system.StorageQuery;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -17,4 +19,8 @@ public interface StorageMapper {
     int updateStorage(Storage storage);
     // 不是真的删掉，是把delete属性改成true，逻辑删除
     void deleteStorage(String key);
+
+    int addImg(@Param("storage") Storage storage);
+
+    Storage queryStorageById(@Param("pId") int id);
 }

@@ -1,6 +1,5 @@
 package com.j4h.mall.config;
 
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.j4h.mall.vo.BaseRespVo;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

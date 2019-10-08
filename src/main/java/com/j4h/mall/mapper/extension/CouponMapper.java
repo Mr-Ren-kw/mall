@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface CouponMapper {
-    List<Coupon> queryCouponByCondition(@Param("name") String name, @Param("status") int status, @Param("type") int type);
+    List<Coupon> queryCouponByCondition(@Param("name") String name, @Param("status") Integer status, @Param("type") Integer type);
 
     void insertCoupon(@Param("coupon") Coupon coupon);
 
@@ -21,4 +21,10 @@ public interface CouponMapper {
     List<WxCoupon> queryCouponList();
     // 通过id查询并封装到传入的bean中--rkw
     WxCoupon queryCouponByIdForWx(@Param("id")int id);
+    // 更新优惠券的数量
+    int updateCouponCountById(@Param("id") int couponId,@Param("newTotal") int newTotal);
+    // 根据兑换码查询对应的优惠券
+    Coupon queryCouponByCode(@Param("code") String code);
+    //
+    Coupon queryCouponByIdAndMin(@Param("id") int couponId,@Param("count") double count);
 }

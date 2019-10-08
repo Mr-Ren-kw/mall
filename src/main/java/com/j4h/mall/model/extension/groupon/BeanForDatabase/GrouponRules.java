@@ -7,7 +7,7 @@ import java.util.Date;
 
 public class GrouponRules {
     private int id;
-    private int goodsId;
+    private Integer goodsId;
     private String goodsName;
     private String picUrl;
     private BigDecimal discount;
@@ -28,11 +28,11 @@ public class GrouponRules {
         this.id = id;
     }
 
-    public int getGoodsId() {
+    public Integer getGoodsId() {
         return goodsId;
     }
 
-    public void setGoodsId(int goodsId) {
+    public void setGoodsId(Integer goodsId) {
         this.goodsId = goodsId;
     }
 

@@ -28,7 +28,7 @@
         update_time = now() where id = #{topic.id}
     </update>
     <select id="queryTopicById" resultType="com.j4h.mall.model.extension.topic.BeanForDatabase.Topic">
-        select <include refid="queryItems"/> from cskaoyan_mall_topic where id = #{id}
+        select <include refid="queryItems"/> from cskaoyan_mall_topic where id = #{id} and deleted = 0
     </select>
     <update id="deleteTopicById">
         update cskaoyan_mall_topic set deleted = 1 where id = #{id}
@@ -39,4 +39,8 @@
         </selectKey>
         insert into cskaoyan_mall_topic (title,subtitle,content,price,read_count,pic_url,goods,add_time,update_time,deleted) values (#{topic.title},#{topic.subtitle},#{topic.content},#{topic.price},#{topic.readCount},#{topic.picUrl},#{topic.goods},now(),now(),0)
     </insert>
+
+    <select id="queryMaxId" resultType="int">
+        select `id` from cskaoyan_mall_topic order by id desc limit 1;
+    </select>
 </mapper>

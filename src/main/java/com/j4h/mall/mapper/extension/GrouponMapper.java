@@ -5,12 +5,13 @@ import com.j4h.mall.model.extension.groupon.BeanForDatabase.GrouponUser;
 import com.j4h.mall.model.wx.groupon.*;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public interface GrouponMapper {
-    List<Groupon> queryGrouponByCondition(@Param("goodsId") int goodsId);
 
     GrouponUser[] queryParticipanter(@Param("id") int creatorUserId);
+
 
     //查询，显示首页团购专区中的商品 author：lisen
     List<WxGrouponPageBean2> getIndexGrouponGoods(@Param("wxGrouponBean") WxGrouponRequestBean wxGrouponRequestBean);
@@ -72,4 +73,7 @@ public interface GrouponMapper {
 
     //查找参加团购的goodsid
     int[] getJoinGrouponGoodsIds(@Param("orderId") int orderId,@Param("userId") Integer userId);
+
+    Groupon queryGrouponByRuleId(@Param("id") Integer rulesId);
+
 }

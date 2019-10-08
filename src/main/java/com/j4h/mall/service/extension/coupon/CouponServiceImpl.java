@@ -25,8 +25,8 @@ public class CouponServiceImpl implements CouponService {
     @Override
     public PageData queryCouponByPage(CouponPageRequest couponPageRequest) {
         String name = couponPageRequest.getName();
-        int status = couponPageRequest.getStatus();
-        int type = couponPageRequest.getType();
+        Integer status = couponPageRequest.getStatus();
+        Integer type = couponPageRequest.getType();
         if(name != null) {
             name = "%" + name + "%";
         }
@@ -54,16 +54,17 @@ public class CouponServiceImpl implements CouponService {
 
     @Override
     public PageData queryCouUserByPage(CouUserPageRequest couUserPageRequest) {
-        int couponId = couUserPageRequest.getCouponId();
-        int status = couUserPageRequest.getStatus();
-        int userId;
-        String userId1 = couUserPageRequest.getUserId();
-        if(userId1 == null || "".equals(userId1)) {
-            userId = 0;
-        }else {
-            userId = Integer.parseInt(userId1);
-        }
         PageData couUserPageData = new PageData<CouponUser>();
+        Integer couponId = couUserPageRequest.getCouponId();
+        Integer status = couUserPageRequest.getStatus();
+        Integer userId = null;
+        if(couUserPageRequest.getUserId() != null && !"".equals(couUserPageRequest.getUserId())) {
+            try {
+                userId = Integer.parseInt(couUserPageRequest.getUserId());
+            } catch (NumberFormatException e) {
+                return couUserPageData;
+            }
+        }
         String orderBy = couUserPageRequest.getSort() + " " + couUserPageRequest.getOrder();
         PageHelper.startPage(couUserPageRequest.getPage(), couUserPageRequest.getLimit(), orderBy);
         List<CouponUser> couponUsers = couUserMapper.queryCouUserByCondition(couponId, userId, status);

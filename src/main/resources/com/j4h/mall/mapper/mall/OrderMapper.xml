@@ -73,4 +73,85 @@
     <select id="queryPicUrlById" resultType="string">
         select pic_url from cskaoyan_mall_goods where id = #{id} and deleted = 0
     </select>
+
+  <update id="refundOrderMoney">
+    update cskaoyan_mall_order set order_status = 203 where id = #{id} and order_status = 202 and deleted = 0
+  </update>
+
+  <update id="shipOrderById">
+    update cskaoyan_mall_order set order_status = 301,ship_channel = #{ship.shipChannel},ship_sn = #{ship.shipSn},ship_time = now() where id = #{ship.orderId}
+  </update>
+
+    <select id="queryOrderByIdWx" resultMap="OrderMapperWx">
+        select consignee,address,add_time as addTime,order_sn as orderSn,actual_price as actualPrice,
+        mobile,order_status as statu,goods_price as goodsPrice,id,coupon_price as couponPrice,
+        freight_price as freightPrice
+        from cskaoyan_mall_order
+        where id = #{id} and deleted=0
+    </select>
+    <resultMap id="OrderMapperWx" type="com.j4h.mall.model.wx.order.WxOrder">
+        <result column="addTime" property="addTime"/>
+        <result column="orderSn" property="orderSn"/>
+        <result column="actualPrice" property="actualPrice"/>
+        <result column="statu" property="statu"/>
+        <result column="goodsPrice" property="goodsPrice"/>
+        <result column="couponPrice" property="couponPrice"/>
+        <result column="freightPrice" property="freightPrice"/>
+    </resultMap>
+
+    <select id="queryOrderGoodsListByOid" resultType="com.j4h.mall.model.mall.order.OrderGoods">
+            select id,order_id as orderId,goods_id as goodsId,goods_name as goodsName,goods_sn as goodsSn,product_id as productId,
+    number,price,specifications,pic_url as picUrl,comment,add_time as addTime,update_time as updateTime,deleted
+    from cskaoyan_mall_order_goods where order_id = #{oid} and deleted =0
+    </select>
+
+   <update id="updateOrderStatusByOidWx">
+       update cskaoyan_mall_order set order_status = #{status},pay_time = now()  where id = #{id} and deleted = 0
+   </update>
+
+    <update id="cancelOrderByOrderId">
+        update cskaoyan_mall_order set order_status = 102 where id = #{id} and deleted = 0
+    </update>
+
+    <select id="queryGoodsDetailByOrderIdWx" resultType="com.j4h.mall.model.wx.order.OrderGoodsDetailWx">
+        select goods_id as goodsId,specifications,`number`
+        from cskaoyan_mall_order_goods where order_id = #{id} and deleted = 0
+    </select>
+
+    <update id="orderConfirmByOid">
+        update cskaoyan_mall_order set order_status = 401,confirm_time = now() where id = #{id} and deleted = 0
+    </update>
+
+    <update id="orderDeleteByOid">
+        update cskaoyan_mall_order set deleted = 1 where id = #{id}
+    </update>
+
+    <update id="updateDeleteInOrderGoodsByOid">
+        update cskaoyan_mall_order_goods set deleted = 1 where order_id = #{id}
+    </update>
+
+    <update id="orderRefundByOid">
+        update cskaoyan_mall_order set order_status = 202 where id = #{id} and deleted = 0
+    </update>
+
+    <insert id="insertNewOrder">
+        <selectKey resultType="int" keyProperty="order.id" keyColumn="idz" order="AFTER">
+            select last_insert_id() as idz
+        </selectKey>
+        insert into
+        cskaoyan_mall_order (user_id,order_sn,order_status,mobile,address,message,freight_price,
+        coupon_price,order_price,actual_price,comments,add_time,consignee,goods_price,integral_price,groupon_price)
+        value
+        (#{userId},#{orderSn},201,#{mobile},#{address},#{message},#{freightPrice},
+        #{couponPrice},#{orderPrice},#{actualPrice},#{comment},now(),#{name},#{goodsPrice},#{integralPrice},#{grouponPrice})
+    </insert>
+
+    <insert id="insertNewOrderGoods">
+        insert into cskaoyan_mall_order_goods (order_id, goods_id, goods_name, goods_sn, product_id, number, price, specifications, pic_url, add_time, update_time)
+        VALUES
+        <foreach collection="carts" item="cart" separator=",">
+            (#{orderId},#{cart.goodsId},#{cart.goodsName},#{cart.goodsSn},#{cart.productId},#{cart.number},
+            #{cart.price},#{cart.specifications},#{cart.picUrl},now(),now())
+        </foreach>
+    </insert>
 </mapper>
