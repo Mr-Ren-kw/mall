@@ -33,4 +33,8 @@
   <update id="deleteAddressById">
     update cskaoyan_mall_address set deleted = 1 where id = #{id}
   </update>
+
+  <select id="getUserIdById" resultType="_int">
+    select user_id from cskaoyan_mall_address where id = #{id}
+  </select>
 </mapper>

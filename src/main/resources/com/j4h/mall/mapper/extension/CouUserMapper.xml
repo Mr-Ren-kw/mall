@@ -45,5 +45,8 @@
         update cskaoyan_mall_coupon_user set status = 2 where id = #{id}
     </update>
 
+    <select id="getCouExistsByUidCouId" resultType="_int">
+        select count(id) from cskaoyan_mall_coupon_user where user_id = #{uid} and coupon_id = #{cid} and status = 0
+    </select>
 
 </mapper>
