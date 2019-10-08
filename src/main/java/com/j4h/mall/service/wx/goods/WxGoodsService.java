@@ -14,7 +14,7 @@ public interface WxGoodsService {
 
     CategoryDate queryCategory(int categoryId);
 
-    GoodsDetail queryGoodsDetail(int goodsId);
+    GoodsDetail queryGoodsDetail(Integer userId, int goodsId);
 
     GoodsList queryRelatedGoods(int goodsId);
 }
