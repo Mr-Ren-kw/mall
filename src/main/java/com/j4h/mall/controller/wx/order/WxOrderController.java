@@ -52,7 +52,7 @@ public class WxOrderController {
         } catch (NumberFormatException e) {
             return BaseRespVo.fail(402, "参数异常，付款失败");
         }
-        boolean flag = wxUserOrderService.orderPrepay(orderId1);
+        boolean flag = wxUserOrderService.orderPrepay(orderId1,orderId.getKey());
         if (flag) {
             return BaseRespVo.ok("付款成功");
         }

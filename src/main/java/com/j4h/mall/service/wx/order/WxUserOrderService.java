@@ -14,7 +14,7 @@ public interface WxUserOrderService {
 
     ResultOrder querySingleOrderByOrderId(int orderId);
 
-    boolean orderPrepay(int orderId);
+    boolean orderPrepay(int orderId,int key);
 
     boolean orderCancel(int orderId);
 

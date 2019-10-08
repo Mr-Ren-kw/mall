@@ -169,8 +169,13 @@ public class WxUserOrderServiceImp implements WxUserOrderService {
     }
 
     @Override
-    public boolean orderPrepay(int orderId) {
-        int status = 201;
+    public boolean orderPrepay(int orderId,int key) {
+        int status;
+        if (key == 1) {
+            status = 201;
+        } else {
+            status = 101;
+        }
         int i = orderMapper.updateOrderStatusByOidWx(orderId, status);
         if (i > 0) {
             return true;
