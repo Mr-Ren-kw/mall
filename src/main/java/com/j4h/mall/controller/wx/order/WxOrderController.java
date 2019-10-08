@@ -101,7 +101,7 @@ public class WxOrderController {
     }
 
     @RequestMapping("wx/order/submit")
-    public BaseRespVo orderSubmit(@RequestBody SubmitOrder submitOrder){
+    public BaseRespVo orderSubmit(@RequestBody SubmitOrder submitOrder) throws Exception {
         Integer userId = LoginOrNotUtils.getUserId();
         if (userId == null) {
             return BaseRespVo.fail(501, "请登录后再访问");

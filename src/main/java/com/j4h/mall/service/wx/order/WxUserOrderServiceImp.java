@@ -27,6 +27,9 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -215,9 +218,9 @@ public class WxUserOrderServiceImp implements WxUserOrderService {
         }
         return false;
     }
-
+    @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT)
     @Override
-    public OrderSubmit orderSubmit(SubmitOrder submitOrder,int userId) {
+    public OrderSubmit orderSubmit(SubmitOrder submitOrder,int userId) throws Exception {
         int cartId = submitOrder.getCartId();
         double sumPrice = 0;
         // 判断库存是否足够
@@ -230,7 +233,7 @@ public class WxUserOrderServiceImp implements WxUserOrderService {
         for (Cart cart : carts) {
             int goodsNumber = goodsMapper.queryGoodsNumberByProductId(cart.getProductId());
             if (cart.getNumber() > goodsNumber) {
-                return null;
+                throw new Exception();
             }
             sumPrice = sumPrice + cart.getPrice() * cart.getNumber();
         }

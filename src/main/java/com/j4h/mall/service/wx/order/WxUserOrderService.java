@@ -24,5 +24,5 @@ public interface WxUserOrderService {
 
     boolean orderRefund(int orderId);
 
-    OrderSubmit orderSubmit(SubmitOrder submitOrder,int userId);
+    OrderSubmit orderSubmit(SubmitOrder submitOrder,int userId) throws Exception;
 }
