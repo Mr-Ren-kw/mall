@@ -61,6 +61,8 @@ public class WxUserOrderServiceImp implements WxUserOrderService {
         orderStatu.put(402, "待评价");
         orderStatu.put(101, "待付款");
         orderStatu.put(201, "待发货");
+        orderStatu.put(202,"申请退款");
+        orderStatu.put(203,"已退款");
         return orderStatu.get(stat);
     }
 
@@ -90,20 +92,18 @@ public class WxUserOrderServiceImp implements WxUserOrderService {
         if (userId == null) {
             return null;
         }
-        int size = userOrderPage.getSize();
-        PageHelper.startPage(userOrderPage.getPage(), size);
-        int showType = userOrderPage.getShowType();
-        AllGoodsList allGoodsList = new AllGoodsList();
-        ArrayList<Integer> status = new ArrayList<>();
-        HandleOption h = new HandleOption();
         int count = 0;
         int totalPage = 0;
+        ArrayList<Integer> status = new ArrayList<>();
+        int showType = userOrderPage.getShowType();
         if (showType == 0) {
             status.add(301);
             status.add(401);
             status.add(402);
             status.add(101);
             status.add(201);
+            status.add(202);
+            status.add(203);
         } else if (showType == 1) {
             status.add(101);
         } else if (showType == 2) {
@@ -114,8 +114,10 @@ public class WxUserOrderServiceImp implements WxUserOrderService {
             status.add(401);
             status.add(402);
         }
-
         count = orderMapper.queryDetailOrderNumByUserId(userId, status);
+        int size = userOrderPage.getSize();
+        PageHelper.startPage(userOrderPage.getPage(), size);
+        AllGoodsList allGoodsList = new AllGoodsList();
         if (count != 0) {
             if (count % size == 0) {
                 totalPage = count / size;
@@ -123,6 +125,7 @@ public class WxUserOrderServiceImp implements WxUserOrderService {
                 totalPage = count / size + 1;
             }
         }
+
         List<UserOrderDetailsList> data = orderMapper.queryGoodsListByUserIdAndStatus(userId, status);
         for (UserOrderDetailsList datum : data) {
             int id = datum.getId();

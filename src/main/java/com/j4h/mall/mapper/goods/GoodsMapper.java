@@ -63,7 +63,7 @@ public interface GoodsMapper {
 
     WxGoodsCount queryGoodsCountForWx();
 
-    List<Goods> queryGoodsByCondition(@Param("cId") Integer categoryId, @Param("bId") Integer brandId, @Param("isHot") boolean isHot, @Param("isNew") boolean isNew);
+    List<Goods> queryGoodsByCondition(@Param("cId") Integer categoryId, @Param("bId") Integer brandId, @Param("isHot") boolean isHot, @Param("isNew") boolean isNew, @Param("key") String keyword);
 
     List<GoodsComment> queryGoodsComment(@Param("vId") int goodsId);
 
